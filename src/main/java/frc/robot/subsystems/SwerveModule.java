@@ -19,11 +19,12 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class SwerveModule extends SubsystemBase {
   int mModuleNumber;
 
-  public final TalonFX mAngleMotor;
+  public final TalonFX mTurningMotor;
   public final TalonFX mDriveMotor;
   double mZeroOffset;
   boolean mInverted;
@@ -52,17 +53,11 @@ public class SwerveModule extends SubsystemBase {
   private static final double kWheelRadius = 0.0508;
   private static final int kEncoderResolution = 4096;
 
-  private static final double kModuleMaxAngularVelocity = SwerveDrive.kMaxAngularSpeed;
-  private static final double kModuleMaxAngularAcceleration = 2 * Math.PI; // radians per second squared
-
-  private final double angleMotorEncoderCountsPerRevolution = 1;
-  private final double driveMotorEncoderCountsPerRevolution = 1;
-
-  private final PIDController m_drivePIDController = new PIDController(1, 0, 0);
+  private final PIDController m_drivePIDController = new PIDController(Constants.ModuleConstants.kPModuleDriveController, 0, 0);
 
   private final ProfiledPIDController m_turningPIDController
-          = new ProfiledPIDController(1, 0, 0,
-          new TrapezoidProfile.Constraints(kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
+          = new ProfiledPIDController(Constants.ModuleConstants.kPModuleTurningController, 0, 0,
+          new TrapezoidProfile.Constraints(Constants.ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond, Constants.ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
 
   // Gains are for example purposes only - must be determined for your own robot!
   private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(1, 3);
@@ -70,39 +65,47 @@ public class SwerveModule extends SubsystemBase {
 
   PowerDistributionPanel m_pdp;
 
-  public SwerveModule(int moduleNumber, TalonFX angleMotor, TalonFX driveMotor, double zeroOffset, boolean inverted, PowerDistributionPanel pdp) {
+  public SwerveModule(int moduleNumber, TalonFX TurningMotor, TalonFX driveMotor, double zeroOffset, boolean inverted, PowerDistributionPanel pdp) {
     mModuleNumber = moduleNumber;
-    mAngleMotor = angleMotor;
+    mTurningMotor = TurningMotor;
     mDriveMotor = driveMotor;
     mZeroOffset = zeroOffset;
     mInverted = inverted;
     m_pdp = pdp;
 
-    mAngleMotor.configFactoryDefault();
-    mAngleMotor.configOpenloopRamp(0.1);
-    mAngleMotor.configClosedloopRamp(0.1);
+    mTurningMotor.configFactoryDefault();
+    mTurningMotor.configOpenloopRamp(0.1);
+    mTurningMotor.configClosedloopRamp(0.1);
 
-    mAngleMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    mTurningMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     mDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    mAngleMotor.setSensorPhase(false);
+    mTurningMotor.setSensorPhase(false);
     mDriveMotor.setSensorPhase(false);
 
-    mAngleMotor.config_kF(0,kF);
-    mAngleMotor.config_kP(0,kP);
-    mAngleMotor.config_kI(0,kI);
-    mAngleMotor.config_IntegralZone(0, kI_Zone);
-    mAngleMotor.configMaxIntegralAccumulator(0, kMaxIAccum);
-    mAngleMotor.config_kD(0,kD);
-    mAngleMotor.configMotionCruiseVelocity(kCruiseVelocity);
-    mAngleMotor.configMotionAcceleration(kMotionAcceleration);
-    mAngleMotor.configAllowableClosedloopError(0, kErrorBand);
+    mTurningMotor.config_kF(0,kF);
+    mTurningMotor.config_kP(0,kP);
+    mTurningMotor.config_kI(0,kI);
+    mTurningMotor.config_IntegralZone(0, kI_Zone);
+    mTurningMotor.configMaxIntegralAccumulator(0, kMaxIAccum);
+    mTurningMotor.config_kD(0,kD);
+    mTurningMotor.configMotionCruiseVelocity(kCruiseVelocity);
+    mTurningMotor.configMotionAcceleration(kMotionAcceleration);
+    mTurningMotor.configAllowableClosedloopError(0, kErrorBand);
 
-    mAngleMotor.setNeutralMode(NeutralMode.Brake);
+    mTurningMotor.setNeutralMode(NeutralMode.Brake);
     mDriveMotor.setNeutralMode(NeutralMode.Brake);
 
     // Limit the PID Controller's input range between -pi and pi and set the input
     // to be continuous.
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+  }
+
+  /**
+   * Zeros all the SwerveModule encoders.
+   */
+  public void resetEncoders() {
+    mTurningMotor.setSelectedSensorPosition(0);
+    mDriveMotor.setSelectedSensorPosition(0);
   }
 
 
@@ -112,7 +115,7 @@ public class SwerveModule extends SubsystemBase {
    * @return The current angle of the module.
    */
   public double getAngle() {
-    return mAngleMotor.getSelectedSensorPosition() * 2 * Math.PI / kEncoderResolution;
+    return mTurningMotor.getSelectedSensorPosition() * Constants.ModuleConstants.kTurningEncoderDistancePerPulse;
   }
 
 
@@ -122,7 +125,7 @@ public class SwerveModule extends SubsystemBase {
    * @return The current velocity of the module.
    */
   public double getVelocity() {
-    return mDriveMotor.getSelectedSensorVelocity() * (2 * Math.PI * kWheelRadius / kEncoderResolution);
+    return mDriveMotor.getSelectedSensorVelocity() * Constants.ModuleConstants.kDriveEncoderDistancePerPulse;
   }
 
   /**
@@ -214,15 +217,15 @@ public class SwerveModule extends SubsystemBase {
             m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);
 
     mDriveMotor.set(ControlMode.PercentOutput,(driveOutput + driveFeedforward)/ m_pdp.getVoltage());
-    mAngleMotor.set(ControlMode.PercentOutput,(turnOutput + turnFeedforward)/ m_pdp.getVoltage());
+    mTurningMotor.set(ControlMode.PercentOutput,(turnOutput + turnFeedforward)/ m_pdp.getVoltage());
   }
 
   public void setPercentOutput(double speed) {
     mDriveMotor.set(ControlMode.PercentOutput, speed);
   }
 
-  public TalonFX getAngleMotor() {
-    return mAngleMotor;
+  public TalonFX getTurningMotor() {
+    return mTurningMotor;
   }
 
   public TalonFX getDriveMotorEncoderCountsPerRevolution() {

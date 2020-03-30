@@ -10,11 +10,20 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.SetSwerveDrive;
+import frc.robot.commands.autoCommands.DriveStraight;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.vitruvianlib.utils.JoystickWrapper;
+
+import java.util.Map;
+
+import static java.util.Map.entry;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -28,7 +37,20 @@ public class RobotContainer {
 
   private final SwerveDrive m_swerveDrive = new SwerveDrive(pdp);
 
-//  private final SetSwerveDrive m_autoCommand = new SetSwerveDrive(m_swerveDrive);
+
+  private enum CommandSelector {
+    DRIVE_STRAIGHT,
+    ALLIANCE_TRENCH_STRAIGHT,
+    ALLIANCE_TRENCH_SPLINE,
+    ENEMY_TRENCH,
+    SHOOT_AND_DRIVE_BACK,
+    SHOOT_AND_DRIVE_FORWARD,
+    DO_NOTHING
+  }
+
+  SendableChooser<Integer> m_autoChooser = new SendableChooser();
+
+  private SelectCommand m_autoCommand;
 
   static JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
   static JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
@@ -44,6 +66,21 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    m_autoChooser.addDefault("Drive Straight", CommandSelector.DRIVE_STRAIGHT.ordinal());
+    for (Enum commandEnum : CommandSelector.values())
+      if (commandEnum != CommandSelector.DRIVE_STRAIGHT)
+        m_autoChooser.addOption(commandEnum.toString(), commandEnum.ordinal());
+
+    SmartDashboard.putData(m_autoChooser);
+
+    m_autoCommand = new SelectCommand(
+            Map.ofEntries(
+//                    entry(CommandSelector.SHOOT_AND_DRIVE_BACK, new ShootAndDriveBack(m_driveTrain,m_intake,m_indexer,m_turret,m_shooter,m_vision)),
+                    entry(CommandSelector.DRIVE_STRAIGHT, new DriveStraight(m_swerveDrive))
+//                        entry(CommandSelector.TEST_SEQUENTIAL_REVERSE_AUTO, new TestSequentialSwitching(m_driveTrain))
+            ),
+            this::selectCommand
+    );
 
     initializeSubsystems();
     // Configure the button bindings
@@ -66,15 +103,18 @@ public class RobotContainer {
   private void configureButtonBindings() {
   }
 
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
+
+  private CommandSelector selectCommand() {
+    return CommandSelector.values()[m_autoChooser.getSelected()];
+  }
+
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
 //    return m_autoCommand;
-    return null;
+        return new WaitCommand(0);
   }
 }
