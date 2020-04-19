@@ -39,13 +39,7 @@ public class RobotContainer {
 
 
   private enum CommandSelector {
-    DRIVE_STRAIGHT,
-    ALLIANCE_TRENCH_STRAIGHT,
-    ALLIANCE_TRENCH_SPLINE,
-    ENEMY_TRENCH,
-    SHOOT_AND_DRIVE_BACK,
-    SHOOT_AND_DRIVE_FORWARD,
-    DO_NOTHING
+    DRIVE_STRAIGHT
   }
 
   SendableChooser<Integer> m_autoChooser = new SendableChooser();
@@ -116,5 +110,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 //    return m_autoCommand;
         return new WaitCommand(0);
+  }
+
+  public void initalizeLogTopics() {
+//    m_controls.initLogging();
   }
 }
