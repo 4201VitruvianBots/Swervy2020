@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="fb0e4852-bcd6-4def-b0c6-7995e03545b8" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/libraries/com_github.xml" afterDir="false" />
@@ -66,7 +69,6 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -74,9 +76,10 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.jonathandao0/badlog/v0.1.2.4/26bfb1af9920cf31acb7bf48fb82ba4321d699d7/badlog-v0.1.2.4.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/frc/robot/commands" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -84,9 +87,13 @@
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\FRC\Swervy2020\src\main\java\frc\robot\commands" />
+      <recent name="C:\FRC\Swervy2020\src\main\java\frc\robot\subsystems" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="frc.robot.commands.autoCommands" />
       <recent name="frc.robot.subsystems" />
+      <recent name="frc.robot.commands.autoCommands" />
     </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="frc.robot.commands.autoCommands" />
@@ -158,65 +165,32 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fb0e4852-bcd6-4def-b0c6-7995e03545b8" name="Default Changelist" comment="" />
+      <created>1603665017475</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1603665017475</updated>
+    </task>
+    <servers />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="0" y="88" key="#Project_Structure" timestamp="1585711815521">
-      <screen x="0" y="0" width="1600" height="860" />
+    <state x="1282" y="406" key="FileChooserDialogImpl" timestamp="1603665182655">
+      <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="0" y="88" key="#Project_Structure/0.0.1600.860@0.0.1600.860" timestamp="1585711815521" />
-    <state x="343" y="124" width="340" height="606" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog" timestamp="1585711834098">
-      <screen x="0" y="0" width="1600" height="860" />
+    <state x="1282" y="406" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1603665182655" />
+    <state x="782" y="346" key="SettingsEditor" timestamp="1603668257760">
+      <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="343" y="124" width="340" height="606" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog/0.0.1600.860@0.0.1600.860" timestamp="1585711834098" />
-    <state x="614" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1585278337975">
-      <screen x="0" y="0" width="1600" height="860" />
+    <state x="782" y="346" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1603668257760" />
+    <state x="868" y="329" width="672" height="678" key="search.everywhere.popup" timestamp="1603668290746">
+      <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="614" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1600.860@0.0.1600.860" timestamp="1585278337975" />
-    <state x="243" y="179" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1585711733901">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="243" y="179" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1600.860@0.0.1600.860" timestamp="1585711733901" />
-    <state x="393" y="196" key="FileChooserDialogImpl" timestamp="1585711860312">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="393" y="196" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1585711860312" />
-    <state width="1557" height="157" key="GridCell.Tab.0.bottom" timestamp="1585952524059">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1557" height="157" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1585952524059" />
-    <state width="1557" height="157" key="GridCell.Tab.0.center" timestamp="1585952524057">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1557" height="157" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1585952524057" />
-    <state width="1557" height="157" key="GridCell.Tab.0.left" timestamp="1585952524056">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1557" height="157" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1585952524056" />
-    <state width="1557" height="157" key="GridCell.Tab.0.right" timestamp="1585952524058">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1557" height="157" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1585952524058" />
-    <state x="-7" y="0" width="1040" height="849" key="SettingsEditor" timestamp="1585711848754">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="-7" y="0" width="1040" height="849" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1585711848754" />
-    <state x="496" y="254" key="com.intellij.ide.util.TipDialog" timestamp="1587189931614">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="496" y="254" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1587189931614" />
-    <state x="504" y="323" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1585711167445">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="504" y="323" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1600.860@0.0.1600.860" timestamp="1585711167445" />
-    <state x="456" y="195" key="run.anything.popup" timestamp="1585596787279">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="456" y="195" key="run.anything.popup/0.0.1600.860@0.0.1600.860" timestamp="1585596787279" />
-    <state x="863" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1585595659557">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="863" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1585595659557" />
+    <state x="868" y="329" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1603668290746" />
   </component>
 </project>

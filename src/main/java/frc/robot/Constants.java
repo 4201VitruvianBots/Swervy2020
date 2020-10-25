@@ -104,4 +104,6 @@ public final class Constants {
                         kMaxAngularSpeedRadiansPerSecondSquared);
 
     }
+    public static int intakeMotor;
+
 }
