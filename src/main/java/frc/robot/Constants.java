@@ -105,5 +105,11 @@ public final class Constants {
 
     }
     public static int intakeMotor;
+    public static final int pcmOne = 11;
+    public static final int intakePistonForward = 2; // 2
+    public static final int intakePistonReverse = 3; // 3
+    public static enum IntakeStates {
+        INTAKE_EMPTY, INTAKE_ONE_BALL, INTAKE_FOUR_BALLS, INTAKE_FIVE_BALLS
+    }
 
 }

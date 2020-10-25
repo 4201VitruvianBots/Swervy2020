@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.constants.Constants;
+import frc.robot.Constants;
 
 /*
 Subsystem for interacting with the robot's intake
