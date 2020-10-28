@@ -79,7 +79,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/frc/robot/commands" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../InfiniteRecharge2020" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -180,14 +180,26 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1282" y="406" key="FileChooserDialogImpl" timestamp="1603665182655">
+    <state x="1107" y="609" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog" timestamp="1603851459122">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="1282" y="406" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1603665182655" />
-    <state x="782" y="346" key="SettingsEditor" timestamp="1603668257760">
+    <state x="1107" y="609" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1603851459122" />
+    <state x="1007" y="670" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1603851474287">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="782" y="346" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1603668257760" />
+    <state x="1007" y="670" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1603851474287" />
+    <state x="1282" y="406" key="FileChooserDialogImpl" timestamp="1603851650007">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1282" y="406" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1603851650007" />
+    <state x="757" y="490" key="SettingsEditor" timestamp="1603851481032">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="757" y="490" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1603851481032" />
+    <state x="1036" y="663" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1603851024677">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1036" y="663" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.2560.1400@0.0.2560.1400" timestamp="1603851024677" />
     <state x="868" y="329" width="672" height="678" key="search.everywhere.popup" timestamp="1603668290746">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>

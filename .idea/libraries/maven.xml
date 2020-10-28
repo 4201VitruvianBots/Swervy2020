@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="maven">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../Users/Public/wpilib/2020/maven" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/../../Users/Public/wpilib/2020/maven" recursive="false" />
+  </library>
+</component>
