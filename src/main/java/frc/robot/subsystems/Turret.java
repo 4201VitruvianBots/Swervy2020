@@ -66,7 +66,7 @@ public class Turret extends SubsystemBase {
     private DigitalInput turretHomeSensor = new DigitalInput(Constants.turretHomeSensor);
     private boolean turretHomeSensorLatch = false;
 
-    public Turret(SwerveDrive m_swerveDrive) {
+    public Turret(SwerveDrive swerveDrive) {
         // Setup turrent motors
         m_swerveDrive = swerveDrive;
         encoder.configFactoryDefault();
@@ -113,7 +113,7 @@ public class Turret extends SubsystemBase {
     }
 
     public double getFieldRelativeAngle() {
-        return getTurretAngle() - m_swerveDrive.getAngle();
+        return getTurretAngle() - m_swerveDrive.getRawGyroAngle();
     }
 
     public double getMaxAngle() {
@@ -147,7 +147,7 @@ public class Turret extends SubsystemBase {
 
     // ???
     public void setFieldCentricSetpoint(double setpoint) {
-        setpoint -= m_swerveDrive.getAngle();
+        setpoint -= m_swerveDrive.getRawGyroAngle();
 
         if (setpoint > getMaxAngle())
             setpoint -= 360;

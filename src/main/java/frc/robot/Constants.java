@@ -111,5 +111,10 @@ public final class Constants {
     public static enum IntakeStates {
         INTAKE_EMPTY, INTAKE_ONE_BALL, INTAKE_FOUR_BALLS, INTAKE_FIVE_BALLS
     }
-
+    public static final int flywheelMotorA = 40;
+    public static final int flywheelMotorB = 41;
+    public static final int turretEncoder = 61;
+    public static final int turretMotor = 60;
+    public static final int turretHomeSensor = 3;
+    
 }
