@@ -44,7 +44,7 @@ public class RobotContainer {
 
   SendableChooser<Integer> m_autoChooser = new SendableChooser();
 
-  private SelectCommand m_autoCommand;
+  private final SelectCommand m_autoCommand;
 
   static JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
   static JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
@@ -112,7 +112,7 @@ public class RobotContainer {
         return new WaitCommand(0);
   }
 
-  public void initalizeLogTopics() {
+  public void initializeLogTopics() {
 //    m_controls.initLogging();
   }
 }
