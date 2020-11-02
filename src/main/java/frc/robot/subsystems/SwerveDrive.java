@@ -40,7 +40,7 @@ public class SwerveDrive extends SubsystemBase {
    * 2 is Back Left
    * 3 is Back Right
    */
-  private SwerveModule[] mSwerveModules = new SwerveModule[] {
+  private final SwerveModule[] mSwerveModules = new SwerveModule[] {
           new SwerveModule(0, new TalonFX(Constants.frontRightTurningMotor), new TalonFX(Constants.frontRightDriveMotor), 0, false, m_pdp), //true
           new SwerveModule(1, new TalonFX(Constants.frontLeftTurningMotor), new TalonFX(Constants.frontLeftDriveMotor), 0, false, m_pdp),
           new SwerveModule(2, new TalonFX(Constants.backLeftTurningMotor), new TalonFX(Constants.backLeftDriveMotor), 0, false, m_pdp),
