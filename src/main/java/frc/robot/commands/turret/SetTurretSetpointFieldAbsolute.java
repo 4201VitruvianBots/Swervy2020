@@ -20,7 +20,7 @@ import frc.robot.subsystems.*;
 public class SetTurretSetpointFieldAbsolute extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final Turret m_turret;
-    private final DriveTrain m_driveTrain;
+    private final SwerveDrive m_swerveDrive;
     private final Vision m_vision;
     private final Shooter m_shooter;
     private final Climber m_climber;
@@ -33,10 +33,10 @@ public class SetTurretSetpointFieldAbsolute extends CommandBase {
     /**
      * Creates a new ExampleCommand.
      */
-    public SetTurretSetpointFieldAbsolute(Turret turretSubsystem, DriveTrain driveTrainSubsystem, Vision visionSubsystem,
+    public SetTurretSetpointFieldAbsolute(Turret turretSubsystem, SwerveDrive swerveDriveSubsystem, Vision visionSubsystem,
                                           Shooter shooter, Climber climber, Joystick controller) {
         m_turret = turretSubsystem;
-        m_driveTrain = driveTrainSubsystem;
+        m_swerveDrive = swerveDriveSubsystem;
         m_vision = visionSubsystem;
         m_shooter = shooter;
         m_climber = climber;

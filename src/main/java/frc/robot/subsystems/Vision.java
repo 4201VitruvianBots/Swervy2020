@@ -133,8 +133,8 @@ public class Vision extends SubsystemBase {
 	
 	public double getSmartTargetX() {
 		if(getTargetDistance() > MIN_TARGET_DISTANCE) {
-			double xDistance = Units.metersToFeet(m_swerveDrive.getRobotPose().getTranslation().getX());
-			double yDistance = Math.abs(Units.metersToFeet(m_swerveDrive.getRobotPose().getTranslation().getY()));
+			double xDistance = Units.metersToFeet(m_swerveDrive.getPose().getTranslation().getX());
+			double yDistance = Math.abs(Units.metersToFeet(m_swerveDrive.getPose().getTranslation().getY()));
 
 			double maxYDistance = INNER_PORT_SLOPE * xDistance + INNER_PORT_OFFSET;
 

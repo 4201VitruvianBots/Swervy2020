@@ -9,7 +9,7 @@ package frc.robot.commands.turret;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 
@@ -21,7 +21,7 @@ import java.util.function.DoubleSupplier;
 public class SetTurretSetpointFieldAbsoluteWithVisionOld extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Turret m_turret;
-  private final DriveTrain m_driveTrain;
+  private final SwerveDrive m_swerveDrive;
   private final Vision m_vision;
   private DoubleSupplier m_xInput;
   private DoubleSupplier m_yInput;
@@ -38,9 +38,9 @@ public class SetTurretSetpointFieldAbsoluteWithVisionOld extends CommandBase {
    *
    *
    */
-  public SetTurretSetpointFieldAbsoluteWithVisionOld(Turret turretSubsystem, DriveTrain driveTrainSubsystem, Vision visionSybsystem, DoubleSupplier xInput, DoubleSupplier yInput) {
+  public SetTurretSetpointFieldAbsoluteWithVisionOld(Turret turretSubsystem, SwerveDrive swerveDriveSubsystem, Vision visionSybsystem, DoubleSupplier xInput, DoubleSupplier yInput) {
     m_turret = turretSubsystem;
-    m_driveTrain = driveTrainSubsystem;
+    m_swerveDrive = swerveDriveSubsystem;
     m_vision = visionSybsystem;
     m_xInput = xInput;
     m_yInput = yInput;
