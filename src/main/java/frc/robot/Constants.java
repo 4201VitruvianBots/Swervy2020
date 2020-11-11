@@ -104,7 +104,7 @@ public final class Constants {
                         kMaxAngularSpeedRadiansPerSecondSquared);
 
     }
-    public static int intakeMotor;
+    public static int intakeMotor = 47;
     public static final int pcmOne = 11;
     public static final int intakePistonForward = 2; // 2
     public static final int intakePistonReverse = 3; // 3
@@ -122,7 +122,12 @@ public final class Constants {
     public static final int climbPistonAReverse = 32;
     public static final int climbPistonBForward = 33;
     public static final int climbPistonBReverse = 34;
-   
-    
+    public static final int indexerMotor = 35;
+    public static final int kickerMotor = 36;
+
+    // DIO
+    public static final int intakeSensor = 0;
+    public static final int indexerTopSensor = 1;
+    public static final int indexerBottomSensor = 2;
 
 }
