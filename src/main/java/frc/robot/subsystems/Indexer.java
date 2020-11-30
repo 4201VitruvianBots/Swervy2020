@@ -102,19 +102,7 @@ public class Indexer extends SubsystemBase {
   public int getControlMode() {
     return controlMode;
   }
-
-  public boolean getIntakeSensor(){
-    return (!intakeSensor.get());
-  }
-
-  public boolean getIndexerBottomSensor(){
-    return !indexerBottomSensor.get();
-  }
-
-  public boolean getIndexerTopSensor(){
-    return !indexerTopSensor.get();
-  }
-
+  
   public void setKickerOutput(double output) {
     kicker.set(ControlMode.PercentOutput, output);
   }

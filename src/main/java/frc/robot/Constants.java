@@ -126,7 +126,4 @@ public final class Constants {
     public static final int kickerMotor = 36;
 
     // DIO
-    public static final int intakeSensor = 0;
-    public static final int indexerTopSensor = 1;
-    public static final int indexerBottomSensor = 2;
 }
