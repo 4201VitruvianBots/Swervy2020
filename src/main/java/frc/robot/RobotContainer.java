@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.SetSwerveDrive;
 import frc.robot.commands.autoCommands.DriveStraight;
+import frc.robot.commands.indexer.FeedAll;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.vitruvianlib.utils.JoystickWrapper;
@@ -34,7 +36,7 @@ import static java.util.Map.entry;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final PowerDistributionPanel pdp = new PowerDistributionPanel();
-
+  private final Indexer m_indexer = new Indexer();
   private final SwerveDrive m_swerveDrive = new SwerveDrive(pdp);
 
 
@@ -95,6 +97,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    leftButtons[2].whileHeld(new FeedAll(m_indexer));
   }
 
   /**

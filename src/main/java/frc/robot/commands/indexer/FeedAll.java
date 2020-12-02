@@ -51,6 +51,7 @@ public class FeedAll extends CommandBase {
   }
 
   // Returns true when the command should end.
+ /*
   @Override
   public boolean isFinished() {
     double time = Timer.getFPGATimestamp();
@@ -62,4 +63,5 @@ public class FeedAll extends CommandBase {
     else
       return false;
   }
+  */
 }

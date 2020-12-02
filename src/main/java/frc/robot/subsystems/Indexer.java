@@ -39,10 +39,6 @@ public class Indexer extends SubsystemBase {
 
   VictorSPX kicker = new VictorSPX(Constants.kickerMotor);
 
-  // Indexer sensors setup
-  DigitalInput intakeSensor = new DigitalInput(Constants.intakeSensor);
-  DigitalInput indexerTopSensor = new DigitalInput(Constants.indexerTopSensor);
-  DigitalInput indexerBottomSensor = new DigitalInput(Constants.indexerBottomSensor);
 
   private double targetSetpoint;
 
@@ -113,20 +109,6 @@ public class Indexer extends SubsystemBase {
 
   // Detect whether a new ball has been picked up
   // There is a new ball if the intake sensor is blocked and was not blocked before
-  boolean pTripped = false;
-  public boolean newBall() {
-    boolean returnVal;
-    if(pTripped == false && getIntakeSensor()){
-      returnVal = true;
-    }
-    else 
-      returnVal = false;
-    if(getIntakeSensor())
-      pTripped = true;
-    else
-      pTripped = false;
-    return returnVal;
-  }
 
 
 //  public void incrementIndexer(double setpoint){
@@ -161,15 +143,19 @@ public class Indexer extends SubsystemBase {
 
   private void initShuffleboard() {
     // Unstable. Don''t use until WPILib fixes this
+    /*
     Shuffleboard.getTab("Indexer").addBoolean("Intake Sensor", this::getIntakeSensor);
     Shuffleboard.getTab("Indexer").addBoolean("Indexer Bottom Sensor", this::getIndexerBottomSensor);
     Shuffleboard.getTab("Indexer").addBoolean("Indexer Top Sensor", this::getIndexerTopSensor);
+    */
   }
 
   private void updateSmartDashboard(){
+    /*
     SmartDashboardTab.putBoolean("Indexer","Intake Sensor", getIntakeSensor());
     SmartDashboardTab.putBoolean("Indexer","Indexer Bottom Sensor", getIndexerBottomSensor());
     SmartDashboardTab.putBoolean("Indexer","Indexer Top Sensor", getIndexerTopSensor());
+    */
     SmartDashboardTab.putNumber("Indexer", "Indexer Control Mode", controlMode);
 
   }
