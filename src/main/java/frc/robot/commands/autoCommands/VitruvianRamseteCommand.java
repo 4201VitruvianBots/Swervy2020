@@ -1,4 +1,4 @@
-package frc.robot.commands.autonomous;
+package frc.robot.commands.autoCommands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
@@ -14,7 +15,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.SwerveDrive;
 
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
@@ -24,20 +25,32 @@ public class VitruvianRamseteCommand extends RamseteCommand {
     Trajectory m_trajectory;
     TrajectoryConfig m_config;
     ArrayList<Pose2d> m_path;
-    DriveTrain m_driveTrain;
+    SwerveDrive m_swerveDrive;
     Supplier<Pose2d> m_pose;
     double autoDuration, autoStartTime;
 
-    public VitruvianRamseteCommand(Trajectory trajectory, Supplier<Pose2d> pose, RamseteController controller, SimpleMotorFeedforward feedforward, DifferentialDriveKinematics kinematics, Supplier<DifferentialDriveWheelSpeeds> wheelSpeeds, PIDController leftController, PIDController rightController, BiConsumer<Double, Double> outputVolts, DriveTrain driveTrain, ArrayList<Pose2d> path, TrajectoryConfig config) {
-        super(trajectory, pose, controller, feedforward, kinematics, wheelSpeeds, leftController, rightController, outputVolts, driveTrain);
-        m_driveTrain = driveTrain;
+    public VitruvianRamseteCommand(Trajectory trajectory, Supplier<Pose2d> pose, RamseteController controller, SimpleMotorFeedforward feedforward, DifferentialDriveKinematics kinematics, Supplier<DifferentialDriveWheelSpeeds> wheelSpeeds, PIDController leftController, PIDController rightController, BiConsumer<Double, Double> outputVolts, SwerveDrive swerveDrive, ArrayList<Pose2d> path, TrajectoryConfig config) {
+        super(trajectory, pose, controller, feedforward, kinematics, wheelSpeeds, leftController, rightController, outputVolts, swerveDrive);
+        m_swerveDrive = swerveDrive;
         m_pose = pose;
         m_trajectory = trajectory;
         m_path = path;
         m_config = config;
     }
 
-    @Override
+    public VitruvianRamseteCommand(Trajectory trajectory, Supplier<Pose2d> pose, RamseteController controller,
+			SimpleMotorFeedforward feedforward, SwerveDriveKinematics driveTrainKinematics, Object wheelSpeeds,
+			PIDController leftPIDController, PIDController rightPIDController, Object outputVolts,
+			SwerveDrive swerveDrive, ArrayList<Pose2d> path, TrajectoryConfig config) {
+	}
+
+	public VitruvianRamseteCommand(Trajectory trajectory, Supplier<Pose2d> pose, RamseteController controller,
+			SimpleMotorFeedforward feedforward, SwerveDriveKinematics driveTrainKinematics, Object wheelSpeeds,
+			PIDController leftPIDController, PIDController rightPIDController, Object outputVolts,
+			SwerveDrive swerveDrive, ArrayList<Pose2d> path, TrajectoryConfig config) {
+	}
+
+	@Override
     public void execute() {
         super.execute();
         SmartDashboardTab.putBoolean("DriveTrain", "isRunning", true);

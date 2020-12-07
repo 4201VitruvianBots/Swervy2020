@@ -1,30 +1,30 @@
-package frc.robot.commands.autonomous;
+package frc.robot.commands.autoCommands;
 
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.SwerveDrive;
 
 import java.util.ArrayList;
 
 public class GenerateRamseteCommand {
     VitruvianRamseteCommand ramseteCommand;
 
-    public GenerateRamseteCommand(DriveTrain driveTrain, ArrayList<Pose2d> path, TrajectoryConfig config) {
+    public GenerateRamseteCommand(SwerveDrive swerveDrive, ArrayList<Pose2d> path, TrajectoryConfig config) {
         var trajectory = TrajectoryGenerator.generateTrajectory(path, config);
 
         ramseteCommand = new VitruvianRamseteCommand(
                 trajectory,
-                driveTrain::getRobotPose,
+                swerveDrive::getRobotPose,
                 new RamseteController(),
-                driveTrain.getFeedforward(),
-                driveTrain.getDriveTrainKinematics(),
-                driveTrain::getSpeeds,
-                driveTrain.getLeftPIDController(),
-                driveTrain.getRightPIDController(),
-                driveTrain::setVoltageOutput,
-                driveTrain,
+                swerveDrive.getFeedforward(),
+                swerveDrive.getDriveTrainKinematics(),
+                swerveDrive::getSpeeds,
+                swerveDrive.getLeftPIDController(),
+                swerveDrive.getRightPIDController(),
+                swerveDrive::setVoltageOutput,
+                swerveDrive,
                 path,
                 config
         );

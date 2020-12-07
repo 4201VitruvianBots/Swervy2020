@@ -11,12 +11,15 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -30,8 +33,25 @@ public class SwerveDrive extends SubsystemBase {
   private final double throttle = 0.8;
   private final double turningThrottle = 0.5;
 
-  private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics, getAngle());
+  // ???
+  private double kS = 0.19;
+  private double kV = 2.23;
+  private double kA = 0.0289;
 
+  // PID controller values
+  public double kP = 1.33;
+  public double kI = 0;
+  public double kD = 0;
+  
+ // Set up spatial tools
+ SwerveDriveKinematics kinematics = new SwerveDriveKinematics(Units.inchesToMeters(21.5));
+ private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics, getAngle());
+
+ SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV, kA);
+
+ // Sets up PIDcontroller
+ PIDController leftPIDController = new PIDController(kP, kI, kD);
+ PIDController rightPIDController = new PIDController(kP, kI, kD);
   PowerDistributionPanel m_pdp;
   /**
    * Just like a graph's quadrants
@@ -128,6 +148,7 @@ public class SwerveDrive extends SubsystemBase {
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
+  
 
   /**
    * Method to drive the robot using joystick info.
@@ -252,4 +273,23 @@ public class SwerveDrive extends SubsystemBase {
 
     // This method will be called once per scheduler run
   }
+  public SimpleMotorFeedforward getFeedforward() {
+    return feedforward;
+}
+
+public Pose2d getRobotPose() {
+    return m_odometry.getPoseMeters();
+}
+
+public SwerveDriveKinematics getDriveTrainKinematics() {
+    return kinematics;
+}
+
+public PIDController getLeftPIDController() {
+    return leftPIDController;
+}
+
+public PIDController getRightPIDController() {
+    return rightPIDController;
+}
 }
