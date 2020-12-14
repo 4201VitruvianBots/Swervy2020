@@ -12,15 +12,12 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.controller.PIDController;
-<<<<<<< HEAD
-=======
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
->>>>>>> T-Rex_Code
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.util.Units;
@@ -31,15 +28,6 @@ import frc.robot.Constants;
 
 public class SwerveDrive extends SubsystemBase {
 
-  // ???
-  private final double kS = 0.19;
-  private final double kV = 2.23;
-  private final double kA = 0.0289;
-
-  // PID controller values
-  public double kP = 1.33;
-  public double kI = 0;
-  public double kD = 0;
 
   public int controlMode = 0;
   
@@ -61,7 +49,7 @@ public class SwerveDrive extends SubsystemBase {
   public double kD = 0;
   
  // Set up spatial tools
- SwerveDriveKinematics kinematics = new SwerveDriveKinematics(Units.inchesToMeters(21.5));
+ DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(21.5));
  private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics, getAngle());
 
  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV, kA);
@@ -85,15 +73,6 @@ public class SwerveDrive extends SubsystemBase {
   };
 
   private final AHRS mNavX = new AHRS(SerialPort.Port.kMXP);
-
-  // Set up spatial tools
-  SwerveDriveKinematics kinematics = new SwerveDriveKinematics(Units.inchesToMeters(21.5));
-
-  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV, kA);
-
-  // Sets up PIDcontroller
-  PIDController leftPIDController = new PIDController(kP, kI, kD);
-  PIDController rightPIDController = new PIDController(kP, kI, kD);
 
   public void resetOdometry(final Pose2d pose, final Rotation2d rotation) {
     m_odometry.resetPosition(pose, rotation);
@@ -180,7 +159,7 @@ public class SwerveDrive extends SubsystemBase {
     return feedforward;
   }
 
-  public SwerveDriveKinematics getSwerveDriveKinematics() {
+  public DifferentialDriveKinematics getSwerveDriveKinematics() {
     return kinematics;
   }
 
@@ -206,7 +185,7 @@ public class SwerveDrive extends SubsystemBase {
                     xSpeed, ySpeed, rot, getAngle())
                     : new ChassisSpeeds(xSpeed, ySpeed, rot)
     );
-    SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
+    DifferentialDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
     mSwerveModules[1].setDesiredState(swerveModuleStates[0]);
     mSwerveModules[0].setDesiredState(swerveModuleStates[1]);
     mSwerveModules[2].setDesiredState(swerveModuleStates[2]);
@@ -219,7 +198,7 @@ public class SwerveDrive extends SubsystemBase {
    * @param desiredStates The desired SwerveModule states.
    */
   public void setModuleStates(final SwerveModuleState[] desiredStates) {
-    SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
+    DifferentialDriveKinematics.normalizeWheelSpeeds(desiredStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     mSwerveModules[1].setDesiredState(desiredStates[0]);
     mSwerveModules[0].setDesiredState(desiredStates[1]);
     mSwerveModules[2].setDesiredState(desiredStates[2]);
@@ -314,27 +293,4 @@ public class SwerveDrive extends SubsystemBase {
 
     // This method will be called once per scheduler run
   }
-<<<<<<< HEAD
-  public SimpleMotorFeedforward getFeedforward() {
-    return feedforward;
-}
-
-public Pose2d getRobotPose() {
-    return m_odometry.getPoseMeters();
-}
-
-public SwerveDriveKinematics getDriveTrainKinematics() {
-    return kinematics;
-}
-
-public PIDController getLeftPIDController() {
-    return leftPIDController;
-}
-
-public PIDController getRightPIDController() {
-    return rightPIDController;
-}
-=======
-
->>>>>>> T-Rex_Code
 }
