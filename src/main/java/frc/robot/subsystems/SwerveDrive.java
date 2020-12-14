@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.util.Units;
@@ -185,7 +186,7 @@ public class SwerveDrive extends SubsystemBase {
                     xSpeed, ySpeed, rot, getAngle())
                     : new ChassisSpeeds(xSpeed, ySpeed, rot)
     );
-    DifferentialDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
+    SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
     mSwerveModules[1].setDesiredState(swerveModuleStates[0]);
     mSwerveModules[0].setDesiredState(swerveModuleStates[1]);
     mSwerveModules[2].setDesiredState(swerveModuleStates[2]);
@@ -198,7 +199,7 @@ public class SwerveDrive extends SubsystemBase {
    * @param desiredStates The desired SwerveModule states.
    */
   public void setModuleStates(final SwerveModuleState[] desiredStates) {
-    DifferentialDriveKinematics.normalizeWheelSpeeds(desiredStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
+    SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     mSwerveModules[1].setDesiredState(desiredStates[0]);
     mSwerveModules[0].setDesiredState(desiredStates[1]);
     mSwerveModules[2].setDesiredState(desiredStates[2]);
