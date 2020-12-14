@@ -19,7 +19,11 @@ public class GenerateRamseteCommand {
                 swerveDrive::getRobotPose,
                 new RamseteController(),
                 swerveDrive.getFeedforward(),
+<<<<<<< HEAD
                 swerveDrive.getDriveTrainKinematics(),
+=======
+                swerveDrive.getSwerveDriveKinematics(),
+>>>>>>> T-Rex_Code
                 swerveDrive::getSpeeds,
                 swerveDrive.getLeftPIDController(),
                 swerveDrive.getRightPIDController(),

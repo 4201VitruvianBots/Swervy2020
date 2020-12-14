@@ -38,6 +38,7 @@ public class VitruvianRamseteCommand extends RamseteCommand {
         m_config = config;
     }
 
+<<<<<<< HEAD
     public VitruvianRamseteCommand(Trajectory trajectory, Supplier<Pose2d> pose, RamseteController controller,
 			SimpleMotorFeedforward feedforward, SwerveDriveKinematics driveTrainKinematics, Object wheelSpeeds,
 			PIDController leftPIDController, PIDController rightPIDController, Object outputVolts,
@@ -50,6 +51,8 @@ public class VitruvianRamseteCommand extends RamseteCommand {
 			SwerveDrive swerveDrive, ArrayList<Pose2d> path, TrajectoryConfig config) {
 	}
 
+=======
+>>>>>>> T-Rex_Code
 	@Override
     public void execute() {
         super.execute();
