@@ -1,4 +1,4 @@
-package frc.robot.commands.autonomous;
+package frc.robot.commands.autoCommands;
 
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -19,7 +19,7 @@ public class GenerateRamseteCommand {
                 swerveDrive::getRobotPose,
                 new RamseteController(),
                 swerveDrive.getFeedforward(),
-                swerveDrive.getDriveTrainKinematics(),
+                swerveDrive.getSwerveDriveKinematics(),
                 swerveDrive::getSpeeds,
                 swerveDrive.getLeftPIDController(),
                 swerveDrive.getRightPIDController(),

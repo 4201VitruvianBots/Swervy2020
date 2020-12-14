@@ -11,6 +11,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
@@ -18,11 +20,24 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class SwerveDrive extends SubsystemBase {
 
+  // ???
+  private final double kS = 0.19;
+  private final double kV = 2.23;
+  private final double kA = 0.0289;
+
+  // PID controller values
+  public double kP = 1.33;
+  public double kI = 0;
+  public double kD = 0;
+
+  public int controlMode = 0;
+  
   public static final double kMaxSpeed = 3.0; // 3 meters per second
   public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
 
@@ -47,13 +62,22 @@ public class SwerveDrive extends SubsystemBase {
           new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), 0, false, m_pdp) //true
   };
 
-  private AHRS mNavX = new AHRS(SerialPort.Port.kMXP);
+  private final AHRS mNavX = new AHRS(SerialPort.Port.kMXP);
 
-  public void resetOdometry(Pose2d pose, Rotation2d rotation) {
+  // Set up spatial tools
+  SwerveDriveKinematics kinematics = new SwerveDriveKinematics(Units.inchesToMeters(21.5));
+
+  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV, kA);
+
+  // Sets up PIDcontroller
+  PIDController leftPIDController = new PIDController(kP, kI, kD);
+  PIDController rightPIDController = new PIDController(kP, kI, kD);
+
+  public void resetOdometry(final Pose2d pose, final Rotation2d rotation) {
     m_odometry.resetPosition(pose, rotation);
   }
 
-  public SwerveDrive(PowerDistributionPanel pdp) {
+  public SwerveDrive(final PowerDistributionPanel pdp) {
     m_pdp = pdp;
 
     mNavX.reset();
@@ -116,7 +140,7 @@ public class SwerveDrive extends SubsystemBase {
   }
 
 
-  public SwerveModule getSwerveModule(int i) {
+  public SwerveModule getSwerveModule(final int i) {
     return mSwerveModules[i];
   }
 
@@ -129,6 +153,21 @@ public class SwerveDrive extends SubsystemBase {
     return m_odometry.getPoseMeters();
   }
 
+  public SimpleMotorFeedforward getFeedforward() {
+    return feedforward;
+  }
+
+  public SwerveDriveKinematics getSwerveDriveKinematics() {
+    return kinematics;
+  }
+
+  public PIDController getLeftPIDController() {
+    return leftPIDController;
+  }
+
+  public PIDController getRightPIDController() {
+    return rightPIDController;
+  }
   /**
    * Method to drive the robot using joystick info.
    *
@@ -138,8 +177,8 @@ public class SwerveDrive extends SubsystemBase {
    * @param fieldRelative Whether the provided x and y speeds are relative to the field.
    */
   @SuppressWarnings("ParameterName")
-  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
+  public void drive(final double xSpeed, final double ySpeed, final double rot, final boolean fieldRelative) {
+    final var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
             fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                     xSpeed, ySpeed, rot, getAngle())
                     : new ChassisSpeeds(xSpeed, ySpeed, rot)
@@ -156,7 +195,7 @@ public class SwerveDrive extends SubsystemBase {
    *
    * @param desiredStates The desired SwerveModule states.
    */
-  public void setModuleStates(SwerveModuleState[] desiredStates) {
+  public void setModuleStates(final SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     mSwerveModules[1].setDesiredState(desiredStates[0]);
     mSwerveModules[0].setDesiredState(desiredStates[1]);

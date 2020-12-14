@@ -20,6 +20,7 @@ import frc.robot.commands.autoCommands.DriveStraight;
 import frc.robot.commands.indexer.FeedAll;
 import frc.robot.commands.intake.ControlledIntake;
 import frc.robot.commands.intake.SetIntake;
+import frc.robot.commands.intake.ToggleIntakePistons;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveDrive;
@@ -102,7 +103,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     leftButtons[2].whileHeld(new FeedAll(m_indexer));
-    rightButtons[2].whileHeld(new ControlledIntake(m_intake, m_indexer, null));
+    xBoxButtons[10].whenPressed(new ToggleIntakePistons(m_intake));
+    xBoxLeftTrigger.whileHeld(new ControlledIntake(m_intake, m_indexer, xBoxController)); // Deploy intake
   }
 
   /**

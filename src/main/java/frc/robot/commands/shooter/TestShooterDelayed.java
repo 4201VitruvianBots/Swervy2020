@@ -54,9 +54,9 @@ public class TestShooterDelayed extends CommandBase {
         m_indexer.setIndexerOutput(0.95);
         m_indexer.setKickerOutput(0.95);
         m_intake.setIntakePercentOutput(0.95);
-      } else if (!m_indexer.getIndexerTopSensor()) {
-        m_indexer.setIndexerOutput(1);
-        m_indexer.setKickerOutput(-0.25);
+//    } else if (!m_indexer.getIndexerTopSensor()) {
+//      m_indexer.setIndexerOutput(1);
+//      m_indexer.setKickerOutput(-0.25);
       } else {
         m_indexer.setIndexerOutput(0);
         m_indexer.setKickerOutput(0);
