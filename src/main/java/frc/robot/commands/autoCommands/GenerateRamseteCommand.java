@@ -16,14 +16,10 @@ public class GenerateRamseteCommand {
 
         ramseteCommand = new VitruvianRamseteCommand(
                 trajectory,
-                swerveDrive::getRobotPose,
+                swerveDrive::getPose,
                 new RamseteController(),
                 swerveDrive.getFeedforward(),
-<<<<<<< HEAD
-                swerveDrive.getDriveTrainKinematics(),
-=======
                 swerveDrive.getSwerveDriveKinematics(),
->>>>>>> T-Rex_Code
                 swerveDrive::getSpeeds,
                 swerveDrive.getLeftPIDController(),
                 swerveDrive.getRightPIDController(),

@@ -72,25 +72,22 @@ public class ControlledIntakeTimed extends CommandBase {
 
   private void updateTimedRollers() {
     timestamp = Timer.getFPGATimestamp();
-<<<<<<< HEAD
-=======
 
-    if(fourBallTimestamp != 0)
-      if((timestamp - fourBallTimestamp) > 0.5)
-        haveFour = true;
-      else
-        haveFour = false;
+ //if(fourBallTimestamp != 0)
+   //if((timestamp - fourBallTimestamp) > 0.5)
+      //haveFour = true;
+    //else
+      //haveFour = false;
 
-//    if(intakeState != IntakeStates.INTAKE_EMPTY)
-    if(indexerTimestamp != 0)
-      if(timestamp - indexerTimestamp < 0.1)
-        m_indexer.setRPM(indexRPM);
-      else {
-        m_indexer.setRPM(0);
-        intaking = false;
+  //if(intakeState != IntakeStates.INTAKE_EMPTY)
+    //if(indexerTimestamp != 0)
+      //if(timestamp - indexerTimestamp < 0.1)
+        //m_indexer.setRPM(indexRPM);
+      //else {
+        //m_indexer.setRPM(0);
+        //intaking = false;
       }
->>>>>>> T-Rex_Code
-  }
+  
 
 
   // Called once the command ends or is interrupted.
@@ -100,11 +97,8 @@ public class ControlledIntakeTimed extends CommandBase {
     m_intake.setIntakePercentOutput(0);
     m_indexer.setIndexerOutput(0);
     m_indexer.setKickerOutput(0);
-<<<<<<< HEAD
-=======
 //    if(intakeState == IntakeStates.INTAKE_FIVE_BALLS)
     m_intake.setintakePiston(false);
->>>>>>> T-Rex_Code
   }
 
   // Returns true when the command should end.
