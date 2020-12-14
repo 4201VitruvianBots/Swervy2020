@@ -38,7 +38,7 @@ public class SwerveDrive extends SubsystemBase {
   private boolean isFieldOriented;
   private final double throttle = 0.8;
   private final double turningThrottle = 0.5;
-
+  
   // ???
   private double kS = 0.19;
   private double kV = 2.23;
@@ -47,9 +47,9 @@ public class SwerveDrive extends SubsystemBase {
   // PID controller values
   public double kP = 1.33;
   public double kI = 0;
-  public double kD = 0;
-  
- // Set up spatial tools
+  public double kD = 0; 
+    
+  // Set up spatial tools
  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(21.5));
  private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics, getAngle());
 
@@ -294,4 +294,5 @@ public class SwerveDrive extends SubsystemBase {
 
     // This method will be called once per scheduler run
   }
+
 }
