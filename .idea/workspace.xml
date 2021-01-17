@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fb0e4852-bcd6-4def-b0c6-7995e03545b8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/com_github.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/commands/autoCommands/DriveStraight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/autoCommands/DriveStraight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/vitruvianlib/BadLog/BadLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/vitruvianlib/BadLog/BadLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/vitruvianlib/utils/TrajectoryUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/vitruvianlib/utils/TrajectoryUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveDrive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveDrive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveModule.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +71,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.jonathandao0/badlog/v0.1.2.4/26bfb1af9920cf31acb7bf48fb82ba4321d699d7/badlog-v0.1.2.4.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Common" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -178,10 +173,10 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="243" y="179" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1600.860@0.0.1600.860" timestamp="1585711733901" />
-    <state x="393" y="196" key="FileChooserDialogImpl" timestamp="1585711860312">
+    <state x="393" y="196" key="FileChooserDialogImpl" timestamp="1589311187928">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="393" y="196" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1585711860312" />
+    <state x="393" y="196" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1589311187928" />
     <state width="1557" height="157" key="GridCell.Tab.0.bottom" timestamp="1585952524059">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -202,18 +197,18 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="-7" y="0" width="1040" height="849" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1585711848754" />
-    <state x="496" y="254" key="com.intellij.ide.util.TipDialog" timestamp="1587189931614">
+    <state x="496" y="254" key="com.intellij.ide.util.TipDialog" timestamp="1590217908400">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="496" y="254" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1587189931614" />
+    <state x="496" y="254" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1590217908400" />
     <state x="504" y="323" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1585711167445">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="504" y="323" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1600.860@0.0.1600.860" timestamp="1585711167445" />
-    <state x="456" y="195" key="run.anything.popup" timestamp="1585596787279">
+    <state x="456" y="195" key="run.anything.popup" timestamp="1589336743068">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="456" y="195" key="run.anything.popup/0.0.1600.860@0.0.1600.860" timestamp="1585596787279" />
+    <state x="456" y="195" key="run.anything.popup/0.0.1600.860@0.0.1600.860" timestamp="1589336743068" />
     <state x="863" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1585595659557">
       <screen x="0" y="0" width="1600" height="860" />
     </state>

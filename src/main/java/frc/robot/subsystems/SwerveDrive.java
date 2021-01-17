@@ -143,7 +143,8 @@ public class SwerveDrive extends SubsystemBase {
             fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                     xSpeed, ySpeed, rot, getAngle())
                     : new ChassisSpeeds(xSpeed, ySpeed, rot)
-    );
+    ); //from 2910's code
+    //todo: rotationSpeed += PIDOutput //this PID calculates the speed needed to turn to a setpoint based off of a button input. Probably from the D-PAD
     SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
     mSwerveModules[1].setDesiredState(swerveModuleStates[0]);
     mSwerveModules[0].setDesiredState(swerveModuleStates[1]);
