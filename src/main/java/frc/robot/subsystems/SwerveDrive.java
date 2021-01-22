@@ -78,7 +78,7 @@ public class SwerveDrive extends SubsystemBase {
   }
 
   public double getRawGyroAngle() {
-    return mNavX.getAngle();
+    return 0;//mNavX.getAngle();
   }
 
   /**

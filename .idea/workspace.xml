@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="fb0e4852-bcd6-4def-b0c6-7995e03545b8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/Swervy2020.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveDrive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveDrive.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveModule.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +46,12 @@
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
               </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Swervy2020" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="embeddedtools" type="c8890929:TasksNode$1" />
+              </path>
             </expand>
             <select />
           </tree_state>
@@ -61,7 +73,6 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -71,7 +82,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Common" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -87,7 +98,7 @@
       <recent name="frc.robot.commands.autoCommands" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Swervy2020 [build]">
+  <component name="RunManager" selected="Gradle.Swervy2020 [deploy]">
     <configuration name="Swervy2020 [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -126,6 +137,25 @@
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="Swervy2020 [deploy]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="deploy" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="Swervy2020 [wrapper]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -147,71 +177,37 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Swervy2020 [deploy]" />
         <item itemvalue="Gradle.Swervy2020 [wrapper]" />
         <item itemvalue="Gradle.Swervy2020 [buildDependents]" />
         <item itemvalue="Gradle.Swervy2020 [build]" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="WindowStateProjectService">
-    <state x="0" y="88" key="#Project_Structure" timestamp="1585711815521">
+    <state width="1557" height="157" key="GridCell.Tab.0.bottom" timestamp="1611115789171">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="0" y="88" key="#Project_Structure/0.0.1600.860@0.0.1600.860" timestamp="1585711815521" />
-    <state x="343" y="124" width="340" height="606" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog" timestamp="1585711834098">
+    <state width="1557" height="157" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1611115789171" />
+    <state width="1557" height="157" key="GridCell.Tab.0.center" timestamp="1611115789170">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="343" y="124" width="340" height="606" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog/0.0.1600.860@0.0.1600.860" timestamp="1585711834098" />
-    <state x="614" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1585278337975">
+    <state width="1557" height="157" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1611115789170" />
+    <state width="1557" height="157" key="GridCell.Tab.0.left" timestamp="1611115789170">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="614" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1600.860@0.0.1600.860" timestamp="1585278337975" />
-    <state x="243" y="179" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1585711733901">
+    <state width="1557" height="157" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1611115789170" />
+    <state width="1557" height="157" key="GridCell.Tab.0.right" timestamp="1611115789171">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="243" y="179" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1600.860@0.0.1600.860" timestamp="1585711733901" />
-    <state x="393" y="196" key="FileChooserDialogImpl" timestamp="1589311187928">
+    <state width="1557" height="157" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1611115789171" />
+    <state x="456" y="195" key="run.anything.popup" timestamp="1611115437505">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="393" y="196" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1589311187928" />
-    <state width="1557" height="157" key="GridCell.Tab.0.bottom" timestamp="1585952524059">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1557" height="157" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1585952524059" />
-    <state width="1557" height="157" key="GridCell.Tab.0.center" timestamp="1585952524057">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1557" height="157" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1585952524057" />
-    <state width="1557" height="157" key="GridCell.Tab.0.left" timestamp="1585952524056">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1557" height="157" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1585952524056" />
-    <state width="1557" height="157" key="GridCell.Tab.0.right" timestamp="1585952524058">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1557" height="157" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1585952524058" />
-    <state x="-7" y="0" width="1040" height="849" key="SettingsEditor" timestamp="1585711848754">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="-7" y="0" width="1040" height="849" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1585711848754" />
-    <state x="496" y="254" key="com.intellij.ide.util.TipDialog" timestamp="1590217908400">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="496" y="254" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1590217908400" />
-    <state x="504" y="323" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1585711167445">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="504" y="323" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1600.860@0.0.1600.860" timestamp="1585711167445" />
-    <state x="456" y="195" key="run.anything.popup" timestamp="1589336743068">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="456" y="195" key="run.anything.popup/0.0.1600.860@0.0.1600.860" timestamp="1589336743068" />
-    <state x="863" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1585595659557">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="863" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1585595659557" />
+    <state x="456" y="195" key="run.anything.popup/0.0.1600.860@0.0.1600.860" timestamp="1611115437505" />
   </component>
 </project>
