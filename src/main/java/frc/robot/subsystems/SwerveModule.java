@@ -220,8 +220,6 @@ public class SwerveModule extends SubsystemBase {
 
     mDriveMotor.set(ControlMode.PercentOutput,(driveOutput));
     mTurningMotor.set(ControlMode.PercentOutput,(turnOutput));
-
-
   }
 
   public void setPercentOutput(double speed) {
