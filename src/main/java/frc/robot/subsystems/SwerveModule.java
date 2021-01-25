@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -207,12 +208,12 @@ public class SwerveModule extends SubsystemBase {
 
     // Calculate the drive output from the drive PID controller.
     final double driveOutput = m_drivePIDController.calculate(
-            getVelocity(), state.speedMetersPerSecond);
+            getVelocity(), outputState.speedMetersPerSecond);
 
     final double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller.
-    final double turnOutput = m_turningPIDController.calculate(getAngle(), outputState.angle.getDegrees());
+    final double turnOutput = m_turningPIDController.calculate(Units.degreesToRadians(getAngle()), outputState.angle.getRadians());
 
     final double turnFeedforward =
             m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);

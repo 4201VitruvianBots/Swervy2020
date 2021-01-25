@@ -59,7 +59,7 @@ public class SwerveDrive extends SubsystemBase {
 
     mNavX.reset();
 
-    SmartDashboard.putData("SwerveDrive/swerveDriveSubsystem", this);
+    SmartDashboardTab.putData("SwerveDrive","swerveDriveSubsystem", this);
   }
 
   public AHRS getNavX() {
@@ -149,6 +149,7 @@ public class SwerveDrive extends SubsystemBase {
     ); //from 2910's code
     //todo: rotationSpeed += PIDOutput //this PID calculates the speed needed to turn to a setpoint based off of a button input. Probably from the D-PAD
     SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
+    SmartDashboardTab.putNumber("SwerveDrive","Desired State",swerveModuleStates[0].angle.getDegrees());
     mSwerveModules[1].setDesiredState(swerveModuleStates[0]);
     mSwerveModules[0].setDesiredState(swerveModuleStates[1]);
     mSwerveModules[2].setDesiredState(swerveModuleStates[2]);

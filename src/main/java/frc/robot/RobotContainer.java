@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -49,6 +50,7 @@ public class RobotContainer {
   static JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
   static JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
   static JoystickWrapper xBoxController = new JoystickWrapper(Constants.xBoxController);
+  static JoystickWrapper testController = new JoystickWrapper(3);
   public Button[] leftButtons = new Button[2];
   public Button[] rightButtons = new Button[2];
   public Button[] xBoxButtons = new Button[10];
@@ -82,10 +84,17 @@ public class RobotContainer {
   }
 
   public void initializeSubsystems() {
-//    m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
-//            () -> leftJoystick.getRawAxis(0), //left x
-//            () -> leftJoystick.getRawAxis(1), //left y
-//            () -> rightJoystick.getRawAxis(0))); //right x
+    if(RobotBase.isReal()) {
+      m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
+              () -> leftJoystick.getRawAxis(0), //left x
+              () -> leftJoystick.getRawAxis(1), //left y
+              () -> rightJoystick.getRawAxis(0))); //right x
+    } else {
+      m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
+              () -> testController.getRawAxis(0), //left x
+              () -> testController.getRawAxis(1), //left y
+              () -> testController.getRawAxis(2))); //right x
+    }
   }
 
   /**

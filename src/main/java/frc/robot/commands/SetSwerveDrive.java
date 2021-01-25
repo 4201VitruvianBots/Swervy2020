@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.SwerveModule;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -43,7 +44,11 @@ public class SetSwerveDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_swerveDrive.drive(m_leftX.getAsDouble(),m_leftY.getAsDouble(),m_rightX.getAsDouble(),true);
+    // Forward/Back, Left/Right Strafe, Left/Right Turn
+    if(RobotBase.isReal())
+      m_swerveDrive.drive(m_leftY.getAsDouble(), m_leftX.getAsDouble(),m_rightX.getAsDouble(),true);
+    else
+      m_swerveDrive.drive(-m_leftY.getAsDouble(), m_leftX.getAsDouble(),m_rightX.getAsDouble(),true);
   }
 
   // Called once the command ends or is interrupted.
