@@ -5,12 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb0e4852-bcd6-4def-b0c6-7995e03545b8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Swervy2020.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/autoCommands/ResetSwerveEncoders.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.wpilib/wpilib_preferences.json" beforeDir="false" afterPath="$PROJECT_DIR$/.wpilib/wpilib_preferences.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/Robot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/commands/SetSwerveDrive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/SetSwerveDrive.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveDrive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveDrive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveModule.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +87,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../InfiniteRecharge2020" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -90,34 +95,15 @@
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="frc.robot.commands.autoCommands" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="frc.robot.commands.autoCommands" />
       <recent name="frc.robot.subsystems" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="frc.robot.commands.autoCommands" />
-    </key>
   </component>
   <component name="RunManager" selected="Gradle.Swervy2020 [deploy]">
-    <configuration name="Swervy2020 [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="buildDependents" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="Swervy2020 [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -134,7 +120,30 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="Swervy2020 [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
     <configuration name="Swervy2020 [deploy]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -153,7 +162,30 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="Swervy2020 [simulateJava]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="simulateJava" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
     <configuration name="Swervy2020 [wrapper]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -172,42 +204,23 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.Swervy2020 [deploy]" />
-        <item itemvalue="Gradle.Swervy2020 [wrapper]" />
-        <item itemvalue="Gradle.Swervy2020 [buildDependents]" />
         <item itemvalue="Gradle.Swervy2020 [build]" />
+        <item itemvalue="Gradle.Swervy2020 [clean]" />
+        <item itemvalue="Gradle.Swervy2020 [simulateJava]" />
+        <item itemvalue="Gradle.Swervy2020 [wrapper]" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="1557" height="157" key="GridCell.Tab.0.bottom" timestamp="1611115789171">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1557" height="157" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1611115789171" />
-    <state width="1557" height="157" key="GridCell.Tab.0.center" timestamp="1611115789170">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1557" height="157" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1611115789170" />
-    <state width="1557" height="157" key="GridCell.Tab.0.left" timestamp="1611115789170">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1557" height="157" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1611115789170" />
-    <state width="1557" height="157" key="GridCell.Tab.0.right" timestamp="1611115789171">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state width="1557" height="157" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1611115789171" />
-    <state x="456" y="195" key="run.anything.popup" timestamp="1611115437505">
-      <screen x="0" y="0" width="1600" height="860" />
-    </state>
-    <state x="456" y="195" key="run.anything.popup/0.0.1600.860@0.0.1600.860" timestamp="1611115437505" />
   </component>
 </project>

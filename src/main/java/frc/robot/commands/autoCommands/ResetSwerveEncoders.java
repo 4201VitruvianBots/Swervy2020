@@ -5,32 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.autoCommands;
 
-import frc.robot.subsystems.SwerveDrive;
-import frc.robot.subsystems.SwerveModule;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.SwerveDrive;
 
 import java.util.function.DoubleSupplier;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class SetSwerveDrive extends CommandBase {
+public class ResetSwerveEncoders extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveDrive m_swerveDrive;
-  private final DoubleSupplier m_leftX, m_leftY, m_rightX;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param swerveDriveSubsystem The subsystem used by this command.
    */
-  public SetSwerveDrive(SwerveDrive swerveDriveSubsystem, DoubleSupplier leftX, DoubleSupplier leftY, DoubleSupplier rightX) {
+  public ResetSwerveEncoders(SwerveDrive swerveDriveSubsystem) {
     m_swerveDrive = swerveDriveSubsystem;
-    m_leftX = leftX;
-    m_leftY = leftY;
-    m_rightX = rightX;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveDriveSubsystem);
   }
@@ -38,12 +33,12 @@ public class SetSwerveDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_swerveDrive.resetEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_swerveDrive.drive(m_leftX.getAsDouble(),m_leftY.getAsDouble(),m_rightX.getAsDouble(),true);
   }
 
   // Called once the command ends or is interrupted.
@@ -54,6 +49,6 @@ public class SetSwerveDrive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

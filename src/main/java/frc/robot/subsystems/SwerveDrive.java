@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -41,10 +42,10 @@ public class SwerveDrive extends SubsystemBase {
    * 3 is Back Right
    */
   private SwerveModule[] mSwerveModules = new SwerveModule[] {
-          new SwerveModule(0, new TalonFX(Constants.frontRightTurningMotor), new TalonFX(Constants.frontRightDriveMotor), 0, false, m_pdp), //true
-          new SwerveModule(1, new TalonFX(Constants.frontLeftTurningMotor), new TalonFX(Constants.frontLeftDriveMotor), 0, false, m_pdp),
-          new SwerveModule(2, new TalonFX(Constants.backLeftTurningMotor), new TalonFX(Constants.backLeftDriveMotor), 0, false, m_pdp),
-          new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), 0, false, m_pdp) //true
+          new SwerveModule(0, new TalonFX(Constants.frontRightTurningMotor), new TalonFX(Constants.frontRightDriveMotor), 0, false), //true
+          new SwerveModule(1, new TalonFX(Constants.frontLeftTurningMotor), new TalonFX(Constants.frontLeftDriveMotor), 0, false),
+          new SwerveModule(2, new TalonFX(Constants.backLeftTurningMotor), new TalonFX(Constants.backLeftDriveMotor), 0, false),
+          new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), 0, false) //true
   };
 
   private AHRS mNavX = new AHRS(SerialPort.Port.kMXP);
@@ -57,6 +58,8 @@ public class SwerveDrive extends SubsystemBase {
     m_pdp = pdp;
 
     mNavX.reset();
+
+    SmartDashboard.putData("SwerveDrive/swerveDriveSubsystem", this);
   }
 
   public AHRS getNavX() {
@@ -237,19 +240,22 @@ public class SwerveDrive extends SubsystemBase {
 
   private void updateSmartDashboard() {
     SmartDashboardTab.putNumber("SwerveDrive","Angle",getRawGyroAngle());
-    SmartDashboardTab.putNumber("SwerveDrive","Front Right Angle",mSwerveModules[0].getState().angle.getDegrees());
-    SmartDashboardTab.putNumber("SwerveDrive","Front Left Angle",mSwerveModules[1].getState().angle.getDegrees());
-    SmartDashboardTab.putNumber("SwerveDrive","Back Left Angle",mSwerveModules[2].getState().angle.getDegrees());
-    SmartDashboardTab.putNumber("SwerveDrive","Back Right Angle",mSwerveModules[3].getState().angle.getDegrees());
-    SmartDashboardTab.putNumber("SwerveDrive","Front Right Speed",mSwerveModules[0].getState().speedMetersPerSecond);
-    SmartDashboardTab.putNumber("SwerveDrive","Front Left Speed",mSwerveModules[1].getState().speedMetersPerSecond);
-    SmartDashboardTab.putNumber("SwerveDrive","Back Left Speed",mSwerveModules[2].getState().speedMetersPerSecond);
-    SmartDashboardTab.putNumber("SwerveDrive","Back Right Speed",mSwerveModules[3].getState().speedMetersPerSecond);
+    SmartDashboardTab.putNumber("SwerveDrive","Front Right Angle",mSwerveModules[0].getAngle());
+    SmartDashboardTab.putNumber("SwerveDrive","Front Left Angle",mSwerveModules[1].getAngle());
+    SmartDashboardTab.putNumber("SwerveDrive","Back Left Angle",mSwerveModules[2].getAngle());
+    SmartDashboardTab.putNumber("SwerveDrive","Back Right Angle",mSwerveModules[3].getAngle());
+
+    SmartDashboardTab.putNumber("SwerveDrive","State",mSwerveModules[0].getState().angle.getDegrees());
+//    SmartDashboardTab.putNumber("SwerveDrive","Front Right Speed",mSwerveModules[0].getState().speedMetersPerSecond);
+//    SmartDashboardTab.putNumber("SwerveDrive","Front Left Speed",mSwerveModules[1].getState().speedMetersPerSecond);
+//    SmartDashboardTab.putNumber("SwerveDrive","Back Left Speed",mSwerveModules[2].getState().speedMetersPerSecond);
+//    SmartDashboardTab.putNumber("SwerveDrive","Back Right Speed",mSwerveModules[3].getState().speedMetersPerSecond);
   }
 
   @Override
   public void periodic() {
     updateOdometry();
+    updateSmartDashboard();
 
     // This method will be called once per scheduler run
   }
