@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -50,6 +51,9 @@ public class SwerveModule extends SubsystemBase {
 
   private static final long STALL_TIMEOUT = 2000;
   private long mStallTimeBegin = Long.MAX_VALUE;
+
+  private double turnOutput;
+  private double driveOutput;
 
   private static final double kWheelRadius = 0.0508;
   private static final int kEncoderResolution = 4096;
@@ -134,7 +138,7 @@ public class SwerveModule extends SubsystemBase {
    * @return The current state of the module.
    */
   public SwerveModuleState getState() {
-    return new SwerveModuleState(getVelocity(), new Rotation2d(getAngle()));
+    return new SwerveModuleState(getVelocity(), new Rotation2d(Math.toRadians(getAngle())));
   }
 
 
@@ -207,19 +211,19 @@ public class SwerveModule extends SubsystemBase {
     SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getAngle()));
 
     // Calculate the drive output from the drive PID controller.
-    final double driveOutput = m_drivePIDController.calculate(
+    driveOutput = m_drivePIDController.calculate(
             getVelocity(), outputState.speedMetersPerSecond);
 
-    final double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
+    double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller.
-    final double turnOutput = m_turningPIDController.calculate(Units.degreesToRadians(getAngle()), outputState.angle.getRadians());
+    turnOutput = m_turningPIDController.calculate(Units.degreesToRadians(getAngle()), outputState.angle.getRadians());
 
-    final double turnFeedforward =
+    double turnFeedforward =
             m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);
 
     mDriveMotor.set(ControlMode.PercentOutput,(driveOutput));
-    mTurningMotor.set(ControlMode.PercentOutput,(turnOutput));
+    mTurningMotor.set(ControlMode.PercentOutput,(turnOutput)*0.01);
   }
 
   public void setPercentOutput(double speed) {
@@ -234,8 +238,13 @@ public class SwerveModule extends SubsystemBase {
     return mDriveMotor;
   }
 
+
+  private void updateSmartDashboard() {
+    SmartDashboardTab.putNumber("SwerveDrive","Turning PID " + mModuleNumber, turnOutput); }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    updateSmartDashboard();
   }
 }

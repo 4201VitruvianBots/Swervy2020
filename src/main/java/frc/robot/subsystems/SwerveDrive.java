@@ -31,6 +31,8 @@ public class SwerveDrive extends SubsystemBase {
   private final double throttle = 0.8;
   private final double turningThrottle = 0.5;
 
+  private int navXDebug = 0;
+
   private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics, getAngle());
 
   PowerDistributionPanel m_pdp;
@@ -48,7 +50,7 @@ public class SwerveDrive extends SubsystemBase {
           new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), 0, false) //true
   };
 
-  private AHRS mNavX = new AHRS(SerialPort.Port.kMXP);
+  private AHRS mNavX = new AHRS(SerialPort.Port.kMXP);;
 
   public void resetOdometry(Pose2d pose, Rotation2d rotation) {
     m_odometry.resetPosition(pose, rotation);
@@ -57,9 +59,21 @@ public class SwerveDrive extends SubsystemBase {
   public SwerveDrive(PowerDistributionPanel pdp) {
     m_pdp = pdp;
 
-    mNavX.reset();
-
     SmartDashboardTab.putData("SwerveDrive","swerveDriveSubsystem", this);
+  }
+
+  /**
+   * Returns the raw angle of the robot in degrees
+   *
+   * @return The angle of the robot
+   */
+  public double getRawGyroAngle() {
+    try {
+      return mNavX.getAngle();
+    } catch (Exception e) {
+      navXDebug = 1;
+      return 0;
+    }
   }
 
   public AHRS getNavX() {
@@ -78,10 +92,6 @@ public class SwerveDrive extends SubsystemBase {
   public Rotation2d getAngle() {
     // Negating the angle because WPILib gyros are CW positive.
     return Rotation2d.fromDegrees(getRawGyroAngle());
-  }
-
-  public double getRawGyroAngle() {
-    return 0;//mNavX.getAngle();
   }
 
   /**
@@ -246,6 +256,7 @@ public class SwerveDrive extends SubsystemBase {
     SmartDashboardTab.putNumber("SwerveDrive","Back Left Angle",mSwerveModules[2].getAngle());
     SmartDashboardTab.putNumber("SwerveDrive","Back Right Angle",mSwerveModules[3].getAngle());
 
+    SmartDashboardTab.putNumber("SwerveDrive","navXDebug",navXDebug);
     SmartDashboardTab.putNumber("SwerveDrive","State",mSwerveModules[0].getState().angle.getDegrees());
 //    SmartDashboardTab.putNumber("SwerveDrive","Front Right Speed",mSwerveModules[0].getState().speedMetersPerSecond);
 //    SmartDashboardTab.putNumber("SwerveDrive","Front Left Speed",mSwerveModules[1].getState().speedMetersPerSecond);
