@@ -165,9 +165,13 @@ public class SwerveDrive extends SubsystemBase {
     SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
     SmartDashboardTab.putNumber("SwerveDrive","Desired State",swerveModuleStates[0].angle.getDegrees());
     mSwerveModules[0].setDesiredState(swerveModuleStates[0]);
-    mSwerveModules[1].setDesiredState(swerveModuleStates[1]);
-    mSwerveModules[2].setDesiredState(swerveModuleStates[2]);
+    mSwerveModules[2].setDesiredState(swerveModuleStates[1]);
+    mSwerveModules[1].setDesiredState(swerveModuleStates[2]);
     mSwerveModules[3].setDesiredState(swerveModuleStates[3]);
+//    mSwerveModules[0].setDesiredState(swerveModuleStates[0]);
+//    mSwerveModules[1].setDesiredState(swerveModuleStates[1]);
+//    mSwerveModules[2].setDesiredState(swerveModuleStates[2]);
+//    mSwerveModules[3].setDesiredState(swerveModuleStates[3]);
   }
 
   /**
@@ -178,9 +182,13 @@ public class SwerveDrive extends SubsystemBase {
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     mSwerveModules[0].setDesiredState(desiredStates[0]);
-    mSwerveModules[1].setDesiredState(desiredStates[1]);
-    mSwerveModules[2].setDesiredState(desiredStates[2]);
+    mSwerveModules[2].setDesiredState(desiredStates[1]);
+    mSwerveModules[1].setDesiredState(desiredStates[2]);
     mSwerveModules[3].setDesiredState(desiredStates[3]);
+//    mSwerveModules[0].setDesiredState(desiredStates[0]);
+//    mSwerveModules[1].setDesiredState(desiredStates[1]);
+//    mSwerveModules[2].setDesiredState(desiredStates[2]);
+//    mSwerveModules[3].setDesiredState(desiredStates[3]);
   }
 
 //  public void holonomicDrive(double forward, double strafe, double rotationSpeed) {
