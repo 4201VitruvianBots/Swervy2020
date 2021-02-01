@@ -40,6 +40,7 @@ public final class Constants {
         //Distance between centers of right and left wheels on robot. Meters?
         public static final double kWheelBase = 0.5;
         //Distance between front and back wheels on robot. Meters?
+
         public static final SwerveDriveKinematics kDriveKinematics =
                 new SwerveDriveKinematics(
                         new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -75,7 +76,7 @@ public final class Constants {
         public static final double kTurningEncoderDistancePerPulse =
                 (double) ((2.0 * Math.PI) / (kTurningMotorGearRatio * kEncoderCPR));
 
-        public static final double kPModuleTurningController = 0.00005;
+        public static final double kPModuleTurningController = 1;
 
         public static final double kPModuleDriveController = 1;
 

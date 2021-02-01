@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -118,12 +117,12 @@ public class SwerveModule extends SubsystemBase {
    *
    * @return The current angle of the module in radians.
    */
-  public double getRadians() {
+  public double getTurningRadians() {
     return mTurningMotor.getSelectedSensorPosition() * Constants.ModuleConstants.kTurningEncoderDistancePerPulse;
   }
 
-  public double getAngle() {
-    return getRadians() * 180.0 / Math.PI;
+  public double getTurnAngle() {
+    return getTurningRadians() * 180.0 / Math.PI;
   }
 
 
@@ -142,7 +141,7 @@ public class SwerveModule extends SubsystemBase {
    * @return The current state of the module.
    */
   public SwerveModuleState getState() {
-    return new SwerveModuleState(getVelocity(), new Rotation2d(getRadians()));
+    return new SwerveModuleState(getVelocity(), new Rotation2d(getTurningRadians()));
   }
 
 
@@ -170,7 +169,7 @@ public class SwerveModule extends SubsystemBase {
     targetAngle %= 360; //makes 0 to 360
     targetAngle += mZeroOffset;
 
-    double currentAngle = getAngle();
+    double currentAngle = getTurnAngle();
     double currentAngleMod = currentAngle % 360;
     if (currentAngleMod < 0)
       currentAngleMod += 360;
@@ -212,7 +211,7 @@ public class SwerveModule extends SubsystemBase {
    * @param state Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState state) {
-    SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getRadians()));
+    SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getTurningRadians()));
 
     // Calculate the drive output from the drive PID controller.
     driveOutput = m_drivePIDController.calculate(
@@ -221,12 +220,12 @@ public class SwerveModule extends SubsystemBase {
     double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller.
-    turnOutput = m_turningPIDController.calculate(getRadians(), outputState.angle.getRadians());
+    turnOutput = m_turningPIDController.calculate(getTurningRadians(), outputState.angle.getRadians());
 
     double turnFeedforward =
             m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);
 
-    System.out.println("Turn PID Output: " + turnOutput);
+//    System.out.println("Turn PID Output: " + turnOutput);
     mDriveMotor.set(ControlMode.PercentOutput,(driveOutput));
     mTurningMotor.set(ControlMode.PercentOutput,(turnOutput));
   }

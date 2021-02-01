@@ -33,21 +33,21 @@ public class SwerveDrive extends SubsystemBase {
 
   private int navXDebug = 0;
 
-  private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics, getAngle());
+  private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics, getRotation());
 
   PowerDistributionPanel m_pdp;
   /**
    * Just like a graph's quadrants
-   * 0 is Front Right
-   * 1 is Front Left
-   * 2 is Back Left
+   * 0 is Front Left
+   * 1 is Back Left
+   * 2 is Front Right
    * 3 is Back Right
    */
   private SwerveModule[] mSwerveModules = new SwerveModule[] {
-          new SwerveModule(0, new TalonFX(Constants.frontRightTurningMotor), new TalonFX(Constants.frontRightDriveMotor), 0, true, true), //true
-          new SwerveModule(1, new TalonFX(Constants.frontLeftTurningMotor), new TalonFX(Constants.frontLeftDriveMotor), 0, false, false),
-          new SwerveModule(2, new TalonFX(Constants.backLeftTurningMotor), new TalonFX(Constants.backLeftDriveMotor), 0, false, false),
-          new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), 0, false, false) //true
+          new SwerveModule(0, new TalonFX(Constants.frontLeftTurningMotor), new TalonFX(Constants.frontLeftDriveMotor), 0, false, false),
+          new SwerveModule(1, new TalonFX(Constants.backLeftTurningMotor), new TalonFX(Constants.backLeftDriveMotor), 0, true, true),
+          new SwerveModule(2, new TalonFX(Constants.frontRightTurningMotor), new TalonFX(Constants.frontRightDriveMotor), 0, false, false), //true
+          new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), 0, true, true) //true
   };
 
   private AHRS mNavX = new AHRS(SerialPort.Port.kMXP);
@@ -93,7 +93,7 @@ public class SwerveDrive extends SubsystemBase {
    *
    * @return The angle of the robot.
    */
-  public Rotation2d getAngle() {
+  public Rotation2d getRotation() {
     // Negating the angle because WPILib gyros are CW positive.
     return Rotation2d.fromDegrees(getRawGyroAngle());
   }
@@ -158,22 +158,15 @@ public class SwerveDrive extends SubsystemBase {
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
             fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, rot, getAngle())
+                    xSpeed, ySpeed, rot, getRotation())
                     : new ChassisSpeeds(xSpeed, ySpeed, rot)
     ); //from 2910's code
     //todo: rotationSpeed += PIDOutput //this PID calculates the speed needed to turn to a setpoint based off of a button input. Probably from the D-PAD
     SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
     SmartDashboardTab.putNumber("SwerveDrive","Desired State",swerveModuleStates[0].angle.getDegrees());
-    /* Module Mapping:
-      4201 <- WPILib
-      0: Front Right <- 2: Front Right
-      1: Front Left  <- 0: Front Left
-      2: Rear Left   <- 1: Rear Left
-      3: Rear Right  <- 3: Rear Right
-     */
-    mSwerveModules[1].setDesiredState(swerveModuleStates[0]);
-    mSwerveModules[0].setDesiredState(swerveModuleStates[2]);
-    mSwerveModules[2].setDesiredState(swerveModuleStates[1]);
+    mSwerveModules[0].setDesiredState(swerveModuleStates[0]);
+    mSwerveModules[1].setDesiredState(swerveModuleStates[1]);
+    mSwerveModules[2].setDesiredState(swerveModuleStates[2]);
     mSwerveModules[3].setDesiredState(swerveModuleStates[3]);
   }
 
@@ -184,16 +177,9 @@ public class SwerveDrive extends SubsystemBase {
    */
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
-    /* Module Mapping:
-      4201 <- WPILib
-      0: Front Right <- 2: Front Right
-      1: Front Left  <- 0: Front Left
-      2: Rear Left   <- 1: Rear Left
-      3: Rear Right  <- 3: Rear Right
-     */
-    mSwerveModules[1].setDesiredState(desiredStates[0]);
-    mSwerveModules[0].setDesiredState(desiredStates[2]);
-    mSwerveModules[2].setDesiredState(desiredStates[1]);
+    mSwerveModules[0].setDesiredState(desiredStates[0]);
+    mSwerveModules[1].setDesiredState(desiredStates[1]);
+    mSwerveModules[2].setDesiredState(desiredStates[2]);
     mSwerveModules[3].setDesiredState(desiredStates[3]);
   }
 
@@ -258,28 +244,21 @@ public class SwerveDrive extends SubsystemBase {
    * Updates the field relative position of the robot.
    */
   public void updateOdometry() {
-      /* Module Mapping:
-      4201 <- WPILib
-      0: Front Right <- 2: Front Right
-      1: Front Left  <- 0: Front Left
-      2: Rear Left   <- 1: Rear Left
-      3: Rear Right  <- 3: Rear Right
-     */
     m_odometry.update(
-            getAngle(),
+            getRotation(),
+            mSwerveModules[0].getState(),
             mSwerveModules[1].getState(),
             mSwerveModules[2].getState(),
-            mSwerveModules[0].getState(),
             mSwerveModules[3].getState()
     );
   }
 
   private void updateSmartDashboard() {
     SmartDashboardTab.putNumber("SwerveDrive","Angle",getRawGyroAngle());
-    SmartDashboardTab.putNumber("SwerveDrive","Front Right Angle",mSwerveModules[0].getAngle());
-    SmartDashboardTab.putNumber("SwerveDrive","Front Left Angle",mSwerveModules[1].getAngle());
-    SmartDashboardTab.putNumber("SwerveDrive","Back Left Angle",mSwerveModules[2].getAngle());
-    SmartDashboardTab.putNumber("SwerveDrive","Back Right Angle",mSwerveModules[3].getAngle());
+    SmartDashboardTab.putNumber("SwerveDrive","Front Left Angle",mSwerveModules[0].getTurnAngle());
+    SmartDashboardTab.putNumber("SwerveDrive","Back Left Angle",mSwerveModules[1].getTurnAngle());
+    SmartDashboardTab.putNumber("SwerveDrive","Front Right Angle",mSwerveModules[2].getTurnAngle());
+    SmartDashboardTab.putNumber("SwerveDrive","Back Right Angle",mSwerveModules[3].getTurnAngle());
 
     SmartDashboardTab.putNumber("SwerveDrive","navXDebug",navXDebug);
     SmartDashboardTab.putNumber("SwerveDrive","State",mSwerveModules[0].getState().angle.getDegrees());
