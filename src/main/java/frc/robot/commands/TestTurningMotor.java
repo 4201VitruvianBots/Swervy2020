@@ -8,30 +8,27 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.robot.subsystems.SwerveDrive;
-import frc.robot.subsystems.SwerveModule;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.SwerveDrive;
 
 import java.util.function.DoubleSupplier;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class SetSwerveDrive extends CommandBase {
+public class TestTurningMotor extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveDrive m_swerveDrive;
-  private final DoubleSupplier m_leftX, m_leftY, m_rightX;
+  private final DoubleSupplier m_leftX;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param swerveDriveSubsystem The subsystem used by this command.
    */
-  public SetSwerveDrive(SwerveDrive swerveDriveSubsystem, DoubleSupplier leftX, DoubleSupplier leftY, DoubleSupplier rightX) {
+  public TestTurningMotor(SwerveDrive swerveDriveSubsystem, DoubleSupplier leftX) {
     m_swerveDrive = swerveDriveSubsystem;
     m_leftX = leftX;
-    m_leftY = leftY;
-    m_rightX = rightX;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveDriveSubsystem);
   }
@@ -46,15 +43,13 @@ public class SetSwerveDrive extends CommandBase {
   @Override
   public void execute() {
     // Forward/Back Trottle, Left/Right Strafe, Left/Right Turn
-    if(RobotBase.isReal())
-      m_swerveDrive.drive(m_leftY.getAsDouble(), m_leftX.getAsDouble(),m_rightX.getAsDouble(),false);
-    else
-      m_swerveDrive.drive(-m_leftY.getAsDouble(), m_leftX.getAsDouble(),m_rightX.getAsDouble(),false);
+    m_swerveDrive.testTurningMotor(m_leftX.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_swerveDrive.testTurningMotor(0);
   }
 
   // Returns true when the command should end.

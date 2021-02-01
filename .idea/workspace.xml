@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb0e4852-bcd6-4def-b0c6-7995e03545b8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/TestTurningMotor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/commands/SetSwerveDrive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/SetSwerveDrive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveDrive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveDrive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveModule.java" afterDir="false" />
+    </list>
+    <list id="490da15e-3491-40f2-8581-a0d1634800dd" name="Changes by Jonathan" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveDrive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveDrive.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveModule.java" afterDir="false" />
     </list>
@@ -66,6 +75,58 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java">
+      <ranges>
+        <range start1="15" end1="15" start2="15" end2="17" changelist="490da15e-3491-40f2-8581-a0d1634800dd" />
+        <range start1="19" end1="19" start2="21" end2="22" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="86" end1="88" start2="89" end2="92" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="91" end1="97" start2="95" end2="108" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveModule.java">
+      <ranges>
+        <range start1="13" end1="14" start2="13" end2="13" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="70" end1="71" start2="69" end2="70" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="75" end1="76" start2="74" end2="74" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="83" end1="85" start2="81" end2="81" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="87" end1="87" start2="83" end2="87" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="103" end1="104" start2="103" end2="104" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="118" end1="119" start2="118" end2="119" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="120" end1="121" start2="120" end2="121" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="123" end1="123" start2="123" end2="127" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="140" end1="141" start2="144" end2="145" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="210" end1="211" start2="214" end2="215" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="219" end1="220" start2="223" end2="224" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="224" end1="224" start2="228" end2="229" changelist="490da15e-3491-40f2-8581-a0d1634800dd" />
+        <range start1="225" end1="226" start2="230" end2="231" changelist="490da15e-3491-40f2-8581-a0d1634800dd" />
+        <range start1="236" end1="237" start2="241" end2="242" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveDrive.java">
+      <ranges>
+        <range start1="9" end1="9" start2="9" end2="10" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="19" end1="20" start2="20" end2="20" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="46" end1="50" start2="46" end2="50" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="52" end1="53" start2="52" end2="57" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="162" end1="162" start2="166" end2="173" changelist="490da15e-3491-40f2-8581-a0d1634800dd" />
+        <range start1="163" end1="165" start2="174" end2="176" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="175" end1="175" start2="186" end2="193" changelist="490da15e-3491-40f2-8581-a0d1634800dd" />
+        <range start1="176" end1="178" start2="194" end2="196" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="242" end1="242" start2="260" end2="267" changelist="490da15e-3491-40f2-8581-a0d1634800dd" />
+        <range start1="245" end1="246" start2="270" end2="270" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+        <range start1="247" end1="247" start2="271" end2="272" changelist="fb0e4852-bcd6-4def-b0c6-7995e03545b8" />
+      </ranges>
+    </file>
+  </component>
   <component name="ProjectId" id="1Ze7qySV8YRCalgAPLiltrcSZqP" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -79,6 +140,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../NerdyLib" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -91,6 +153,7 @@
       <recent name="frc.robot.commands.autoCommands" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="frc.robot.commands" />
       <recent name="frc.robot.commands.autoCommands" />
       <recent name="frc.robot.subsystems" />
     </key>

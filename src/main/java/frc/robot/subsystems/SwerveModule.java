@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -68,12 +67,11 @@ public class SwerveModule extends SubsystemBase {
   private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(1, 3);
   private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(1, 0.5);
 
-  public SwerveModule(int moduleNumber, TalonFX TurningMotor, TalonFX driveMotor, double zeroOffset, boolean inverted) {
+  public SwerveModule(int moduleNumber, TalonFX TurningMotor, TalonFX driveMotor, double zeroOffset, boolean invertTurn, boolean invertThrottle) {
     mModuleNumber = moduleNumber;
     mTurningMotor = TurningMotor;
     mDriveMotor = driveMotor;
     mZeroOffset = zeroOffset;
-    mInverted = inverted;
 
     mTurningMotor.configFactoryDefault();
     mTurningMotor.configOpenloopRamp(0.1);
@@ -81,10 +79,12 @@ public class SwerveModule extends SubsystemBase {
 
     mTurningMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     mDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    mTurningMotor.setSensorPhase(false);
-    mDriveMotor.setSensorPhase(false);
     mTurningMotor.setSelectedSensorPosition(0);
     mDriveMotor.setSelectedSensorPosition(0);
+    mTurningMotor.setSensorPhase(invertTurn);
+    mDriveMotor.setSensorPhase(invertThrottle);
+    mTurningMotor.setInverted(invertTurn);
+    mDriveMotor.setInverted(invertThrottle);
 
     mTurningMotor.config_kF(0,kF);
     mTurningMotor.config_kP(0,kP);
@@ -101,7 +101,7 @@ public class SwerveModule extends SubsystemBase {
 
     // Limit the PID Controller's input range between -pi and pi and set the input
     // to be continuous.
-    m_turningPIDController.enableContinuousInput(-180, 180);
+    m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
   }
 
   /**
@@ -116,10 +116,14 @@ public class SwerveModule extends SubsystemBase {
   /**
    * Returns the current angle of the module.
    *
-   * @return The current angle of the module.
+   * @return The current angle of the module in radians.
    */
-  public double getAngle() {
+  public double getRadians() {
     return mTurningMotor.getSelectedSensorPosition() * Constants.ModuleConstants.kTurningEncoderDistancePerPulse;
+  }
+
+  public double getAngle() {
+    return getRadians() * 180.0 / Math.PI;
   }
 
 
@@ -138,7 +142,7 @@ public class SwerveModule extends SubsystemBase {
    * @return The current state of the module.
    */
   public SwerveModuleState getState() {
-    return new SwerveModuleState(getVelocity(), new Rotation2d(Math.toRadians(getAngle())));
+    return new SwerveModuleState(getVelocity(), new Rotation2d(getRadians()));
   }
 
 
@@ -208,7 +212,7 @@ public class SwerveModule extends SubsystemBase {
    * @param state Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState state) {
-    SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getAngle()));
+    SwerveModuleState outputState = SwerveModuleState.optimize(state, new Rotation2d(getRadians()));
 
     // Calculate the drive output from the drive PID controller.
     driveOutput = m_drivePIDController.calculate(
@@ -217,13 +221,14 @@ public class SwerveModule extends SubsystemBase {
     double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller.
-    turnOutput = m_turningPIDController.calculate(Units.degreesToRadians(getAngle()), outputState.angle.getRadians());
+    turnOutput = m_turningPIDController.calculate(getRadians(), outputState.angle.getRadians());
 
     double turnFeedforward =
             m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);
 
+    System.out.println("Turn PID Output: " + turnOutput);
     mDriveMotor.set(ControlMode.PercentOutput,(driveOutput));
-    mTurningMotor.set(ControlMode.PercentOutput,(turnOutput)*0.01);
+    mTurningMotor.set(ControlMode.PercentOutput,(turnOutput));
   }
 
   public void setPercentOutput(double speed) {
@@ -234,7 +239,7 @@ public class SwerveModule extends SubsystemBase {
     return mTurningMotor;
   }
 
-  public TalonFX getDriveMotorEncoderCountsPerRevolution() {
+  public TalonFX getDriveMotor() {
     return mDriveMotor;
   }
 

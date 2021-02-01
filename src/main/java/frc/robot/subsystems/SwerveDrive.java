@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -17,7 +18,6 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -44,13 +44,17 @@ public class SwerveDrive extends SubsystemBase {
    * 3 is Back Right
    */
   private SwerveModule[] mSwerveModules = new SwerveModule[] {
-          new SwerveModule(0, new TalonFX(Constants.frontRightTurningMotor), new TalonFX(Constants.frontRightDriveMotor), 0, false), //true
-          new SwerveModule(1, new TalonFX(Constants.frontLeftTurningMotor), new TalonFX(Constants.frontLeftDriveMotor), 0, false),
-          new SwerveModule(2, new TalonFX(Constants.backLeftTurningMotor), new TalonFX(Constants.backLeftDriveMotor), 0, false),
-          new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), 0, false) //true
+          new SwerveModule(0, new TalonFX(Constants.frontRightTurningMotor), new TalonFX(Constants.frontRightDriveMotor), 0, true, true), //true
+          new SwerveModule(1, new TalonFX(Constants.frontLeftTurningMotor), new TalonFX(Constants.frontLeftDriveMotor), 0, false, false),
+          new SwerveModule(2, new TalonFX(Constants.backLeftTurningMotor), new TalonFX(Constants.backLeftDriveMotor), 0, false, false),
+          new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), 0, false, false) //true
   };
 
-  private AHRS mNavX = new AHRS(SerialPort.Port.kMXP);;
+  private AHRS mNavX = new AHRS(SerialPort.Port.kMXP);
+
+  public void testTurningMotor(double speed){
+    mSwerveModules[0].mTurningMotor.set(ControlMode.PercentOutput,speed);
+  }
 
   public void resetOdometry(Pose2d pose, Rotation2d rotation) {
     m_odometry.resetPosition(pose, rotation);
@@ -160,9 +164,16 @@ public class SwerveDrive extends SubsystemBase {
     //todo: rotationSpeed += PIDOutput //this PID calculates the speed needed to turn to a setpoint based off of a button input. Probably from the D-PAD
     SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, kMaxSpeed);
     SmartDashboardTab.putNumber("SwerveDrive","Desired State",swerveModuleStates[0].angle.getDegrees());
+    /* Module Mapping:
+      4201 <- WPILib
+      0: Front Right <- 2: Front Right
+      1: Front Left  <- 0: Front Left
+      2: Rear Left   <- 1: Rear Left
+      3: Rear Right  <- 3: Rear Right
+     */
     mSwerveModules[1].setDesiredState(swerveModuleStates[0]);
-    mSwerveModules[0].setDesiredState(swerveModuleStates[1]);
-    mSwerveModules[2].setDesiredState(swerveModuleStates[2]);
+    mSwerveModules[0].setDesiredState(swerveModuleStates[2]);
+    mSwerveModules[2].setDesiredState(swerveModuleStates[1]);
     mSwerveModules[3].setDesiredState(swerveModuleStates[3]);
   }
 
@@ -173,9 +184,16 @@ public class SwerveDrive extends SubsystemBase {
    */
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
+    /* Module Mapping:
+      4201 <- WPILib
+      0: Front Right <- 2: Front Right
+      1: Front Left  <- 0: Front Left
+      2: Rear Left   <- 1: Rear Left
+      3: Rear Right  <- 3: Rear Right
+     */
     mSwerveModules[1].setDesiredState(desiredStates[0]);
-    mSwerveModules[0].setDesiredState(desiredStates[1]);
-    mSwerveModules[2].setDesiredState(desiredStates[2]);
+    mSwerveModules[0].setDesiredState(desiredStates[2]);
+    mSwerveModules[2].setDesiredState(desiredStates[1]);
     mSwerveModules[3].setDesiredState(desiredStates[3]);
   }
 
@@ -240,11 +258,18 @@ public class SwerveDrive extends SubsystemBase {
    * Updates the field relative position of the robot.
    */
   public void updateOdometry() {
+      /* Module Mapping:
+      4201 <- WPILib
+      0: Front Right <- 2: Front Right
+      1: Front Left  <- 0: Front Left
+      2: Rear Left   <- 1: Rear Left
+      3: Rear Right  <- 3: Rear Right
+     */
     m_odometry.update(
             getAngle(),
             mSwerveModules[1].getState(),
-            mSwerveModules[0].getState(),
             mSwerveModules[2].getState(),
+            mSwerveModules[0].getState(),
             mSwerveModules[3].getState()
     );
   }
