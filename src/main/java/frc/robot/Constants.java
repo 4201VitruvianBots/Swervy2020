@@ -63,13 +63,13 @@ public final class Constants {
     }
 
     public static final class ModuleConstants {
-        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 2 * Math.PI;
-        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 2 * Math.PI;
-
         public static final double  kDriveMotorGearRatio = 6.89; //6.89 to 1
         public static final double kTurningMotorGearRatio = 12; //12 to 1
         public static final int kEncoderCPR = 2048;
         public static final double kWheelDiameterMeters = 0.10; //10.16 cm
+        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 4*2 * Math.PI/kTurningMotorGearRatio;
+        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 4*2 * Math.PI/kTurningMotorGearRatio;
+
         public static final double kDriveEncoderDistancePerPulse =
                 (kWheelDiameterMeters * Math.PI) / ((double) kEncoderCPR*kDriveMotorGearRatio);
 
@@ -78,7 +78,7 @@ public final class Constants {
 
         public static final double kPModuleTurningController = 1;
 
-        public static final double kPModuleDriveController = 1;
+        public static final double kPModuleDriveController = 0.25;
 
     }
 

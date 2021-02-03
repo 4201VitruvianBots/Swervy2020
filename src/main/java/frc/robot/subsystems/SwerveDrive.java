@@ -44,10 +44,10 @@ public class SwerveDrive extends SubsystemBase {
    * 3 is Back Right
    */
   private SwerveModule[] mSwerveModules = new SwerveModule[] {
-          new SwerveModule(0, new TalonFX(Constants.frontLeftTurningMotor), new TalonFX(Constants.frontLeftDriveMotor), 0, false, false),
-          new SwerveModule(1, new TalonFX(Constants.backLeftTurningMotor), new TalonFX(Constants.backLeftDriveMotor), 0, true, true),
-          new SwerveModule(2, new TalonFX(Constants.frontRightTurningMotor), new TalonFX(Constants.frontRightDriveMotor), 0, false, false), //true
-          new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), 0, true, true) //true
+          new SwerveModule(0, new TalonFX(Constants.frontLeftTurningMotor), new TalonFX(Constants.frontLeftDriveMotor), 0, true, false),
+          new SwerveModule(1, new TalonFX(Constants.backLeftTurningMotor), new TalonFX(Constants.backLeftDriveMotor), 0, true, false),
+          new SwerveModule(2, new TalonFX(Constants.frontRightTurningMotor), new TalonFX(Constants.frontRightDriveMotor), 0, true, false), //true
+          new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), 0, true, false) //true
   };
 
   private AHRS mNavX = new AHRS(SerialPort.Port.kMXP);
@@ -156,6 +156,12 @@ public class SwerveDrive extends SubsystemBase {
    */
   @SuppressWarnings("ParameterName")
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+    if (Math.abs(xSpeed)<=0.05)
+      xSpeed=0;
+    if (Math.abs(ySpeed)<=0.05)
+      ySpeed=0;
+    if (Math.abs(rot)<=0.05)
+      rot=0;
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
             fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                     xSpeed, ySpeed, rot, getRotation())

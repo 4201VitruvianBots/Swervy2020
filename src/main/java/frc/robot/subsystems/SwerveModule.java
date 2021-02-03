@@ -80,7 +80,7 @@ public class SwerveModule extends SubsystemBase {
     mDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     mTurningMotor.setSelectedSensorPosition(0);
     mDriveMotor.setSelectedSensorPosition(0);
-    mTurningMotor.setSensorPhase(invertTurn);
+//    mTurningMotor.setSensorPhase(invertTurn);
     mDriveMotor.setSensorPhase(invertThrottle);
     mTurningMotor.setInverted(invertTurn);
     mDriveMotor.setInverted(invertThrottle);
@@ -225,6 +225,7 @@ public class SwerveModule extends SubsystemBase {
     double turnFeedforward =
             m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);
 
+//    driveOutput=0;
 //    System.out.println("Turn PID Output: " + turnOutput);
     mDriveMotor.set(ControlMode.PercentOutput,(driveOutput));
     mTurningMotor.set(ControlMode.PercentOutput,(turnOutput));
