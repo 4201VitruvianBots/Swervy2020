@@ -245,7 +245,8 @@ public class SwerveModule extends SubsystemBase {
 
 
   private void updateSmartDashboard() {
-    SmartDashboardTab.putNumber("SwerveDrive","Turning PID " + mModuleNumber, turnOutput); }
+    SmartDashboardTab.putNumber("SwerveDrive","Turning PID " + mModuleNumber, turnOutput);
+  }
 
   @Override
   public void periodic() {
