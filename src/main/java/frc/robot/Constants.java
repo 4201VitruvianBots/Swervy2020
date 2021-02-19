@@ -55,9 +55,9 @@ public final class Constants {
         // for *your* robot's drive.
         // The RobotPy Characterization Toolsuite provides a convenient tool for obtaining these
         // values for your robot.
-        public static final double ksVolts = 1;
-        public static final double kvVoltSecondsPerMeter = 0.8;
-        public static final double kaVoltSecondsSquaredPerMeter = 0.15;
+        public static final double ksVolts = 0.587;
+        public static final double kvVoltSecondsPerMeter = 2.3;
+        public static final double kaVoltSecondsSquaredPerMeter = 0.0917;
 
         public static final double kMaxSpeedMetersPerSecond = 3;
     }
@@ -93,8 +93,8 @@ public final class Constants {
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
-        public static final double kPXController = 1;
-        public static final double kPYController = 1;
+        public static final double kPXController = 1.57;
+        public static final double kPYController = 1.57;
         public static final double kPThetaController = 1;
 
         //Constraint for the motion profilied robot angle controller

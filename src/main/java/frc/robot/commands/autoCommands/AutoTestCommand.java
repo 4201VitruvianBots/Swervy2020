@@ -18,8 +18,8 @@ import frc.robot.subsystems.SwerveDrive;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriveStraight extends SequentialCommandGroup {
-    public DriveStraight(SwerveDrive swerveDrive) {
+public class AutoTestCommand extends SequentialCommandGroup {
+    public AutoTestCommand(SwerveDrive swerveDrive) {
         // Create config for trajectory
         TrajectoryConfig config =
                 new TrajectoryConfig(Constants.AutoConstants.kMaxSpeedMetersPerSecond,
@@ -32,11 +32,10 @@ public class DriveStraight extends SequentialCommandGroup {
                 // Start at the origin facing the +X direction
                 new Pose2d(0, 0, new Rotation2d(0)),
                 List.of(
-                        new Translation2d(1, 0),
-                        new Translation2d(2, 0)
+                        new Translation2d(2, 0),
+                        new Translation2d(1, 1)
                 ),
-                // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(3, 0, new Rotation2d(0)),
+                new Pose2d(0, 0, new Rotation2d(0)),
                 config
         );
 

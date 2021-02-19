@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.SetSwerveDrive;
 import frc.robot.commands.TestTurningMotor;
+import frc.robot.commands.autoCommands.AutoTestCommand;
 import frc.robot.commands.autoCommands.DriveStraight;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -131,7 +132,8 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
 //    return m_autoCommand;
-        return new WaitCommand(0);
+    return new DriveStraight(m_swerveDrive);
+       // return new WaitCommand(0);
   }
 
   public void initalizeLogTopics() {
