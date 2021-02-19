@@ -78,7 +78,7 @@ public final class Constants {
 
         public static final double kPModuleTurningController = 1;
 
-        public static final double kPModuleDriveController = 0.25;
+        public static final double kPModuleDriveController = 1.57;
 
     }
 
@@ -93,8 +93,8 @@ public final class Constants {
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
-        public static final double kPXController = 1.57;
-        public static final double kPYController = 1.57;
+        public static final double kPXController = 1;
+        public static final double kPYController = 1;
         public static final double kPThetaController = 1;
 
         //Constraint for the motion profilied robot angle controller

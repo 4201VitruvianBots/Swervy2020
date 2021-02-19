@@ -44,34 +44,34 @@ public class DriveStraight extends SequentialCommandGroup {
                 config
         );
 
-        // SwerveControllerCommand driveStraight = new SwerveControllerCommand(
-        //         exampleTrajectory,
-        //         swerveDrive::getPose, //Functional interface to feed supplier
-        //         Constants.DriveConstants.kDriveKinematics,
+        SwerveControllerCommand driveStraight = new SwerveControllerCommand(
+                exampleTrajectory,
+                swerveDrive::getPose, //Functional interface to feed supplier
+                Constants.DriveConstants.kDriveKinematics,
 
-        //         //Position controllers
-        //         new PIDController(Constants.AutoConstants.kPXController, 0, 0),
-        //         new PIDController(Constants.AutoConstants.kPYController, 0, 0),
-        //         new ProfiledPIDController(Constants.AutoConstants.kPThetaController, 0, 0,
-        //                 Constants.AutoConstants.kThetaControllerConstraints),
-
-        //         swerveDrive::setModuleStates,
-
-        //         swerveDrive
-
-        // );
-               RamseteCommand driveStraight = new RamseteCommand(
-               exampleTrajectory,
-               swerveDrive::getPose,
-               new RamseteController(),
-               new SimpleMotorFeedforward(0.683, 3.19, 0.227),
-               new DifferentialDriveKinematics(Constants.DriveConstants.kTrackWidth),
-               swerveDrive::getSpeeds,
-               new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+                //Position controllers
                 new PIDController(Constants.AutoConstants.kPXController, 0, 0),
-               swerveDrive::setVoltageOutput,
-               swerveDrive
-       );
+                new PIDController(Constants.AutoConstants.kPYController, 0, 0),
+                new ProfiledPIDController(Constants.AutoConstants.kPThetaController, 0, 0,
+                        Constants.AutoConstants.kThetaControllerConstraints),
+
+                swerveDrive::setModuleStates,
+
+                swerveDrive
+
+        );
+//                RamseteCommand driveStraight = new RamseteCommand(
+//                exampleTrajectory,
+//                swerveDrive::getPose,
+//                new RamseteController(),
+//                new SimpleMotorFeedforward(0.683, 3.19, 0.227),
+//                new DifferentialDriveKinematics(Constants.DriveConstants.kTrackWidth),
+//                swerveDrive::getSpeeds,
+//                new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+//                 new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+//                swerveDrive::setVoltageOutput,
+//                swerveDrive
+//        );
         addCommands(new ResetOdometry(swerveDrive).andThen(() -> swerveDrive.zeroHeading()),
                 driveStraight.andThen(() -> swerveDrive.drive(0, 0, 0, false)));// Run path following command, then stop at the end.
     }
