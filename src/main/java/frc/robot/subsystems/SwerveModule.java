@@ -41,9 +41,9 @@ public class SwerveModule extends SubsystemBase {
   int kMotionAcceleration = kCruiseVelocity * 10;
 
 
-  private double kS = 0.19;
-  private double kV = 2.23;
-  private double kA = 0.0289;
+  private double kS = Constants.DriveConstants.ksVolts;//0.19;
+  private double kV = Constants.DriveConstants.kvVoltSecondsPerMeter; //2.23;
+  private double kA = Constants.DriveConstants.kaVoltSecondsSquaredPerMeter;//0.0289;
 
   private double mLastError = 0, mLastTargetAngle = 0, mTargetAngle, mVelocity = 0;
 
@@ -53,7 +53,7 @@ public class SwerveModule extends SubsystemBase {
   private double turnOutput;
   private double driveOutput;
 
-  private static final double kWheelRadius = 0.0508;
+  private static final double kWheelRadius = 0.0508; // meters
   private static final int kEncoderResolution = 4096;
 
   private final PIDController m_drivePIDController = new PIDController(Constants.ModuleConstants.kPModuleDriveController, 0, 0);
@@ -63,7 +63,7 @@ public class SwerveModule extends SubsystemBase {
           new TrapezoidProfile.Constraints(Constants.ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond, Constants.ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
 
   // Gains are for example purposes only - must be determined for your own robot!
-  private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(0.587, 2.3, 0.0917);
+  private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(kS, kV, kA);
   private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(1, 0.5);
 
   public SwerveModule(int moduleNumber, TalonFX TurningMotor, TalonFX driveMotor, double zeroOffset, boolean invertTurn, boolean invertThrottle) {

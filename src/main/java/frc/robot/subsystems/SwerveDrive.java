@@ -165,7 +165,7 @@ public class SwerveDrive extends SubsystemBase {
       ySpeed=0;
     if (Math.abs(rot)<=0.05)
       rot=0;
-    var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
+    SwerveModuleState[] swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
             fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                     xSpeed, ySpeed, rot, getRotation())
                     : new ChassisSpeeds(xSpeed, ySpeed, rot)
