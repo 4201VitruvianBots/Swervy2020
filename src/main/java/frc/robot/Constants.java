@@ -59,7 +59,7 @@ public final class Constants {
         public static final double kvVoltSecondsPerMeter = 0.8;
         public static final double kaVoltSecondsSquaredPerMeter = 0.15;
 
-        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxSpeedMetersPerSecond = 4.2;
     }
 
     public static final class ModuleConstants {
@@ -67,7 +67,9 @@ public final class Constants {
         public static final double kTurningMotorGearRatio = 12; //12 to 1
         public static final int kEncoderCPR = 2048;
         public static final double kWheelDiameterMeters = 0.10; //10.16 cm
-        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 4*2 * Math.PI/kTurningMotorGearRatio;
+
+        //Increase max speed and decrease acceleration? 2/7/21
+        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 6*2 * Math.PI/kTurningMotorGearRatio;
         public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 4*2 * Math.PI/kTurningMotorGearRatio;
 
         public static final double kDriveEncoderDistancePerPulse =
