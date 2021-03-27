@@ -171,7 +171,7 @@ public class SwerveModule extends SubsystemBase {
   public double setTargetAngle(double targetAngle) { //not in use in favor of using libraries
     mLastTargetAngle = targetAngle;
 
-    targetAngle %= 360; //makes 0 to 360
+    targetAngle %= 360; //makes 0 to 359
     targetAngle += mZeroOffset;
 
     double currentAngle = getTurnAngle(); //gets current angle
@@ -188,7 +188,7 @@ public class SwerveModule extends SubsystemBase {
         targetAngle -= 180; //same thing for -90, but other way
       mDriveMotor.setInverted(!mInverted);
     } else {
-      mDriveMotor.setInverted(mInverted);
+      mDriveMotor.setInverted(!mInverted);    // Maybe put this outside if/else?
     }
 
     targetAngle += currentAngle - currentAngleMod; //re adds back the part lost when we set the currentAngleMod from 0 to 360.
