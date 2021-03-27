@@ -135,6 +135,12 @@ public class SwerveDrive extends SubsystemBase {
     mNavX.reset();
   }
 
+  public void ButtonRotation() {
+    leftButtons[0].whenPressed(new SwerveDrive.getTurnAngle(90));
+    leftButtons[1].whenPressed(new SwerveDrive (-90));
+    rightButtons[2].whenPressed(new SwerveDrive (180));
+    rightButtons[3].whenPressed(new SwerveDrive (-180));
+  }
 
   public SwerveModule getSwerveModule(int i) {
     return mSwerveModules[i];
@@ -182,7 +188,10 @@ public class SwerveDrive extends SubsystemBase {
    mSwerveModules[2].setDesiredState(swerveModuleStates[2]);
    mSwerveModules[3].setDesiredState(swerveModuleStates[3]);
   }
-
+   public void ternTuNagle() {
+    navx 
+  }
+  
   /**
    * Sets the swerve ModuleStates.
    *

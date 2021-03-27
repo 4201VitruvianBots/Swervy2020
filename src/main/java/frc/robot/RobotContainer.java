@@ -118,6 +118,9 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    xBoxButtons[0].whenPressed(new SwerveAnGles(m_swerveDrive,
+     () -> leftJoystick.getRawAxis(0),
+     () -> leftJoystick.getRawAxis(1), () -> xBoxController.getPOV()));
   }
 
   /**
