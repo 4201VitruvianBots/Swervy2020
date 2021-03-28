@@ -15,8 +15,8 @@ import frc.robot.subsystems.SwerveDrive;
 
 import java.util.List;
 
-public class Bounce extends SequentialCommandGroup {
-    public Bounce(SwerveDrive swerveDrive) {
+public class Slalom extends SequentialCommandGroup {
+    public Slalom(SwerveDrive swerveDrive) {
 
 
         // Create config for trajectory
@@ -27,15 +27,17 @@ public class Bounce extends SequentialCommandGroup {
                         .setKinematics(Constants.DriveConstants.kDriveKinematics);
 
         int[][] waypointsRaw = {
-                {30,90,0},
-                {80,150,0},
-                {115,85,0},
-                {150, 37,0},
-                {180,150,-0},
-                {180, 80,-0},     // That's hilarious
-                {260,30,0},
-                {270,156,0},
-                {310,90,0}
+                {40,30,0},
+                {120,90,0},
+                {240,90,0},
+                {270,60,-0},     // That's hilarious
+                {300,30,0},
+                {315,86,0},
+                {270,60,0},
+                {225,30,0},
+                {120,30,0},
+                {90,60,5},
+                {40,90,0}
         };
 
         Pose2d prevPose = null;
