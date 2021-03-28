@@ -48,8 +48,8 @@ public class Bounce extends SequentialCommandGroup {
 
             // Create the first pose from raw numbers
             Pose2d pose2d = new Pose2d(
-                    Units.feetToMeters(waypointsRaw[i][0]),
-                    Units.feetToMeters(waypointsRaw[i][1]),
+                    Units.inchesToMeters(waypointsRaw[i][0]),
+                    Units.inchesToMeters(waypointsRaw[i][1]),
                     new Rotation2d(Units.degreesToRadians(waypointsRaw[i][2]))
             );
 
@@ -63,7 +63,7 @@ public class Bounce extends SequentialCommandGroup {
                         config
                 );
 
-                // Generate & append command from trajectory
+                // Generate command from trajectory
                 SwerveControllerCommand command = new SwerveControllerCommand(
                         trajectory,
                         swerveDrive::getPose,

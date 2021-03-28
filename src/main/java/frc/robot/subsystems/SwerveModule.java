@@ -223,14 +223,14 @@ public class SwerveModule extends SubsystemBase {
             getVelocity(), outputState.speedMetersPerSecond);
 
     //don't use ff
-    double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
+    //double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller.
     turnOutput = m_turningPIDController.calculate(getTurningRadians(), outputState.angle.getRadians());
 
     //don't use ff
-    double turnFeedforward =
-            m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);
+    //double turnFeedforward =
+    //        m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);
 
 //    driveOutput=0;
 //    System.out.println("Turn PID Output: " + turnOutput);
