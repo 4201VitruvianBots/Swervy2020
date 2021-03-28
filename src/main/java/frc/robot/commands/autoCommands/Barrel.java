@@ -15,8 +15,8 @@ import frc.robot.subsystems.SwerveDrive;
 
 import java.util.List;
 
-public class Bounce extends SequentialCommandGroup {
-    public Bounce(SwerveDrive swerveDrive) {
+public class Barrel extends SequentialCommandGroup {
+    public Barrel(SwerveDrive swerveDrive) {
 
 
         // Create config for trajectory
@@ -27,15 +27,19 @@ public class Bounce extends SequentialCommandGroup {
                         .setKinematics(Constants.DriveConstants.kDriveKinematics);
 
         int[][] waypointsRaw = {
-                {30,90,0},
-                {80,150,0},
-                {115,85,0},
-                {150, 37,0},
-                {180,150,-0},
-                {180, 80,-0},     // That's hilarious
-                {260,30,0},
-                {270,156,0},
-                {310,90,0}
+                {40,90,0},
+                {150,90,0},
+                {176,45,-0},
+                {124,45,0},
+                {150,90,0},
+                {240,90,0},
+                {270,135,0},
+                {210,120,-0},     // That's hilarious
+                {260,54,-0},
+                {338,60,0},
+                {285,90,0},
+                {140,0,0},
+                {30,90,0}
         };
 
         Pose2d prevPose = null;
@@ -48,8 +52,8 @@ public class Bounce extends SequentialCommandGroup {
 
             // Create the first pose from raw numbers
             Pose2d pose2d = new Pose2d(
-                    Units.inchesToMeters(waypointsRaw[i][0]),
-                    Units.inchesToMeters(waypointsRaw[i][1]),
+                    Units.feetToMeters(waypointsRaw[i][0]),
+                    Units.feetToMeters(waypointsRaw[i][1]),
                     new Rotation2d(Units.degreesToRadians(waypointsRaw[i][2]))
             );
 
@@ -63,7 +67,7 @@ public class Bounce extends SequentialCommandGroup {
                         config
                 );
 
-                // Generate command from trajectory
+                // Generate & append command from trajectory
                 SwerveControllerCommand command = new SwerveControllerCommand(
                         trajectory,
                         swerveDrive::getPose,
