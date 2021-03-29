@@ -21,7 +21,9 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.SetSwerveDrive;
 import frc.robot.commands.TestTurningMotor;
 import frc.robot.commands.autoCommands.AutoTestCommand;
+import frc.robot.commands.autoCommands.Bounce;
 import frc.robot.commands.autoCommands.DriveStraight;
+import frc.robot.commands.autoCommands.Slalom;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.vitruvianlib.utils.JoystickWrapper;
@@ -100,9 +102,9 @@ public class RobotContainer {
     if(RobotBase.isReal()) {
 
       m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
-              () -> leftJoystick.getRawAxis(0), //left x
-              () -> leftJoystick.getRawAxis(1), //left y
-              () -> rightJoystick.getRawAxis(0))); //right x
+              () -> xBoxController.getRawAxis(0), //left x
+              () -> xBoxController.getRawAxis(1), //left y
+              () -> xBoxController.getRawAxis(2))); //right x
     } else {
       m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
               () -> testController.getRawAxis(0), //left x
@@ -132,7 +134,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
 //    return m_autoCommand;
-    return new DriveStraight(m_swerveDrive);
+    return new Slalom(m_swerveDrive);
        // return new WaitCommand(0);
   }
 
