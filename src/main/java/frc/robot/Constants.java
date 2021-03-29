@@ -69,7 +69,7 @@ public final class Constants {
         public static final double kWheelDiameterMeters = 0.10; //10.16 cm
 
         //Increase max speed and decrease acceleration? 2/7/21
-        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 6*2 * Math.PI/kTurningMotorGearRatio;
+        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 12*2 * Math.PI/kTurningMotorGearRatio;
         public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 4*2 * Math.PI/kTurningMotorGearRatio;
 
         public static final double kDriveEncoderDistancePerPulse =
@@ -90,14 +90,14 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = 4.25; //4.383024
+        public static final double kMaxSpeedMetersPerSecond = 5.25; //4.383024
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
-        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
+        public static final double kMaxAngularSpeedRadiansPerSecond = 4 * Math.PI;
+        public static final double kMaxAngularSpeedRadiansPerSecondSquared = 4 * Math.PI;
 
-        public static final double kPXController = 1;
-        public static final double kPYController = 1;
-        public static final double kPThetaController = 1;
+        public static final double kPXController = 0.15;
+        public static final double kPYController = 0.15;
+        public static final double kPThetaController = 0.15;
 
         //Constraint for the motion profilied robot angle controller
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =

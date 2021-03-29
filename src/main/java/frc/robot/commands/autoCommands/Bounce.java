@@ -40,11 +40,13 @@ public class Bounce extends SequentialCommandGroup {
 
         Pose2d prevPose = null;
 
+        swerveDrive.zeroHeading();
+
         // Loop to convert numbers all the way to commands all in one
-        for (int i = 0; i < waypointsRaw.length - 1; i++) {
+        for (int i = 0; i <= waypointsRaw.length - 1; i++) {
             // Modify constraints based on indices
-            config.setStartVelocity(i == 0 ? 0 : config.getMaxVelocity());                      // If we've just started, start at 0
-            config.setEndVelocity(i == waypointsRaw.length - 2 ? 0 : config.getMaxVelocity());  // If we're about to end, end at 0
+            //config.setStartVelocity(i == 0 ? 0 : config.getMaxVelocity());                      // If we've just started, start at 0
+            //config.setEndVelocity(i == waypointsRaw.length - 1 ? 0 : config.getMaxVelocity());  // If we're about to end, end at 0
 
             // Create the first pose from raw numbers
             Pose2d pose2d = new Pose2d(
