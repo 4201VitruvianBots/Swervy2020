@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -271,6 +272,9 @@ public class SwerveDrive extends SubsystemBase {
 
     SmartDashboardTab.putNumber("SwerveDrive","navXDebug",navXDebug);
     SmartDashboardTab.putNumber("SwerveDrive","State",mSwerveModules[0].getState().angle.getDegrees());
+
+    SmartDashboardTab.putNumber("SwerveDrive", "X", Units.metersToInches(getPose().getX()));
+    SmartDashboardTab.putNumber("SwerveDrive", "Y", Units.metersToInches(getPose().getY()));
 
     //    SmartDashboardTab.putNumber("SwerveDrive","Front Right Speed",mSwerveModules[0].getState().speedMetersPerSecond);
 //    SmartDashboardTab.putNumber("SwerveDrive","Front Left Speed",mSwerveModules[1].getState().speedMetersPerSecond);

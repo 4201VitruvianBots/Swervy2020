@@ -31,17 +31,18 @@ public class Slalom extends SequentialCommandGroup {
                         .setKinematics(Constants.DriveConstants.kDriveKinematics);
 
         int[][] waypointsRaw = {
-                {40,30,0},
+                {30,30,0},
                 {120,90,0},
+                //{180,90,0},
                 {240,90,0},
-                {270,60,-0},     // That's hilarious
-                {300,30,0},
+                //{270,60,0},     // That's hilarious
+                {315,34,0},
                 {315,86,0},
-                {270,60,0},
-                {225,30,0},
+                //{270,60,0},
+                {240,30,0},
+                //{180,30,0},
                 {120,30,0},
-                {90,60,5},
-                {40,90,0}
+                {30,90,0}
         };
 
         Pose2d startingPoint = new Pose2d(
