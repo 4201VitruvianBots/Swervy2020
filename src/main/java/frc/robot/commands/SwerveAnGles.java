@@ -20,7 +20,7 @@ import java.util.function.IntSupplier;
 /**
  * An example command that uses an example subsystem.
  */
-public class SwerveAnGles extends CommandBase {
+public class SwerveAngles extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveDrive m_swerveDrive;
   private final DoubleSupplier m_leftX, m_leftY;
@@ -33,7 +33,7 @@ public class SwerveAnGles extends CommandBase {
    *
    * @param swerveDriveSubsystem The subsystem used by this command.
    */
-  public SwerveAnGles(SwerveDrive swerveDriveSubsystem, DoubleSupplier leftX, DoubleSupplier leftY, IntSupplier angSupply) {
+  public SwerveAngles(SwerveDrive swerveDriveSubsystem, DoubleSupplier leftX, DoubleSupplier leftY, IntSupplier angSupply) {
     m_swerveDrive = swerveDriveSubsystem;
     m_leftX = leftX;
     m_leftY = leftY;
@@ -68,6 +68,6 @@ public class SwerveAnGles extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(m_swervedrive.getHeading() - m_ang) < 2 ;
+    return Math.abs(m_swerveDrive.getHeading() - m_ang) < 2 ;
   }
 }
