@@ -36,19 +36,7 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="Swervy2020" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Swervy2020" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Swervy2020" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="embeddedtools" type="c8890929:TasksNode$1" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
               </path>
             </expand>
             <select />
@@ -98,13 +86,13 @@
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="frc.robot.commands.autoCommands" />
-    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="frc.robot.subsystems" />
       <recent name="frc.robot.commands" />
       <recent name="frc.robot.commands.autoCommands" />
-      <recent name="frc.robot.subsystems" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="frc.robot.commands.autoCommands" />
     </key>
   </component>
   <component name="RunManager" selected="Gradle.Swervy2020 [deploy]">
