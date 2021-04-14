@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 
 
 import java.util.function.DoubleSupplier;
+import java.util.function.IntSupplier;
 
 /**
  * An example command that uses an example subsystem.
@@ -37,6 +38,7 @@ public class SwerveAnGles extends CommandBase {
     m_leftX = leftX;
     m_leftY = leftY;
     m_angSupply = angSupply;
+    m_ang = m_angSupply.getAsInt(); //should thes bi muved
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveDriveSubsystem);
   }
@@ -45,7 +47,7 @@ public class SwerveAnGles extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_ang = m_angSupply.getAsInt();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.

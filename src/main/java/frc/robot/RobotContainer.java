@@ -120,7 +120,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     xBoxButtons[0].whenPressed(new SwerveAnGles(m_swerveDrive,
      () -> leftJoystick.getRawAxis(0),
-     () -> leftJoystick.getRawAxis(1), () -> xBoxController.getPOV()));
+     () -> leftJoystick.getRawAxis(1),
+     () -> xBoxController.getPOV()));
   }
 
   /**
