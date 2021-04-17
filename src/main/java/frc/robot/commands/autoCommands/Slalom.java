@@ -61,8 +61,8 @@ public class Slalom extends SequentialCommandGroup {
 
         for(int i = 1; i < waypointsRaw.length - 1; i++) {
             interiorWaypoints.add(new Translation2d(
-                    Units.inchesToMeters(waypointsRaw[i][0] - waypointsRaw[i-1][0]),
-                    Units.inchesToMeters(waypointsRaw[i][1] - waypointsRaw[i-1][1])
+                    Units.inchesToMeters(waypointsRaw[i][0]),
+                    Units.inchesToMeters(waypointsRaw[i][1])
             ));
         }
 
