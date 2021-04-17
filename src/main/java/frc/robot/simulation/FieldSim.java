@@ -67,7 +67,7 @@ public class FieldSim {
         m_powercells[15].setBallPose(SimConstants.redCenterBalls[3]);
         m_powercells[16].setBallPose(SimConstants.redCenterBalls[4]);*/
 
-        Pose2d startPosition = new Pose2d(Units.inchesToMeters(30),Units.inchesToMeters(30), new Rotation2d(Units.degreesToRadians(0)));
+        Pose2d startPosition = new Pose2d(Units.inchesToMeters(30),Units.inchesToMeters(30), new Rotation2d(Units.degreesToRadians(30)));
         m_field2d.setRobotPose(startPosition);
         m_swerveDrive.resetOdometry(m_field2d.getRobotPose(), startPosition.getRotation());
 //        m_autoStartTime = Timer.getFPGATimestamp();

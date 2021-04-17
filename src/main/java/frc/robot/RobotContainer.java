@@ -139,7 +139,8 @@ public class RobotContainer {
       xBoxPOVButtons[i] = new POVButton(xBoxController, (i * 45));
     xBoxLeftTrigger = new XBoxTrigger(xBoxController, 2);
     xBoxRightTrigger = new XBoxTrigger(xBoxController, 3);
-    xBoxButtons[0].whenPressed(new SwerveAngles(
+
+    xBoxButtons[0].whileHeld(new SwerveAngles(
       m_swerveDrive,
       () -> leftJoystick.getRawAxis(0),
       () -> leftJoystick.getRawAxis(1),
@@ -159,13 +160,17 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
 //    return m_autoCommand;
-    return new DriveStraight(m_swerveDrive);
-    // return new SwerveAngles(m_swerveDrive,1,1,30);
+    // return new DriveStraight(m_swerveDrive);
+    return new SwerveAngles(m_swerveDrive, () -> 1, () -> 1, () -> 30);
        // return new WaitCommand(0);
   }
 
   public void initalizeLogTopics() {
 //    m_controls.initLogging();
+  }
+
+  public void initSim() {
+    m_fieldSim.initSim();
   }
 
   public void simulationPeriodic() {

@@ -12,7 +12,7 @@ import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.SwerveModule;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.controller.PIDController;
-
+import edu.wpi.first.wpilibj.util.Units;
 
 import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
@@ -34,11 +34,11 @@ public class SwerveAngles extends CommandBase {
    * @param swerveDriveSubsystem The subsystem used by this command.
    */
   public SwerveAngles(SwerveDrive swerveDriveSubsystem, DoubleSupplier leftX, DoubleSupplier leftY, IntSupplier angSupply) {
+    pidcontroller.enableContinuousInput(-180, 180);
     m_swerveDrive = swerveDriveSubsystem;
     m_leftX = leftX;
     m_leftY = leftY;
     m_angSupply = angSupply;
-    m_ang = m_angSupply.getAsInt(); //should thes bi muved
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveDriveSubsystem);
   }
@@ -54,10 +54,14 @@ public class SwerveAngles extends CommandBase {
   @Override
   public void execute() {
     // Forward/Back Trottle, Left/Right Strafe, Left/Right Turn
-    if(RobotBase.isReal())
-      m_swerveDrive.drive(m_leftY.getAsDouble(), m_leftX.getAsDouble(), pidcontroller.calculate(m_swerveDrive.getHeading(), m_ang),false);
-    else
-      m_swerveDrive.drive(-m_leftY.getAsDouble(), m_leftX.getAsDouble(), pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang),false);
+    m_ang = m_angSupply.getAsInt();
+    if(m_ang >= 0 ) {
+      m_ang = -m_ang;
+      if(RobotBase.isReal())
+        m_swerveDrive.drive(m_leftY.getAsDouble(), m_leftX.getAsDouble(), Units.degreesToRadians(pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang)),false);
+      else
+        m_swerveDrive.drive(-m_leftY.getAsDouble(), m_leftX.getAsDouble(), Units.degreesToRadians(pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang)),false);
+    }
   }
 
   // Called once the command ends or is interrupted.
