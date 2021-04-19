@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.net.PortForwarder;
-
+import org.photonvision.PhotonCamera;
 /*
 Subsystem for interacting with the Limelight and photonVision vision systems
  */
@@ -43,9 +43,6 @@ public class Vision extends SubsystemBase {
 
 	// NetworkTables for reading vision data
 	private NetworkTable limelight;
-	private NetworkTable photonVision;
-	private NetworkTable powercell_count;
-	private NetworkTable powercellX;
 
 	// Subsystems that will be controlled based on vision data
     private final SwerveDrive m_swerveDrive;
@@ -66,6 +63,8 @@ public class Vision extends SubsystemBase {
 
 	UsbCamera camera;
 
+	PhotonCamera powercellCam;
+
 	public Vision(SwerveDrive swerveDrive) {
 
 		m_swerveDrive = swerveDrive;
@@ -79,8 +78,6 @@ public class Vision extends SubsystemBase {
 	    camera.setResolution(320, 240);
 	    camera.setPixelFormat(VideoMode.PixelFormat.kMJPEG);
 
-		//CameraServer.getInstance().addAxisCamera("photonVision", "photonVision.local");
-
 		// TODO: is this needed?
 		PortForwarder.add(1375, "photonVision.local", 1375);
 		PortForwarder.add(5800, "10.42.1.11", 5800);
@@ -89,8 +86,11 @@ public class Vision extends SubsystemBase {
 
 		// Init vision NetworkTables
 		limelight = NetworkTableInstance.getDefault().getTable("limelight");
-		photonVision = NetworkTableInstance.getDefault().getTable("photonVision/Integrated_Webcam"); // Integrated_Webcam is placeholder until we can figure out what the robot's webcam name is
 		setPipeline(0);
+
+		// Init PhotonVision interface
+		powercellCam = new PhotonCamera("camera_name");
+		powercellCam.setDriverMode(false);
 
 		//initShuffleboard();
 	}
@@ -252,8 +252,12 @@ public class Vision extends SubsystemBase {
 	}
 
 
-	public double getPowercellX(){
-	 	return photonVision.getEntry("targetPixelsX").getDouble(0);
+	public double getPowercellX() {
+		return powercellCam.getLatestResult().getBestTarget().getYaw();
+	}
+
+	public boolean hasPowercell() {
+		return powercellCam.getLatestResult().hasTargets();
 	}
 
 	private void initShuffleboard() {
