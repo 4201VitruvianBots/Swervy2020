@@ -43,6 +43,9 @@ public class AlignToPowerCell extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        if (!m_vision.hasPowercell())
+            return;
+
         powerCellX = m_vision.getPowercellX();
         if (powerCellX > 0) {
             m_swerveDrive.drive(-0.5, 0, 0, false);
@@ -60,7 +63,5 @@ public class AlignToPowerCell extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return powerCellX - 5 < 0;
-        // 5 is placeholder value, equal to pixels offset of camera from center
     }
 }

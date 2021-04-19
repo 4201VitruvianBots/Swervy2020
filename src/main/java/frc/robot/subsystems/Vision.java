@@ -89,7 +89,7 @@ public class Vision extends SubsystemBase {
 		setPipeline(0);
 
 		// Init PhotonVision interface
-		powercellCam = new PhotonCamera("camera_name");
+		powercellCam = new PhotonCamera("mmal_service_16.1");
 		powercellCam.setDriverMode(false);
 
 		//initShuffleboard();
