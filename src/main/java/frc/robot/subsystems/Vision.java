@@ -15,8 +15,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
@@ -69,7 +67,7 @@ public class Vision extends SubsystemBase {
 	UsbCamera camera;
 
 	public Vision(SwerveDrive swerveDrive) {
-		
+
 		m_swerveDrive = swerveDrive;
 		//m_turret = turret;
 
@@ -132,7 +130,7 @@ public class Vision extends SubsystemBase {
 	public double getFilteredTargetX() {
 		return targetXFilter.calculate(getTargetX());
 	}
-	
+
 	public double getSmartTargetX() {
 		if(getTargetDistance() > MIN_TARGET_DISTANCE) {
 			double xDistance = Units.metersToFeet(m_swerveDrive.getPose().getTranslation().getX());

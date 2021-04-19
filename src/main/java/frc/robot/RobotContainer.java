@@ -7,30 +7,24 @@
 
 package frc.robot;
 
+import static java.util.Map.entry;
+
+import java.util.Map;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.SetSwerveDrive;
-import frc.robot.commands.TestTurningMotor;
-import frc.robot.commands.autoCommands.AutoTestCommand;
-import frc.robot.commands.autoCommands.Bounce;
 import frc.robot.commands.autoCommands.DriveStraight;
 import frc.robot.commands.autoCommands.Slalom;
 import frc.robot.subsystems.SwerveDrive;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.vitruvianlib.utils.JoystickWrapper;
-
-import java.util.Map;
-
-import static java.util.Map.entry;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
