@@ -26,7 +26,7 @@ public class SwerveAngles extends CommandBase {
   private final DoubleSupplier m_leftX, m_leftY;
   private final IntSupplier m_angSupply;
   private double m_ang;
-  private final PIDController pidcontroller = new PIDController(0.2, 0.005, 0.13);
+  private final PIDController pidcontroller = new PIDController(0.01, 0, 0);
 
   /**
    * Creates a new ExampleCommand.
@@ -35,6 +35,7 @@ public class SwerveAngles extends CommandBase {
    */
   public SwerveAngles(SwerveDrive swerveDriveSubsystem, DoubleSupplier leftX, DoubleSupplier leftY, IntSupplier angSupply) {
     pidcontroller.enableContinuousInput(-180, 180);
+    pidcontroller.setTolerance(5);
     m_swerveDrive = swerveDriveSubsystem;
     m_leftX = leftX;
     m_leftY = leftY;
@@ -77,6 +78,6 @@ public class SwerveAngles extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(m_swerveDrive.getHeading() - m_ang) < 2 ;
+    return pidcontroller.atSetpoint() ;
   }
 }
