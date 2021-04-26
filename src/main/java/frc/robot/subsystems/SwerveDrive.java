@@ -37,6 +37,8 @@ public class SwerveDrive extends SubsystemBase {
     private final double throttle = 0.8;
     private final double turningThrottle = 0.5;
 
+    private double thetaSetpoint = 0;
+
     private int navXDebug = 0;
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(kDriveKinematics, getRotation());
@@ -178,7 +180,11 @@ public class SwerveDrive extends SubsystemBase {
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
         xSpeed *= kMaxSpeedMetersPerSecond;
         ySpeed *= kMaxSpeedMetersPerSecond;
-        rot *= kMaxAngularSpeed;
+        //rot *= kMaxAngularSpeed;
+
+        thetaSetpoint += rot * 18;
+
+        rot = thetaSetpoint - mNavX.getAngle() * 1/45;
 
         var swerveModuleStates = kDriveKinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
