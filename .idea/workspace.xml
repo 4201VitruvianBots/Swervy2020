@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fb0e4852-bcd6-4def-b0c6-7995e03545b8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/SwerveModule.java" afterDir="false" />
-    </list>
+    <list default="true" id="fb0e4852-bcd6-4def-b0c6-7995e03545b8" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -89,17 +87,17 @@
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="frc.robot.subsystems" />
+      <recent name="frc.robot.commands" />
+      <recent name="frc.robot.commands.autoCommands" />
+    </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="frc.robot.commands.autoCommands" />
     </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="frc.robot.commands" />
-      <recent name="frc.robot.commands.autoCommands" />
-      <recent name="frc.robot.subsystems" />
-    </key>
   </component>
   <component name="RunManager" selected="Gradle.Swervy2020 [deploy]">
-    <configuration name="Swervy2020 [ShuffleBoard]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="Swervy2020 [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -110,7 +108,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="ShuffleBoard" />
+            <option value="buildDependents" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -132,6 +130,27 @@
         <option name="taskNames">
           <list>
             <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="Swervy2020 [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -183,34 +202,13 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="Swervy2020 [simulateJava]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="simulateJava" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.Swervy2020 [deploy]" />
-        <item itemvalue="Gradle.Swervy2020 [discoverRoborio]" />
+        <item itemvalue="Gradle.Swervy2020 [buildDependents]" />
+        <item itemvalue="Gradle.Swervy2020 [clean]" />
         <item itemvalue="Gradle.Swervy2020 [build]" />
-        <item itemvalue="Gradle.Swervy2020 [simulateJava]" />
-        <item itemvalue="Gradle.Swervy2020 [ShuffleBoard]" />
+        <item itemvalue="Gradle.Swervy2020 [discoverRoborio]" />
       </list>
     </recent_temporary>
   </component>

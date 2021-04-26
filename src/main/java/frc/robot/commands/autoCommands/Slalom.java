@@ -1,5 +1,7 @@
 package frc.robot.commands.autoCommands;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -13,11 +15,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveDrive;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Slalom extends SequentialCommandGroup {
     public Slalom(SwerveDrive swerveDrive) {
