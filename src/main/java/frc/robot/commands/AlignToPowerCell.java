@@ -23,7 +23,7 @@ public class AlignToPowerCell extends CommandBase {
 
     // PID Controller for turning
     private final double kP = 0.1;
-    private final double kD = 0.1;
+    private final double kD = 0;
     private PIDController turnPID = new PIDController(kP, 0, kD);
 
     /**
