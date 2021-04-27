@@ -61,9 +61,9 @@ public class SwerveAngles extends CommandBase {
       pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang);
       if(!pidcontroller.atSetpoint()) {
         if(RobotBase.isReal())
-        m_swerveDrive.drive(m_leftY.getAsDouble(), m_leftX.getAsDouble(), Units.degreesToRadians(pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang)),false);
+          m_swerveDrive.drive(m_leftY.getAsDouble(), m_leftX.getAsDouble(), Units.degreesToRadians(-pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang)),false);
         else
-        m_swerveDrive.drive(-m_leftY.getAsDouble(), m_leftX.getAsDouble(), Units.degreesToRadians(pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang)),false);
+          m_swerveDrive.drive(-m_leftY.getAsDouble(), m_leftX.getAsDouble(), Units.degreesToRadians(-pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang)),false);
       }
     } else {
       if(RobotBase.isReal())
