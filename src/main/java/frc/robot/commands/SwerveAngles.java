@@ -54,14 +54,17 @@ public class SwerveAngles extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Forward/Back Trottle, Left/Right Strafe, Left/Right Turn
+    // Forward/Back Throttle, Left/Right Strafe, Left/Right Turn
     m_ang = m_angSupply.getAsInt();
     if(m_ang >= 0 ) {
-      m_ang = -m_ang;
-      if(RobotBase.isReal())
+      m_ang = 90-m_ang;
+      pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang);
+      if(!pidcontroller.atSetpoint()) {
+        if(RobotBase.isReal())
         m_swerveDrive.drive(m_leftY.getAsDouble(), m_leftX.getAsDouble(), Units.degreesToRadians(pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang)),false);
-      else
+        else
         m_swerveDrive.drive(-m_leftY.getAsDouble(), m_leftX.getAsDouble(), Units.degreesToRadians(pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang)),false);
+      }
     } else {
       if(RobotBase.isReal())
         m_swerveDrive.drive(m_leftY.getAsDouble(), m_leftX.getAsDouble(), Units.degreesToRadians(0),false);
@@ -78,6 +81,6 @@ public class SwerveAngles extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return pidcontroller.atSetpoint() ;
+      return !pidcontroller.atSetpoint();
   }
 }
