@@ -40,6 +40,7 @@ public class DriveStraight extends SequentialCommandGroup {
                         // new Translation2d(2, 0)
                 ),
                 // End 3 meters straight ahead of where we started, facing forward
+                // Excuse me? Can you count?
                 new Pose2d(2, 0, new Rotation2d(0)),
                 config
         );

@@ -31,13 +31,16 @@ import static frc.robot.Constants.DriveConstants.*;
 
 public class SwerveDrive extends SubsystemBase {
 
-    public static final double kMaxAngularSpeed = kMaxChassisRotationSpeed; // 3 meters per second
+  public static final double kMaxSpeed = 3.0; // 3 meters per second NOT IN USE. Go to Constants.DriveConstants to find real number
+  public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
 
     private boolean isFieldOriented;
     private final double throttle = 0.8;
     private final double turningThrottle = 0.5;
 
-    private int navXDebug = 0;
+  
+
+  private int navXDebug = 0;
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(kDriveKinematics, getRotation());
 //    private final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(
@@ -48,34 +51,41 @@ public class SwerveDrive extends SubsystemBase {
 //        VecBuilder.fill(0.05),
 //        VecBuilder.fill(0.1, 0.1, 0.1));
 
-    PowerDistributionPanel m_pdp;
+  PowerDistributionPanel m_pdp;
+  /**
+   * Just like a graph's quadrants
+   * 0 is Front Left
+   * 1 is Back Left
+   * 2 is Front Right
+   * 3 is Back Right
+   */
+  private SwerveModule[] mSwerveModules = new SwerveModule[] {
+          new SwerveModule(0, new TalonFX(Constants.frontLeftTurningMotor), new TalonFX(Constants.frontLeftDriveMotor), 0, true, false),
+          new SwerveModule(1, new TalonFX(Constants.frontRightTurningMotor), new TalonFX(Constants.frontRightDriveMotor), 0, true, false), //true
+          new SwerveModule(2, new TalonFX(Constants.backLeftTurningMotor), new TalonFX(Constants.backLeftDriveMotor), 0, true, false),
+          new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), 0, true, false) //true
+  };
 
     private double m_trajectoryTime;
     private Trajectory currentTrajectory;
+  private AHRS mNavX = new AHRS(SerialPort.Port.kMXP); //NavX
 
     private Rotation2d headingTarget;
     private Pose2d headingTargetPosition = new Pose2d(-1, -1, new Rotation2d());
+  public void testTurningMotor(double speed){
+    mSwerveModules[0].mTurningMotor.set(ControlMode.PercentOutput,speed);
+  } //implemnted to test to see if the motors were responding correctly
 
-    /**
-     * Just like a graph's quadrants
-     * 0 is Front Left
-     * 1 is Back Left
-     * 2 is Front Right
-     * 3 is Back Right
-     */
-    private SwerveModule[] mSwerveModules = new SwerveModule[] {
-        new SwerveModule(0, new TalonFX(Constants.frontLeftTurningMotor), new TalonFX(Constants.frontLeftDriveMotor), 0, true, false),
-        new SwerveModule(1, new TalonFX(Constants.frontRightTurningMotor), new TalonFX(Constants.frontRightDriveMotor), 0, true, false), //true
-        new SwerveModule(2, new TalonFX(Constants.backLeftTurningMotor), new TalonFX(Constants.backLeftDriveMotor), 0, true, false),
-        new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), 0, true, false) //true
-    };
+  public void resetOdometry(Pose2d pose, Rotation2d rotation) {
+    m_odometry.resetPosition(pose, rotation);
+  } //resets both position and rotation (0,0,0)
 
-    private AHRS mNavX = new AHRS(SerialPort.Port.kMXP);
+  public SwerveDrive(PowerDistributionPanel pdp) {
+    m_pdp = pdp; //initilize pdp
     int navXSim = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
 
-    public void testTurningMotor(double speed){
-      mSwerveModules[0].mTurningMotor.set(ControlMode.PercentOutput,speed);
-    }
+    SmartDashboardTab.putData("SwerveDrive","swerveDriveSubsystem", this); //update smartdashboard
+  }
 
     public SwerveDrive(PowerDistributionPanel pdp) {
         m_pdp = pdp;
@@ -94,6 +104,15 @@ public class SwerveDrive extends SubsystemBase {
     public double getGyroRate() {
         return mNavX.getRate();
     }
+  /**
+   * Returns the angle of the robot as a Rotation2d.
+   *
+   * @return The angle of the robot.
+   */
+  public Rotation2d getRotation() {
+    // Negating the angle because WPILib gyros are CW positive.
+    return Rotation2d.fromDegrees(getRawGyroAngle());
+  }
 
     /**
      * Returns the angle of the robot as a Rotation2d.
@@ -157,6 +176,41 @@ public class SwerveDrive extends SubsystemBase {
         return mSwerveModules[i];
     }
 
+  /**
+   * Method to drive the robot using joystick info.
+   *
+   * @param xSpeed        Speed of the robot in the x direction (forward). from -1 to 1
+   * @param ySpeed        Speed of the robot in the y direction (sideways). from -1 to 1
+   * @param rot           Angular rate of the robot. from -1 to 1
+   * @param fieldRelative Whether the provided x and y speeds are relative to the field.
+   *
+   * Calculates needed position and sets each module to the correct state
+   */
+  @SuppressWarnings("ParameterName")
+  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+    if (Math.abs(xSpeed)<=0.05)
+      xSpeed=0;
+    if (Math.abs(ySpeed)<=0.05)
+      ySpeed=0;
+    if (Math.abs(rot)<=0.05)
+      rot=0; //takes care of the dead zone
+    xSpeed*=Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
+    ySpeed*=Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
+    rot*=6.28;
+    var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates( //using libraries to do what we used to do
+            fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
+                    xSpeed, ySpeed, rot, getRotation())
+                    : new ChassisSpeeds(xSpeed, ySpeed, rot)
+    );
+
+    //todo: rotationSpeed += PIDOutput //this PID calculates the speed needed to turn to a setpoint based off of a button input. Probably from the D-PAD
+    SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
+    SmartDashboardTab.putNumber("SwerveDrive","Desired State",swerveModuleStates[0].angle.getDegrees());
+    mSwerveModules[0].setDesiredState(swerveModuleStates[0]); //be careful of order. 0->0.2->1.1->2. 3->3.
+    mSwerveModules[1].setDesiredState(swerveModuleStates[1]);
+    mSwerveModules[2].setDesiredState(swerveModuleStates[2]);
+    mSwerveModules[3].setDesiredState(swerveModuleStates[3]);
+  }
     /**
      * Returns the currently-estimated pose of the robot.
      *
@@ -166,38 +220,77 @@ public class SwerveDrive extends SubsystemBase {
         return m_odometry.getPoseMeters();
     }
 
-    /**
-     * Method to drive the robot using joystick info.
-     *
-     * @param xSpeed        Speed of the robot in the x direction (forward).
-     * @param ySpeed        Speed of the robot in the y direction (sideways).
-     * @param rot           Angular rate of the robot.
-     * @param fieldRelative Whether the provided x and y speeds are relative to the field.
-     */
-    @SuppressWarnings("ParameterName")
-    public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-        xSpeed *= kMaxSpeedMetersPerSecond;
-        ySpeed *= kMaxSpeedMetersPerSecond;
-        rot *= kMaxAngularSpeed;
+  /**
+   * Sets the swerve ModuleStates.
+   *
+   * @param desiredStates The desired SwerveModule states.
+   */
+  public void setModuleStates(SwerveModuleState[] desiredStates) {
+    SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
+    mSwerveModules[0].setDesiredState(desiredStates[0]); //be careful of order. 0->0.2->1.1->2. 3->3.
+    mSwerveModules[1].setDesiredState(desiredStates[1]);
+    mSwerveModules[2].setDesiredState(desiredStates[2]);
+    mSwerveModules[3].setDesiredState(desiredStates[3]);
+  }
 
-        var swerveModuleStates = kDriveKinematics.toSwerveModuleStates(
-                fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                        xSpeed, ySpeed, rot, getRotation())
-                        : new ChassisSpeeds(xSpeed, ySpeed, rot)
-        ); //from 2910's code
-        SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
+  /* This is from before the libararies existed. I'm keeping it for refrences for math later.
 
-        mSwerveModules[0].setDesiredState(swerveModuleStates[0]);
-        mSwerveModules[1].setDesiredState(swerveModuleStates[1]);
-        mSwerveModules[2].setDesiredState(swerveModuleStates[2]);
-        mSwerveModules[3].setDesiredState(swerveModuleStates[3]);
+
+  public void holonomicDrive(double forward, double strafe, double rotationSpeed) {
+    forward *= throttle; //because if they are both 1, then max output is sqrt(2), which is more than 1.
+    strafe *= throttle;
+    rotationSpeed *= turningThrottle; //I'll also have to check to make sure this isn't too high.
+    if (isFieldOriented) { //checks to see if it's field oriented and then calculates
+      double angleRad = Math.toRadians(getRawGyroAngle());
+      double temp = forward * Math.cos(angleRad) + strafe * Math.sin(angleRad); //calculates new forward
+      strafe = -forward * Math.sin(angleRad) + strafe * Math.cos(angleRad); //calculates new strafe
+      forward = temp;
     }
 
-    public void setSwerveDriveNeutralMode(boolean mode) {
-        for(int i = 0; i < mSwerveModules.length; i++) {
-            mSwerveModules[i].setBrakeMode(mode);
-        }
+    double a = strafe - rotationSpeed * (WHEELBASE / 2); //calculations from document. https://www.chiefdelphi.com/t/paper-4-wheel-independent-drive-independent-steering-swerve/107383.
+    double b = strafe + rotationSpeed * (WHEELBASE / 2); //the first document "Derivation of Inverse Kinematics for Swerve" is what I got my math from
+    double c = forward - rotationSpeed * (TRACKWIDTH / 2);
+    double d = forward + rotationSpeed * (TRACKWIDTH / 2);
+
+    double[] angles = new double[]{ //calculates the angle needed for each module
+            Math.atan2(b, c) * 180 / Math.PI,
+            Math.atan2(b, d) * 180 / Math.PI,
+            Math.atan2(a, d) * 180 / Math.PI,
+            Math.atan2(a, c) * 180 / Math.PI
+    };
+
+    double[] speeds = new double[]{ //calculates the speed needed for each module
+            Math.sqrt(b * b + c * c),
+            Math.sqrt(b * b + d * d),
+            Math.sqrt(a * a + d * d),
+            Math.sqrt(a * a + c * c)
+    };
+
+    double max = speeds[0];
+
+    for (double speed : speeds) {
+      if (speed > max) {
+        max = speed; //looks for the max
+      }
     }
+
+    if(max > 1) { //this makes sure that no speed is greater than 1.
+      for (int i = 0; i < 4; i++){
+        speeds[i] /= max; //if one is, scale them all down by the max.
+      }
+    }
+
+    for (int i = 0; i < 4; i++) {
+      if (Math.abs(forward) > 0.05 ||
+              Math.abs(strafe) > 0.05 ||
+              Math.abs(rotationSpeed) > 0.05) {
+        mSwerveModules[i].setTargetAngle(angles[i] + 180); //to get it within 0 to 360. It was in -180 to 180
+      } else {
+        mSwerveModules[i].setTargetAngle(mSwerveModules[i].getTargetAngle());
+      }
+      mSwerveModules[i].setPercentOutput(speeds[i]);
+    }
+  }*/
 
     /**
      * Sets the swerve ModuleStates.
@@ -226,11 +319,11 @@ public class SwerveDrive extends SubsystemBase {
     public Pose2d getTargetPose() {
         return headingTargetPosition;
     }
-    /**
-     * Updates the field relative position of the robot.
-     */
-    public void updateOdometry() {
-        m_odometry.update(
+  /**
+   * Updates the field relative position of the robot.
+   */
+  public void updateOdometry() {
+    m_odometry.update(
             getRotation(),
             mSwerveModules[0].getState(),
             mSwerveModules[1].getState(),
@@ -243,40 +336,19 @@ public class SwerveDrive extends SubsystemBase {
             mSwerveModules[i].setPose(new Pose2d(modulePositionFromChassis, mSwerveModules[i].getHeading().plus(getRotation())));
         }
 
-//        m_odometry.addVisionMeasurement(SimulationReferencePose.getRobotFieldPose(), Timer.getFPGATimestamp() + 0.2);
+  private void updateSmartDashboard() { //updates smart dashboard
+    SmartDashboardTab.putNumber("SwerveDrive","Angle",getRawGyroAngle());
+    SmartDashboardTab.putNumber("SwerveDrive","Front Left Angle",mSwerveModules[0].getTurnAngle());
+    SmartDashboardTab.putNumber("SwerveDrive","Back Left Angle",mSwerveModules[1].getTurnAngle());
+    SmartDashboardTab.putNumber("SwerveDrive","Front Right Angle",mSwerveModules[2].getTurnAngle());
+    SmartDashboardTab.putNumber("SwerveDrive","Back Right Angle",mSwerveModules[3].getTurnAngle());
 
-//        System.out.println("Swerve Pose: " + getPose());
-//        System.out.println("Field Pose: " + SimulationReferencePose.getRobotFieldPose());
-    }
+    SmartDashboardTab.putNumber("SwerveDrive","navXDebug",navXDebug);
+    SmartDashboardTab.putNumber("SwerveDrive","State",mSwerveModules[0].getState().angle.getDegrees());
 
-    public void resetOdometry(Pose2d pose, Rotation2d rotation) {
-        m_odometry.resetPosition(pose, rotation);
+    SmartDashboardTab.putNumber("SwerveDrive", "X", Units.metersToInches(getPose().getX()));
+    SmartDashboardTab.putNumber("SwerveDrive", "Y", Units.metersToInches(getPose().getY()));
 
-        for(int i = 0; i < mSwerveModules.length; i++) {
-            mSwerveModules[i].setPose(pose);
-            mSwerveModules[i].resetEncoders();
-        }
-    }
-
-    private void updateSmartDashboard() {
-        SmartDashboardTab.putNumber("SwerveDrive","Chassis Angle",getHeading());
-        for(int i = 0; i < mSwerveModules.length; i++) {
-            SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Angle", mSwerveModules[i].getState().angle.getDegrees());
-            SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Speed", mSwerveModules[i].getState().speedMetersPerSecond);
-        }
-
-
-//        SmartDashboardTab.putNumber("SwerveDrive","Front Left Angle",mSwerveModules[0].getTurnAngle());
-//        SmartDashboardTab.putNumber("SwerveDrive","Back Left Angle",mSwerveModules[1].getTurnAngle());
-//        SmartDashboardTab.putNumber("SwerveDrive","Front Right Angle",mSwerveModules[2].getTurnAngle());
-//        SmartDashboardTab.putNumber("SwerveDrive","Back Right Angle",mSwerveModules[3].getTurnAngle());
-//
-//        SmartDashboardTab.putNumber("SwerveDrive","navXDebug",navXDebug);
-//        SmartDashboardTab.putNumber("SwerveDrive","State",mSwerveModules[0].getState().angle.getDegrees());
-
-        SmartDashboardTab.putNumber("SwerveDrive", "X coordinate", getPose().getX());
-        SmartDashboardTab.putNumber("SwerveDrive", "Y coordinate", getPose().getY());
-//    SmartDashboardTab.putNumber("SwerveDrive","Front Right Speed",mSwerveModules[0].getState().speedMetersPerSecond);
 //    SmartDashboardTab.putNumber("SwerveDrive","Front Left Speed",mSwerveModules[1].getState().speedMetersPerSecond);
 //    SmartDashboardTab.putNumber("SwerveDrive","Back Left Speed",mSwerveModules[2].getState().speedMetersPerSecond);
 //    SmartDashboardTab.putNumber("SwerveDrive","Back Right Speed",mSwerveModules[3].getState().speedMetersPerSecond);
