@@ -114,9 +114,9 @@ public class RobotContainer {
               () -> rightJoystick.getRawAxis(0))); //right x
     } else {
       m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
-              () -> testController.getRawAxis(0), //left x
-              () -> testController.getRawAxis(1), //left y
-              () -> testController.getRawAxis(2))); //right x
+              () -> leftJoystick.getRawAxis(0), //left x
+              () -> leftJoystick.getRawAxis(1), //left y
+              () -> rightJoystick.getRawAxis(0))); //right x
     }
   }
 

@@ -26,7 +26,7 @@ public class SwerveAngles extends CommandBase {
   private final DoubleSupplier m_leftX, m_leftY;
   private final IntSupplier m_angSupply;
   private double m_ang;
-  private final PIDController pidcontroller = new PIDController(0.01, 0, 0);
+  private final PIDController pidcontroller = new PIDController(1, 0, 0);
 
   /**
    * Creates a new ExampleCommand.
@@ -57,7 +57,7 @@ public class SwerveAngles extends CommandBase {
     // Forward/Back Throttle, Left/Right Strafe, Left/Right Turn
     m_ang = m_angSupply.getAsInt();
     if(m_ang >= 0 ) {
-      m_ang = 90-m_ang;
+      m_ang =  +m_ang;
       pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang);
       if(!pidcontroller.atSetpoint()) {
         if(RobotBase.isReal())
