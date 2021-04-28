@@ -54,23 +54,24 @@ public final class Constants {
         // These characterization values MUST be determined either experimentally or theoretically
         // for *your* robot's drive.
         // The RobotPy Characterization Toolsuite provides a convenient tool for obtaining these
+
         // values for your robot.
         public static final double ksVolts = 0.657;
         public static final double kvVoltSecondsPerMeter = 0.225;
         public static final double kaVoltSecondsSquaredPerMeter = 0.00924;
 
-        public static final double kMaxSpeedMetersPerSecond = 3.2;
+        public static final double kMaxSpeedMetersPerSecond = 6;
     }
 
     public static final class ModuleConstants {
-        public static final double  kDriveMotorGearRatio = 6.89; //6.89 to 1
+        public static final double kDriveMotorGearRatio = 6.89; //6.89 to 1
         public static final double kTurningMotorGearRatio = 12; //12 to 1
         public static final int kEncoderCPR = 2048;
         public static final double kWheelDiameterMeters = 0.1016; //10.16 cm
 
         //Increase max speed and decrease acceleration? 2/7/21
-        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 6*2 * Math.PI/kTurningMotorGearRatio;
-        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 4*2 * Math.PI/kTurningMotorGearRatio;
+        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 12*2 * Math.PI/kTurningMotorGearRatio;
+        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 12*2 * Math.PI/kTurningMotorGearRatio;
 
         public static final double kDriveEncoderDistancePerPulse =
                 (kWheelDiameterMeters * Math.PI) / ((double) kEncoderCPR*kDriveMotorGearRatio);
@@ -78,10 +79,11 @@ public final class Constants {
         public static final double kTurningEncoderDistancePerPulse =
                 (double) ((2.0 * Math.PI) / (kTurningMotorGearRatio * kEncoderCPR));
 
-        public static final double kPModuleTurningController = 0.6;
+        public static final double kPModuleTurningController = 0.75;
+        public static final double kDModuleTurningController = 0;
 
-        public static final double kPModuleDriveController = 0.3;
-
+        public static final double kPModuleDriveController = 0.26;
+        public static final double kDModuleDriveController = 0.0025;
     }
 
     public static final class OIConstants {
