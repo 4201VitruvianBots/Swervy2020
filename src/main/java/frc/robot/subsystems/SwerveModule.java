@@ -56,10 +56,11 @@ public class SwerveModule extends SubsystemBase {
   private static final double kWheelRadius = 0.0508; // meters
   private static final int kEncoderResolution = 4096;
 
-  private final PIDController m_drivePIDController = new PIDController(Constants.ModuleConstants.kPModuleDriveController, 0, 0);
+  private final PIDController m_drivePIDController = new PIDController(Constants.ModuleConstants.kPModuleDriveController, 0, Constants.ModuleConstants.kDModuleDriveController);
 
   private final ProfiledPIDController m_turningPIDController
-          = new ProfiledPIDController(Constants.ModuleConstants.kPModuleTurningController, 0, 0,
+          = new ProfiledPIDController(Constants.ModuleConstants.kPModuleTurningController, 0,
+          Constants.ModuleConstants.kDModuleTurningController,
           new TrapezoidProfile.Constraints(Constants.ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond, Constants.ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
 
   // Gains are for example purposes only - must be determined for your own robot!
