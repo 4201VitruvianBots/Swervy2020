@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpiutil.math.VecBuilder;
 import frc.robot.Constants;
 import frc.robot.simulation.SimulationReferencePose;
+import edu.wpi.first.wpilibj.controller.PIDController;
 
 import static frc.robot.Constants.DriveConstants.*;
 
@@ -37,6 +38,11 @@ public class SwerveDrive extends SubsystemBase {
     private boolean isFieldOriented;
     private final double throttle = 0.8;
     private final double turningThrottle = 0.5;
+
+    private double thetaSetPoint = 0;
+    private final PIDController rotationController = new PIDController(0.1, 0, 0);
+    private double rotationOutput;
+
 
   private int navXDebug = 0;
 
@@ -81,6 +87,7 @@ public class SwerveDrive extends SubsystemBase {
 
   public SwerveDrive(PowerDistributionPanel pdp) {
     m_pdp = pdp; //initilize pdp
+    rotationController.enableContinuousInput(-180, 180);
 
     SmartDashboardTab.putData("SwerveDrive","swerveDriveSubsystem", this); //update smartdashboard
   }
@@ -174,19 +181,23 @@ public class SwerveDrive extends SubsystemBase {
    */
   @SuppressWarnings("ParameterName")
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+
     if (Math.abs(xSpeed)<=0.01)
       xSpeed=0;
     if (Math.abs(ySpeed)<=0.01)
       ySpeed=0;
-    if (Math.abs(rot)<=0.01)
+    if (Math.abs(rot)<=0.01) 
       rot=0; //takes care of the dead zone
+    
     xSpeed*=Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
     ySpeed*=Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
-    rot*=-6.28 * 2;
+    rot*=6.28 * 2;
+    thetaSetPoint -= 0.1*rot;
+    rotationOutput = -rotationController.calculate(getHeading(),thetaSetPoint);
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates( //using libraries to do what we used to do
             fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, rot, getRotation())
-                    : new ChassisSpeeds(xSpeed, ySpeed, rot)
+                    xSpeed, ySpeed, rotationOutput, getRotation())
+                    : new ChassisSpeeds(xSpeed, ySpeed, rotationOutput)
     );
 
     //todo: rotationSpeed += PIDOutput //this PID calculates the speed needed to turn to a setpoint based off of a button input. Probably from the D-PAD
