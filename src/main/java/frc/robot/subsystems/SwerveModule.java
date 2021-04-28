@@ -48,6 +48,8 @@ public class SwerveModule extends SubsystemBase {
   int kMaxIAccum = 1000000;
   int kErrorBand = 50;
 
+  private double mLastError = 0, mLastTargetAngle = 0, mTargetAngle, mVelocity = 0;
+
   int kCruiseVelocity = 14000;
   int kMotionAcceleration = kCruiseVelocity * 10;
 
@@ -56,8 +58,6 @@ public class SwerveModule extends SubsystemBase {
 
   private double m_turnOutput;
   private double m_driveOutput;
-
-  private final PIDController m_drivePIDController = new PIDController(kPModuleDriveController, 0, 0);
 
   private final PIDController m_drivePIDController = new PIDController(Constants.ModuleConstants.kPModuleDriveController, 0, Constants.ModuleConstants.kDModuleDriveController);
 
@@ -303,7 +303,7 @@ public class SwerveModule extends SubsystemBase {
 //    m_driveOutput = Math.signum(m_driveOutput) * Math.min(Math.abs(m_driveOutput), 0.1);
 //    m_turnOutput = Math.signum(m_turnOutput) * Math.min(Math.abs(m_turnOutput), 0.4);
 
-    mDriveMotor.set(ControlMode.PercentOutput, m_driveOutput + driveFeedforward);
+    mDriveMotor.set(ControlMode.PercentOutput, m_driveOutput /*+ driveFeedforward*/);
     mTurningMotor.set(ControlMode.PercentOutput, m_turnOutput);
 
 //    setSimulationInput(m_driveOutput, m_turnOutput);

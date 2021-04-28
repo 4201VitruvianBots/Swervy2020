@@ -69,6 +69,7 @@ public class SwerveDrive extends SubsystemBase {
     private double m_trajectoryTime;
     private Trajectory currentTrajectory;
   private AHRS mNavX = new AHRS(SerialPort.Port.kMXP); //NavX
+  int navXSim = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
 
     private Rotation2d headingTarget;
     private Pose2d headingTargetPosition = new Pose2d(-1, -1, new Rotation2d());
@@ -82,19 +83,23 @@ public class SwerveDrive extends SubsystemBase {
 
   public SwerveDrive(PowerDistributionPanel pdp) {
     m_pdp = pdp; //initilize pdp
-    int navXSim = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
 
     SmartDashboardTab.putData("SwerveDrive","swerveDriveSubsystem", this); //update smartdashboard
   }
 
-    public SwerveDrive(PowerDistributionPanel pdp) {
-        m_pdp = pdp;
-
-        SmartDashboardTab.putData("SwerveDrive","swerveDriveSubsystem", this);
-        if (RobotBase.isSimulation()) {
-
-        }
+    /**
+   * Returns the raw angle of the robot in degrees
+   *
+   * @return The angle of the robot
+   */
+  public double getRawGyroAngle() {
+    try {
+      return mNavX.getAngle();
+    } catch (Exception e) {
+      navXDebug = 1;
+      return 0;
     }
+  }
 
 
     public AHRS getNavX() {
@@ -114,23 +119,6 @@ public class SwerveDrive extends SubsystemBase {
     return Rotation2d.fromDegrees(getRawGyroAngle());
   }
 
-    /**
-     * Returns the angle of the robot as a Rotation2d.
-     *
-     * @return The angle of the robot.
-     */
-    public Rotation2d getRotation() {
-        // Negating the angle because WPILib gyros are CW positive.
-//        if(RobotBase.isReal())
-//            return Rotation2d.fromDegrees(getHeading());
-//        else
-//            try {
-//                return swerveChassisSim.getHeading();
-//            } catch (Exception e) {
-//                return new Rotation2d();
-//            }
-        return Rotation2d.fromDegrees(getHeading());
-    }
 
     /**
      * Returns the turn rate of the robot.
@@ -297,13 +285,7 @@ public class SwerveDrive extends SubsystemBase {
      *
      * @param desiredStates The desired SwerveModule states.
      */
-    public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
-        mSwerveModules[0].setDesiredState(desiredStates[0]);
-        mSwerveModules[1].setDesiredState(desiredStates[1]);
-        mSwerveModules[2].setDesiredState(desiredStates[2]);
-        mSwerveModules[3].setDesiredState(desiredStates[3]);
-    }
+    
 
     public void setHeadingToTargetHeading(Rotation2d targetHeading) {
         headingTarget = targetHeading;
@@ -324,17 +306,18 @@ public class SwerveDrive extends SubsystemBase {
    */
   public void updateOdometry() {
     m_odometry.update(
-            getRotation(),
-            mSwerveModules[0].getState(),
-            mSwerveModules[1].getState(),
-            mSwerveModules[2].getState(),
-            mSwerveModules[3].getState()
-        );
-        // Update module positions based on the chassis' position, but keep the module heading
-        for (int i = 0; i < mSwerveModules.length; i++) {
-            var modulePositionFromChassis = modulePositions[i].rotateBy(getRotation()).plus(getPose().getTranslation());
-            mSwerveModules[i].setPose(new Pose2d(modulePositionFromChassis, mSwerveModules[i].getHeading().plus(getRotation())));
-        }
+      getRotation(),
+      mSwerveModules[0].getState(),
+      mSwerveModules[1].getState(),
+      mSwerveModules[2].getState(),
+      mSwerveModules[3].getState()
+    );
+    // Update module positions based on the chassis' position, but keep the module heading
+    for (int i = 0; i < mSwerveModules.length; i++) {
+      var modulePositionFromChassis = modulePositions[i].rotateBy(getRotation()).plus(getPose().getTranslation());
+      mSwerveModules[i].setPose(new Pose2d(modulePositionFromChassis, mSwerveModules[i].getHeading().plus(getRotation())));
+    }
+  }
 
   private void updateSmartDashboard() { //updates smart dashboard
     SmartDashboardTab.putNumber("SwerveDrive","Angle",getRawGyroAngle());
