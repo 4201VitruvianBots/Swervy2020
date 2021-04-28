@@ -78,8 +78,8 @@ public final class Constants {
         public static final double kWheelDiameterMeters = 0.1016; //10.16 cm
 
         //Increase max speed and decrease acceleration? 2/7/21
-        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 12*2 * Math.PI/kTurningMotorGearRatio;
-        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 12*2 * Math.PI/kTurningMotorGearRatio;
+        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 24*2 * Math.PI/kTurningMotorGearRatio;
+        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 24*2 * Math.PI/kTurningMotorGearRatio;
 
         public static final double kDriveEncoderDistancePerPulse =
                 (kWheelDiameterMeters * Math.PI) / ((double) kEncoderCPR*kDriveMotorGearRatio);

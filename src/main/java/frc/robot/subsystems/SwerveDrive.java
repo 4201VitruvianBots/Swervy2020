@@ -38,8 +38,6 @@ public class SwerveDrive extends SubsystemBase {
     private final double throttle = 0.8;
     private final double turningThrottle = 0.5;
 
-  
-
   private int navXDebug = 0;
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(kDriveKinematics, getRotation());
@@ -176,15 +174,15 @@ public class SwerveDrive extends SubsystemBase {
    */
   @SuppressWarnings("ParameterName")
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    if (Math.abs(xSpeed)<=0.05)
+    if (Math.abs(xSpeed)<=0.01)
       xSpeed=0;
-    if (Math.abs(ySpeed)<=0.05)
+    if (Math.abs(ySpeed)<=0.01)
       ySpeed=0;
-    if (Math.abs(rot)<=0.05)
+    if (Math.abs(rot)<=0.01)
       rot=0; //takes care of the dead zone
     xSpeed*=Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
     ySpeed*=Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
-    rot*=6.28;
+    rot*=-6.28 * 2;
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates( //using libraries to do what we used to do
             fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                     xSpeed, ySpeed, rot, getRotation())
