@@ -70,14 +70,6 @@ public class Vision extends SubsystemBase {
 		m_swerveDrive = swerveDrive;
 		//m_turret = turret;
 
-		// Driver cam setup
-//		camera = CameraServer.getInstance().startAutomaticCapture();
-		camera = CameraServer.getInstance().startAutomaticCapture("intake", "/dev/video0");
-	    camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-	    camera.setExposureManual(25);
-	    camera.setResolution(320, 240);
-	    camera.setPixelFormat(VideoMode.PixelFormat.kMJPEG);
-
 		// TODO: is this needed?
 		PortForwarder.add(1375, "photonVision.local", 1375);
 		PortForwarder.add(5800, "10.42.1.11", 5800);

@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AlignToPowerCell;
 import frc.robot.commands.SetSwerveDrive;
 import frc.robot.commands.autoCommands.DriveStraight;
@@ -118,7 +119,10 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xBoxButtons[0].whenHeld(new AlignToPowerCell(m_vision, m_swerveDrive));
+    for (int i = 0; i < xBoxButtons.length; i++)
+      xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
+
+      xBoxButtons[0].whileHeld(new AlignToPowerCell(m_vision, m_swerveDrive));
   }
 
   /**
@@ -133,7 +137,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
 //    return m_autoCommand;
-    return new Slalom(m_swerveDrive);
+      return new Slalom(m_swerveDrive);
        // return new WaitCommand(0);
   }
 
