@@ -40,7 +40,8 @@ public class SwerveDrive extends SubsystemBase {
     private final double turningThrottle = 0.5;
 
     private double thetaSetPoint = 0;
-    private final PIDController rotationController = new PIDController(0.1, 0, 0);
+    private final PIDController rotationController = new PIDController(0.2, 0, 0);
+    private boolean turningJoystickHeld = false;
     private double rotationOutput;
 
 
@@ -183,17 +184,28 @@ public class SwerveDrive extends SubsystemBase {
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
 
     if (Math.abs(xSpeed)<=0.01)
-      xSpeed=0;
+        xSpeed=0;
     if (Math.abs(ySpeed)<=0.01)
-      ySpeed=0;
-    if (Math.abs(rot)<=0.01) 
-      rot=0; //takes care of the dead zone
+        ySpeed=0;
+    if (Math.abs(rot)<=0.01) {
+        rot=0; //takes care of the dead zone
+        if (turningJoystickHeld) {
+          thetaSetPoint = getHeading();
+          turningJoystickHeld = false;
+        }
+    } else if (!turningJoystickHeld) {
+      turningJoystickHeld = true;
+    }
     
     xSpeed*=Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
     ySpeed*=Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
     rot*=6.28 * 2;
     thetaSetPoint -= 0.1*rot;
-    rotationOutput = -rotationController.calculate(getHeading(),thetaSetPoint);
+    if (turningJoystickHeld) {
+        rotationOutput = rot;
+    } else {
+        rotationOutput = -rotationController.calculate(getHeading(),thetaSetPoint);
+    }
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates( //using libraries to do what we used to do
             fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                     xSpeed, ySpeed, rotationOutput, getRotation())
