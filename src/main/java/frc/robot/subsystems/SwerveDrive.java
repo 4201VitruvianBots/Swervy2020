@@ -353,6 +353,8 @@ public class SwerveDrive extends SubsystemBase {
     SmartDashboardTab.putNumber("SwerveDrive", "X", Units.metersToInches(getPose().getX()));
     SmartDashboardTab.putNumber("SwerveDrive", "Y", Units.metersToInches(getPose().getY()));
 
+    SmartDashboardTab.putNumber("SwerveDrive", "Rotation Setpoint",thetaSetPoint);
+
 //    SmartDashboardTab.putNumber("SwerveDrive","Front Left Speed",mSwerveModules[1].getState().speedMetersPerSecond);
 //    SmartDashboardTab.putNumber("SwerveDrive","Back Left Speed",mSwerveModules[2].getState().speedMetersPerSecond);
 //    SmartDashboardTab.putNumber("SwerveDrive","Back Right Speed",mSwerveModules[3].getState().speedMetersPerSecond);
