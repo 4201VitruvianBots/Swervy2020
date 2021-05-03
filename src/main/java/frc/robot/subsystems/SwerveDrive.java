@@ -39,13 +39,13 @@ public class SwerveDrive extends SubsystemBase {
     private final double throttle = 0.8;
     private final double turningThrottle = 0.5;
 
+    private AHRS mNavX = new AHRS(SerialPort.Port.kMXP); //NavX
+    private int navXDebug = 0;
+
     private double thetaSetPoint = 0;
-    private final PIDController rotationController = new PIDController(0.2, 0, 0);
-    private boolean turningJoystickHeld = false;
+    private final PIDController rotationController = new PIDController(0.5, 0, 0);
+    private boolean turningJoystickHeld = true;
     private double rotationOutput;
-
-
-  private int navXDebug = 0;
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(kDriveKinematics, getRotation());
 //    private final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(
@@ -73,7 +73,6 @@ public class SwerveDrive extends SubsystemBase {
 
     private double m_trajectoryTime;
     private Trajectory currentTrajectory;
-  private AHRS mNavX = new AHRS(SerialPort.Port.kMXP); //NavX
   int navXSim = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
 
     private Rotation2d headingTarget;
@@ -95,7 +94,7 @@ public class SwerveDrive extends SubsystemBase {
 
     /**
    * Returns the raw angle of the robot in degrees
-   *
+  mNavX.getAngle()*
    * @return The angle of the robot
    */
   public double getRawGyroAngle() {
@@ -183,12 +182,12 @@ public class SwerveDrive extends SubsystemBase {
   @SuppressWarnings("ParameterName")
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
 
-    if (Math.abs(xSpeed)<=0.01)
-        xSpeed=0;
-    if (Math.abs(ySpeed)<=0.01)
-        ySpeed=0;
-    if (Math.abs(rot)<=0.01) {
-        rot=0; //takes care of the dead zone
+    if (Math.abs(xSpeed) <= 0.01)
+        xSpeed = 0;
+    if (Math.abs(ySpeed) <= 0.01)
+        ySpeed = 0;
+    if (Math.abs(rot) <= 0.01) {
+        rot = 0; //takes care of the dead zone
         if (turningJoystickHeld) {
           thetaSetPoint = getHeading();
           turningJoystickHeld = false;
@@ -197,14 +196,15 @@ public class SwerveDrive extends SubsystemBase {
       turningJoystickHeld = true;
     }
     
-    xSpeed*=Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
-    ySpeed*=Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
-    rot*=6.28 * 2;
-    thetaSetPoint -= 0.1*rot;
+    xSpeed *= Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
+    ySpeed *= Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
+    rot *= 6.28 * 4;
+    //thetaSetPoint -= 0.1 * rot;
+
     if (turningJoystickHeld) {
         rotationOutput = rot;
     } else {
-        rotationOutput = -rotationController.calculate(getHeading(),thetaSetPoint);
+        rotationOutput = rotationController.calculate(getHeading(),thetaSetPoint);
     }
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates( //using libraries to do what we used to do
             fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -341,7 +341,7 @@ public class SwerveDrive extends SubsystemBase {
   }
 
   private void updateSmartDashboard() { //updates smart dashboard
-    SmartDashboardTab.putNumber("SwerveDrive","Angle",getRawGyroAngle());
+    SmartDashboardTab.putNumber("SwerveDrive","Angle",getHeading());
     SmartDashboardTab.putNumber("SwerveDrive","Front Left Angle",mSwerveModules[0].getTurnAngle());
     SmartDashboardTab.putNumber("SwerveDrive","Back Left Angle",mSwerveModules[1].getTurnAngle());
     SmartDashboardTab.putNumber("SwerveDrive","Front Right Angle",mSwerveModules[2].getTurnAngle());
