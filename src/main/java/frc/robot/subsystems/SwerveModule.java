@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.sensors.CANCoder;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
@@ -69,6 +71,8 @@ public class SwerveModule extends SubsystemBase {
   // Gains are for example purposes only - must be determined for your own robot!
   private final SimpleMotorFeedforward m_driveFeedforward = new SimpleMotorFeedforward(0.587, 2.3, 0.0917);
   private final SimpleMotorFeedforward m_turnFeedforward = new SimpleMotorFeedforward(1, 0.5);
+
+  private CANCoder canCoder;
 
   private double simTurnEncoderDistance;
   private double simThrottleEncoderDistance;
@@ -131,6 +135,8 @@ public class SwerveModule extends SubsystemBase {
     // to be continuous.
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
+    canCoder = new CANCoder(Constants.CANCoderPorts[moduleNumber]);
+
     if(RobotBase.isSimulation()) {
       switch (moduleNumber) {
         case 3:
@@ -180,7 +186,8 @@ public class SwerveModule extends SubsystemBase {
    */
   public double getTurningRadians() {
     if(RobotBase.isReal())
-      return mTurningMotor.getSelectedSensorPosition() * Constants.ModuleConstants.kTurningEncoderDistancePerPulse;
+      return canCoder.getPosition() * Constants.ModuleConstants.kTurningEncoderDistancePerPulse;
+      //return mTurningMotor.getSelectedSensorPosition() * Constants.ModuleConstants.kTurningEncoderDistancePerPulse;
     else
       return simulationTurnEncoder.getDistance();
   }
@@ -338,6 +345,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   private void updateSmartDashboard() {
+    SmartDashboardTab.putNumber("SwerveDrive", "CanCoder Module heading " + mModuleNumber, getTurningRadians());
 //    SmartDashboardTab.putNumber("SwerveDrive","Turning PID " + mModuleNumber, turnOutput);
   }
 

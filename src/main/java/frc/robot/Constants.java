@@ -35,6 +35,8 @@ public final class Constants {
     public static final int backRightDriveMotor = 26;
     public static final int backRightTurningMotor = 27;
 
+    public static final int[] CANCoderPorts = {1, 2, 3, 4};
+
     public static final class DriveConstants {
         public static final double kTrackWidth = 0.5;
         //Distance between centers of right and left wheels on robot. Meters?
