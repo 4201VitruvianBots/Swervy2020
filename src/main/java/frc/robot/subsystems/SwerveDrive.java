@@ -211,7 +211,7 @@ public class SwerveDrive extends SubsystemBase {
     if (setpointPending) {
         rotationOutput = rot;
     } else {
-        rotationOutput = rotationController.calculate(getHeading(),thetaSetPoint);
+        rotationOutput = -rotationController.calculate(getHeading(),thetaSetPoint);
     }
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates( //using libraries to do what we used to do
             fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
