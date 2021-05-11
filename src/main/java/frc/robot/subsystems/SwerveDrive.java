@@ -42,11 +42,12 @@ public class SwerveDrive extends SubsystemBase {
     private AHRS mNavX = new AHRS(SerialPort.Port.kMXP); //NavX
     private int navXDebug = 0;
 
-    private double thetaSetPoint = -mNavX.getAngle();
+    private double thetaSetPoint = 0;
     private final PIDController rotationController = new PIDController(0.2, 0, 0);
-    private boolean setpointPending = false;
+    private boolean setpointPending = true;
     // private boolean deltaThetaDead = false; // Whether rate of turn is within the dead zone
     private double pTheta; // Past heading
+    private double ppTheta; // Past Past heading
     private double rotationOutput;
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(kDriveKinematics, getRotation());
@@ -190,7 +191,7 @@ public class SwerveDrive extends SubsystemBase {
         ySpeed = 0;
     if (Math.abs(rot) <= 0.01) {
         rot = 0; //takes care of the dead zone
-        if (Math.abs(getHeading() - pTheta) < 0.1 && setpointPending) { //Dead zone
+        if (Math.signum(getHeading() - pTheta) == Math.signum(pTheta - ppTheta) && setpointPending) { //Dead zone
           thetaSetPoint = getHeading();
           setpointPending = false;
         } 
@@ -208,10 +209,12 @@ public class SwerveDrive extends SubsystemBase {
     rot *= 6.28 * 4;
     //thetaSetPoint -= 0.1 * rot;
     pTheta = getHeading();
+    ppTheta = pTheta;
+
     if (setpointPending) {
         rotationOutput = rot;
     } else {
-        rotationOutput = -rotationController.calculate(getHeading(),thetaSetPoint);
+        rotationOutput = rotationController.calculate(getHeading(),thetaSetPoint);
     }
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates( //using libraries to do what we used to do
             fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -363,6 +366,9 @@ public class SwerveDrive extends SubsystemBase {
     SmartDashboardTab.putNumber("SwerveDrive", "Rotation Setpoint",thetaSetPoint);
     SmartDashboardTab.putNumber("SwerveDrive", "Change in heading", getHeading() - pTheta);
     SmartDashboardTab.putBoolean("SwerveDrive", "setpointPending", setpointPending);
+
+    SmartDashboardTab.putNumber("SwerveDrive", "pTheta", pTheta);
+    SmartDashboardTab.putNumber("SwerveDrive", "ppTheta", ppTheta);
 
 //    SmartDashboardTab.putNumber("SwerveDrive","Front Left Speed",mSwerveModules[1].getState().speedMetersPerSecond);
 //    SmartDashboardTab.putNumber("SwerveDrive","Back Left Speed",mSwerveModules[2].getState().speedMetersPerSecond);

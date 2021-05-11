@@ -186,8 +186,8 @@ public class SwerveModule extends SubsystemBase {
    */
   public double getTurningRadians() {
     if(RobotBase.isReal())
-      return canCoder.getPosition() * Constants.ModuleConstants.kTurningEncoderDistancePerPulse;
-      //return mTurningMotor.getSelectedSensorPosition() * Constants.ModuleConstants.kTurningEncoderDistancePerPulse;
+      //return canCoder.getPosition() * Constants.ModuleConstants.kTurningEncoderDistancePerPulse;
+      return mTurningMotor.getSelectedSensorPosition() * Constants.ModuleConstants.kTurningEncoderDistancePerPulse;
     else
       return simulationTurnEncoder.getDistance();
   }
