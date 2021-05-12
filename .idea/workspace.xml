@@ -96,7 +96,7 @@
       <recent name="frc.robot.commands.autoCommands" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Swervy2020 [deploy]">
+  <component name="RunManager" selected="Gradle.Swervy2020 [discoverRoborio]">
     <configuration name="Swervy2020 [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -204,8 +204,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.Swervy2020 [deploy]" />
         <item itemvalue="Gradle.Swervy2020 [discoverRoborio]" />
+        <item itemvalue="Gradle.Swervy2020 [deploy]" />
         <item itemvalue="Gradle.Swervy2020 [build]" />
         <item itemvalue="Gradle.Swervy2020 [clean]" />
         <item itemvalue="Gradle.Swervy2020 [buildDependents]" />

@@ -245,6 +245,7 @@ public class Vision extends SubsystemBase {
 
 
 	public double getPowercellX() {
+		hasPowercell();
 		return powercellCam.getLatestResult().getBestTarget().getYaw();
 	}
 
@@ -268,6 +269,9 @@ public class Vision extends SubsystemBase {
 
 		SmartDashboardTab.putBoolean("Turret", "Vision Valid Output", getValidTarget());
 		SmartDashboardTab.putNumber("Turret", "Vision Target X", getFilteredTargetX());
+
+		SmartDashboard.putBoolean("Has Powercell", hasPowercell());
+		SmartDashboard.putNumber("Powecell X", getPowercellX());
 	}
 
 	@Override

@@ -49,13 +49,13 @@ public class AlignToPowerCell extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        /*
         if (!m_vision.hasPowercell())
-            return; */
+            return;
 
         powerCellX = m_vision.getPowercellX();
-        //double turnSpeed = turnPID.calculate(powerCellX, 0);
-        m_swerveDrive.drive(0, 0, 1, false);
+        // double turnSpeed = -1.0 * turnPID.calculate(powerCellX, 0);
+        double turnSpeed = powerCellX * 0.5;
+        m_swerveDrive.drive(0, 0, turnSpeed, false);
     }
 
     // Called once the command ends or is interrupted.
