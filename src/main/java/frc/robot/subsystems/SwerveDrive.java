@@ -48,6 +48,7 @@ public class SwerveDrive extends SubsystemBase {
     // private boolean deltaThetaDead = false; // Whether rate of turn is within the dead zone
     private double pTheta; // Past heading
     private double ppTheta; // Past Past heading
+    private boolean turnClockwise;
     private double rotationOutput;
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(kDriveKinematics, getRotation());
@@ -144,7 +145,7 @@ public class SwerveDrive extends SubsystemBase {
      */
     public double getHeading() {
         try {
-            return Math.IEEEremainder(-mNavX.getAngle(), 360);
+            return -mNavX.getAngle();
         } catch (Exception e) {
             System.out.println("Cannot Get NavX Heading");
             return 0;
@@ -191,7 +192,7 @@ public class SwerveDrive extends SubsystemBase {
         ySpeed = 0;
     if (Math.abs(rot) <= 0.01) {
         rot = 0; //takes care of the dead zone
-        if (Math.signum(getHeading() - pTheta) == Math.signum(pTheta - ppTheta) && setpointPending) { //Dead zone
+        if (((getHeading() - ppTheta < -0.05) ^ turnClockwise) && setpointPending) { //Dead zone
           thetaSetPoint = getHeading();
           setpointPending = false;
         } 
@@ -202,14 +203,16 @@ public class SwerveDrive extends SubsystemBase {
         // }
     } else if (!setpointPending) {
       setpointPending = true;
+    } else {
+        turnClockwise = getHeading() - ppTheta >= 0;
     }
     
     xSpeed *= Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
     ySpeed *= Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
     rot *= 6.28 * 4;
     //thetaSetPoint -= 0.1 * rot;
-    pTheta = getHeading();
     ppTheta = pTheta;
+    pTheta = getHeading();
 
     if (setpointPending) {
         rotationOutput = rot;
@@ -363,9 +366,14 @@ public class SwerveDrive extends SubsystemBase {
     SmartDashboardTab.putNumber("SwerveDrive", "X", Units.metersToInches(getPose().getX()));
     SmartDashboardTab.putNumber("SwerveDrive", "Y", Units.metersToInches(getPose().getY()));
 
+    SmartDashboardTab.putNumber("SwerveDrive", "FL-Velocity", mSwerveModules[0].getVelocity());
+
     SmartDashboardTab.putNumber("SwerveDrive", "Rotation Setpoint",thetaSetPoint);
     SmartDashboardTab.putNumber("SwerveDrive", "Change in heading", getHeading() - pTheta);
     SmartDashboardTab.putBoolean("SwerveDrive", "setpointPending", setpointPending);
+
+    SmartDashboardTab.putBoolean("SwerveDrive", "Signum", getHeading() - ppTheta >= 0);
+    SmartDashboardTab.putBoolean("SwerveDrive", "Clockwise", turnClockwise);
 
     SmartDashboardTab.putNumber("SwerveDrive", "pTheta", pTheta);
     SmartDashboardTab.putNumber("SwerveDrive", "ppTheta", ppTheta);
