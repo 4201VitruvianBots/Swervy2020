@@ -173,6 +173,12 @@ public class SwerveDrive extends SubsystemBase {
         return mSwerveModules[i];
     }
 
+    public void setSetpointRelative(int angle) {
+        thetaSetPoint = ((int) thetaSetPoint / 360) * 360 + angle <= 180 ? angle : angle - 360;
+    }
+
+    double rot;
+
   /**
    * Method to drive the robot using joystick info.
    *
@@ -192,7 +198,7 @@ public class SwerveDrive extends SubsystemBase {
         ySpeed = 0;
     if (Math.abs(rot) <= 0.01) {
         rot = 0; //takes care of the dead zone
-        if (((getHeading() - ppTheta < -0.05) ^ turnClockwise) && setpointPending) { //Dead zone
+        if (((getHeading() - ppTheta > 0) ^ turnClockwise) && setpointPending) { //Dead zone
           thetaSetPoint = getHeading();
           setpointPending = false;
         } 
@@ -202,11 +208,13 @@ public class SwerveDrive extends SubsystemBase {
         //   setpointPending = false;
         // }
     } else if (!setpointPending) {
-      setpointPending = true;
+        setpointPending = true;
     } else {
         turnClockwise = getHeading() - ppTheta >= 0;
     }
-    
+
+    this.rot = rot; // for debugging  
+ 
     xSpeed *= Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
     ySpeed *= Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
     rot *= 6.28 * 4;
@@ -375,6 +383,10 @@ public class SwerveDrive extends SubsystemBase {
     SmartDashboardTab.putBoolean("SwerveDrive", "Signum", getHeading() - ppTheta >= 0);
     SmartDashboardTab.putBoolean("SwerveDrive", "Clockwise", turnClockwise);
 
+    SmartDashboardTab.putNumber("SwerveDrive", "Diff", thetaSetPoint - getHeading());
+
+    SmartDashboardTab.putBoolean("SwerveDrive", "Joystick Dead", rot == 0);
+ 
     SmartDashboardTab.putNumber("SwerveDrive", "pTheta", pTheta);
     SmartDashboardTab.putNumber("SwerveDrive", "ppTheta", ppTheta);
 

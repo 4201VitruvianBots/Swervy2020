@@ -55,7 +55,7 @@ public class SwerveAngles extends CommandBase {
   @Override
   public void execute() {
     // Forward/Back Throttle, Left/Right Strafe, Left/Right Turn
-    m_ang = m_angSupply.getAsInt();
+    /*m_ang = m_angSupply.getAsInt();
     if(m_ang >= 0 ) {
       m_ang =  +m_ang;
       pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang);
@@ -70,7 +70,9 @@ public class SwerveAngles extends CommandBase {
         m_swerveDrive.drive(m_leftY.getAsDouble(), m_leftX.getAsDouble(), Units.degreesToRadians(0),false);
       else
         m_swerveDrive.drive(-m_leftY.getAsDouble(), m_leftX.getAsDouble(), Units.degreesToRadians(0),false);
-    }
+    }*/
+
+    m_swerveDrive.setSetpointRelative(m_angSupply.getAsInt());
   }
 
   // Called once the command ends or is interrupted.
