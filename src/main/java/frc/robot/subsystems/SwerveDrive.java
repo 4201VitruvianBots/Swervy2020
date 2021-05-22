@@ -174,7 +174,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setSetpointRelative(int angle) {
-        thetaSetPoint = ((int) thetaSetPoint / 360) * 360 + angle <= 180 ? angle : angle - 360;
+        thetaSetPoint = angle;
     }
 
     double rot;

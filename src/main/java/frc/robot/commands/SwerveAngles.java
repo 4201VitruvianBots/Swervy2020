@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.SwerveModule;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.controller.PIDController;
+// import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.util.Units;
 
 import java.util.function.DoubleSupplier;
@@ -23,10 +23,10 @@ import java.util.function.IntSupplier;
 public class SwerveAngles extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveDrive m_swerveDrive;
-  private final DoubleSupplier m_leftX, m_leftY;
+  // private final DoubleSupplier m_leftX, m_leftY;
   private final IntSupplier m_angSupply;
-  private double m_ang;
-  private final PIDController pidcontroller = new PIDController(1, 0, 0);
+  private int m_ang;
+  // private final PIDController pidcontroller = new PIDController(1, 0, 0);
 
   /**
    * Creates a new ExampleCommand.
@@ -34,11 +34,11 @@ public class SwerveAngles extends CommandBase {
    * @param swerveDriveSubsystem The subsystem used by this command.
    */
   public SwerveAngles(SwerveDrive swerveDriveSubsystem, DoubleSupplier leftX, DoubleSupplier leftY, IntSupplier angSupply) {
-    pidcontroller.enableContinuousInput(-180, 180);
-    pidcontroller.setTolerance(5);
+    // pidcontroller.enableContinuousInput(-180, 180);
+    // pidcontroller.setTolerance(5);
     m_swerveDrive = swerveDriveSubsystem;
-    m_leftX = leftX;
-    m_leftY = leftY;
+    // m_leftX = leftX;
+    // m_leftY = leftY;
     m_angSupply = angSupply;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveDriveSubsystem);
@@ -55,8 +55,8 @@ public class SwerveAngles extends CommandBase {
   @Override
   public void execute() {
     // Forward/Back Throttle, Left/Right Strafe, Left/Right Turn
-    /*m_ang = m_angSupply.getAsInt();
-    if(m_ang >= 0 ) {
+    m_ang = m_angSupply.getAsInt();
+    /*if(m_ang >= 0 ) {
       m_ang =  +m_ang;
       pidcontroller.calculate(m_swerveDrive.getHeading() ,m_ang);
       if(!pidcontroller.atSetpoint()) {
@@ -71,8 +71,9 @@ public class SwerveAngles extends CommandBase {
       else
         m_swerveDrive.drive(-m_leftY.getAsDouble(), m_leftX.getAsDouble(), Units.degreesToRadians(0),false);
     }*/
-
-    m_swerveDrive.setSetpointRelative(m_angSupply.getAsInt());
+    if (m_ang >= 0) {
+      m_swerveDrive.setSetpointRelative(m_ang);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -83,6 +84,7 @@ public class SwerveAngles extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-      return !pidcontroller.atSetpoint();
+      return false;
+      // return !pidcontroller.atSetpoint();
   }
 }
