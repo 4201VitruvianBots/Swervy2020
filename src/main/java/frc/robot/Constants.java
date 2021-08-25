@@ -35,18 +35,27 @@ public final class Constants {
     public static final int backRightDriveMotor = 26;
     public static final int backRightTurningMotor = 27;
 
+    public static final int[] CANCoderPorts = {1, 2, 3, 4};
+
     public static final class DriveConstants {
         public static final double kTrackWidth = 0.5;
         //Distance between centers of right and left wheels on robot. Meters?
         public static final double kWheelBase = 0.5;
         //Distance between front and back wheels on robot. Meters?
 
-        public static final SwerveDriveKinematics kDriveKinematics =
-                new SwerveDriveKinematics(
-                        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-                        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-                        new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-                        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
+        public static Translation2d[] modulePositions = {
+            new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+            new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)
+        };
+
+        public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+            modulePositions[0],
+            modulePositions[1],
+            modulePositions[2],
+            modulePositions[3]
+        );
 
         public static final boolean kGyroReversed = false;
 
@@ -60,7 +69,8 @@ public final class Constants {
         public static final double kvVoltSecondsPerMeter = 0.225;
         public static final double kaVoltSecondsSquaredPerMeter = 0.00924;
 
-        public static final double kMaxSpeedMetersPerSecond = 6;
+        public static final double kMaxSpeedMetersPerSecond = 9;
+        public static final double kMaxChassisRotationSpeed = 9 * Math.PI;
     }
 
     public static final class ModuleConstants {
@@ -84,6 +94,7 @@ public final class Constants {
 
         public static final double kPModuleDriveController = 0.26;
         public static final double kDModuleDriveController = 0.0025;
+        public static final double kaVoltSecondsSquaredPerRadian = 0.0348; // originally 0.3
     }
 
     public static final class OIConstants {

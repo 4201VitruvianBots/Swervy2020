@@ -18,15 +18,21 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.SetSwerveDrive;
 import frc.robot.commands.TestTurningMotor;
 import frc.robot.commands.autoCommands.AutoTestCommand;
 import frc.robot.commands.autoCommands.Bounce;
 import frc.robot.commands.autoCommands.DriveStraight;
+import frc.robot.simulation.FieldSim;
+import frc.robot.commands.SwerveAngles;
 import frc.robot.commands.autoCommands.Slalom;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.vitruvianlib.utils.JoystickWrapper;
+// import java.awt.Button;
+import frc.vitruvianlib.utils.XBoxTrigger;
 
 import java.util.Map;
 
@@ -43,6 +49,7 @@ public class RobotContainer {
   private final PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   private final SwerveDrive m_swerveDrive = new SwerveDrive(pdp);
+  private final FieldSim m_fieldSim = new FieldSim(m_swerveDrive);
 
 
   private enum CommandSelector {
@@ -92,24 +99,24 @@ public class RobotContainer {
   public void initializeSubsystems() {
 //    m_swerveDrive.setDefaultCommand((new TestTurningMotor(m_swerveDrive, () -> leftJoystick.getRawAxis(0))));
 
-//    SmartDashboardTab.putData("SwerveDrive","SetSwerveDrive", new SetSwerveDrive(m_swerveDrive,
-//              () -> leftJoystick.getRawAxis(0), //left x
-//              () -> leftJoystick.getRawAxis(1), //left y
-//              () -> rightJoystick.getRawAxis(0))); //right x
-//    SmartDashboardTab.putData("SwerveDrive","manualTurnCommand", new RunCommand(() -> m_swerveDrive.testTurningMotor(rightJoystick.getRawAxis(0)))); //right x
+   SmartDashboardTab.putData("SwerveDrive","SetSwerveDrive", new SetSwerveDrive(m_swerveDrive,
+             () -> leftJoystick.getRawAxis(0), //left x
+             () -> leftJoystick.getRawAxis(1), //left y
+             () -> rightJoystick.getRawAxis(0))); //right x
+   SmartDashboardTab.putData("SwerveDrive","manualTurnCommand", new RunCommand(() -> m_swerveDrive.testTurningMotor(rightJoystick.getRawAxis(0)))); //right x
 
 
     if(RobotBase.isReal()) {
 
       m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
+              () -> -leftJoystick.getRawAxis(0), //left x
+              () -> leftJoystick.getRawAxis(1), //left y
+              () -> -rightJoystick.getRawAxis(0))); //right x
+    } else {
+      m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
               () -> leftJoystick.getRawAxis(0), //left x
               () -> leftJoystick.getRawAxis(1), //left y
               () -> rightJoystick.getRawAxis(0))); //right x
-    } else {
-      m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
-              () -> testController.getRawAxis(0), //left x
-              () -> testController.getRawAxis(1), //left y
-              () -> testController.getRawAxis(2))); //right x
     }
   }
 
@@ -120,6 +127,27 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    leftJoystick.invertRawAxis(1, true);
+    rightJoystick.invertRawAxis(0, true);
+    xBoxController.invertRawAxis(1, true);
+    xBoxController.invertRawAxis(5, true);
+    for (int i = 0; i < leftButtons.length; i++)
+      leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
+    for (int i = 0; i < rightButtons.length; i++)
+      rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
+    for (int i = 0; i < xBoxButtons.length; i++)
+      xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
+    for (int i = 0; i < xBoxPOVButtons.length; i++)
+      xBoxPOVButtons[i] = new POVButton(xBoxController, (i * 45));
+    xBoxLeftTrigger = new XBoxTrigger(xBoxController, 2);
+    xBoxRightTrigger = new XBoxTrigger(xBoxController, 3);
+
+    xBoxButtons[0].whileHeld(new SwerveAngles(
+      m_swerveDrive,
+      () -> leftJoystick.getRawAxis(0),
+      () -> leftJoystick.getRawAxis(1),
+      () -> xBoxController.getPOV())
+    );
   }
 
   /**
@@ -134,11 +162,20 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
 //    return m_autoCommand;
-    return new Slalom(m_swerveDrive);
+    // return new DriveStraight(m_swerveDrive);
+    return new SwerveAngles(m_swerveDrive, () -> 1, () -> 1, () -> 30);
        // return new WaitCommand(0);
   }
 
   public void initalizeLogTopics() {
 //    m_controls.initLogging();
+  }
+
+  public void initSim() {
+    m_fieldSim.initSim();
+  }
+
+  public void simulationPeriodic() {
+    m_fieldSim.simulationPeriodic();
   }
 }

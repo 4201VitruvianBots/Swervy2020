@@ -10,34 +10,55 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.kinematics.*;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpiutil.math.VecBuilder;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+import frc.robot.simulation.SimulationReferencePose;
+import edu.wpi.first.wpilibj.controller.PIDController;
+
+import static frc.robot.Constants.DriveConstants.*;
 
 public class SwerveDrive extends SubsystemBase {
 
   public static final double kMaxSpeed = 3.0; // 3 meters per second NOT IN USE. Go to Constants.DriveConstants to find real number
   public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
 
-  private boolean isFieldOriented;
-  private final double throttle = 0.8;
-  private final double turningThrottle = 0.5;
+    private boolean isFieldOriented;
+    private final double throttle = 0.8;
+    private final double turningThrottle = 0.5;
 
-  private int navXDebug = 0;
+    private AHRS mNavX = new AHRS(SerialPort.Port.kMXP); //NavX
+    private int navXDebug = 0;
 
-  private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(Constants.DriveConstants.kDriveKinematics, getRotation());
+    private double thetaSetPoint = 0;
+    private final PIDController rotationController = new PIDController(0.2, 0, 0);
+    private boolean setpointPending = true;
+    // private boolean deltaThetaDead = false; // Whether rate of turn is within the dead zone
+    private double pTheta; // Past heading
+    private double ppTheta; // Past Past heading
+    private boolean turnClockwise;
+    private double rotationOutput;
+
+    private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(kDriveKinematics, getRotation());
+//    private final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(
+//        getRotation(),
+//        new Pose2d(),
+//        kDriveKinematics,
+//        VecBuilder.fill(0.1, 0.1, 0.1),
+//        VecBuilder.fill(0.05),
+//        VecBuilder.fill(0.1, 0.1, 0.1));
 
   PowerDistributionPanel m_pdp;
   /**
@@ -54,8 +75,12 @@ public class SwerveDrive extends SubsystemBase {
           new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), 0, true, false) //true
   };
 
-  private AHRS mNavX = new AHRS(SerialPort.Port.kMXP); //NavX
+    private double m_trajectoryTime;
+    private Trajectory currentTrajectory;
+  int navXSim = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
 
+    private Rotation2d headingTarget;
+    private Pose2d headingTargetPosition = new Pose2d(-1, -1, new Rotation2d());
   public void testTurningMotor(double speed){
     mSwerveModules[0].mTurningMotor.set(ControlMode.PercentOutput,speed);
   } //implemnted to test to see if the motors were responding correctly
@@ -66,13 +91,14 @@ public class SwerveDrive extends SubsystemBase {
 
   public SwerveDrive(PowerDistributionPanel pdp) {
     m_pdp = pdp; //initilize pdp
+    rotationController.enableContinuousInput(-180, 180);
 
     SmartDashboardTab.putData("SwerveDrive","swerveDriveSubsystem", this); //update smartdashboard
   }
 
-  /**
+    /**
    * Returns the raw angle of the robot in degrees
-   *
+  mNavX.getAngle()*
    * @return The angle of the robot
    */
   public double getRawGyroAngle() {
@@ -84,6 +110,14 @@ public class SwerveDrive extends SubsystemBase {
     }
   }
 
+
+    public AHRS getNavX() {
+        return mNavX;
+    }
+
+    public double getGyroRate() {
+        return mNavX.getRate();
+    }
   /**
    * Returns the angle of the robot as a Rotation2d.
    *
@@ -94,53 +128,56 @@ public class SwerveDrive extends SubsystemBase {
     return Rotation2d.fromDegrees(getRawGyroAngle());
   }
 
-  /**
-   * Returns the turn rate of the robot.
-   *
-   * @return The turn rate of the robot, in degrees per second
-   */
-  public double getTurnRate() {
-    return mNavX.getRate();
-  }
 
-  /**
-   * Returns the heading of the robot.
-   *
-   * @return the robot's heading in degrees, from 180 to 180
-   */
-  public double getHeading() {
-    return Math.IEEEremainder(mNavX.getAngle(), 360);
-  }
-
-  /**
-   * Resets the drive encoders to currently read a position of 0.
-   */
-  public void resetEncoders() {
-    for (int i = 0; i < 4; i++){
-      mSwerveModules[i].resetEncoders();
+    /**
+     * Returns the turn rate of the robot.
+     *
+     * @return The turn rate of the robot, in degrees per second
+     */
+    public double getTurnRate() {
+        return mNavX.getRate();
     }
-  }
 
-  /**
-   * Zeroes the heading of the robot.
-   */
-  public void zeroHeading() {
-    mNavX.reset();
-  }
+    /**
+     * Returns the heading of the robot.
+     *
+     * @return the robot's heading in degrees, from 180 to 180
+     */
+    public double getHeading() {
+        try {
+            return -mNavX.getAngle();
+        } catch (Exception e) {
+            System.out.println("Cannot Get NavX Heading");
+            return 0;
+        }
+    }
+
+    /**
+     * Resets the drive encoders to currently read a position of 0.
+     */
+    public void resetEncoders() {
+        for (int i = 0; i < 4; i++){
+            mSwerveModules[i].resetEncoders();
+        }
+    }
+
+    /**
+     * Zeroes the heading of the robot.
+     */
+    public void zeroHeading() {
+        mNavX.reset();
+    }
 
 
-  public SwerveModule getSwerveModule(int i) {
-    return mSwerveModules[i];
-  }
+    public SwerveModule getSwerveModule(int i) {
+        return mSwerveModules[i];
+    }
 
-  /**
-   * Returns the currently-estimated pose of the robot.
-   *
-   * @return The pose.
-   */
-  public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
-  }
+    public void setSetpointRelative(int angle) {
+        thetaSetPoint = angle;
+    }
+
+    double rot;
 
   /**
    * Method to drive the robot using joystick info.
@@ -154,19 +191,46 @@ public class SwerveDrive extends SubsystemBase {
    */
   @SuppressWarnings("ParameterName")
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    if (Math.abs(xSpeed)<=0.01)
-      xSpeed=0;
-    if (Math.abs(ySpeed)<=0.01)
-      ySpeed=0;
-    if (Math.abs(rot)<=0.01)
-      rot=0; //takes care of the dead zone
-    xSpeed*=Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
-    ySpeed*=Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
-    rot*=-6.28 * 2;
+
+    if (Math.abs(xSpeed) <= 0.01)
+        xSpeed = 0;
+    if (Math.abs(ySpeed) <= 0.01)
+        ySpeed = 0;
+    if (Math.abs(rot) <= 0.01) {
+        rot = 0; //takes care of the dead zone
+        if (((getHeading() - ppTheta > 0) ^ turnClockwise) && setpointPending) { //Dead zone
+          thetaSetPoint = getHeading();
+          setpointPending = false;
+        } 
+        // if (setpointPending) {
+        //   // thetaSetPoint = getHeading();
+          
+        //   setpointPending = false;
+        // }
+    } else if (!setpointPending) {
+        setpointPending = true;
+    } else {
+        turnClockwise = getHeading() - ppTheta >= 0;
+    }
+
+    this.rot = rot; // for debugging  
+ 
+    xSpeed *= Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
+    ySpeed *= Constants.DriveConstants.kMaxSpeedMetersPerSecond; //Scales to max speed (the library wants it in m/s, not from -1,1)
+    rot *= 6.28 * 4;
+    //thetaSetPoint -= 0.1 * rot;
+    ppTheta = pTheta;
+    pTheta = getHeading();
+
+    if (setpointPending) {
+        rotationOutput = rot;
+    } else {
+        rotationOutput = rotationController.calculate(getHeading(),thetaSetPoint);
+    }
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates( //using libraries to do what we used to do
             fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, rot, getRotation())
-                    : new ChassisSpeeds(xSpeed, ySpeed, rot)
+                    xSpeed, ySpeed, rotationOutput, getRotation())
+                    : new ChassisSpeeds(xSpeed, ySpeed, rotationOutput)
     );
 
     //todo: rotationSpeed += PIDOutput //this PID calculates the speed needed to turn to a setpoint based off of a button input. Probably from the D-PAD
@@ -177,6 +241,14 @@ public class SwerveDrive extends SubsystemBase {
     mSwerveModules[2].setDesiredState(swerveModuleStates[2]);
     mSwerveModules[3].setDesiredState(swerveModuleStates[3]);
   }
+    /**
+     * Returns the currently-estimated pose of the robot.
+     *
+     * @return The pose.
+     */
+    public Pose2d getPose() {
+        return m_odometry.getPoseMeters();
+    }
 
   /**
    * Sets the swerve ModuleStates.
@@ -250,21 +322,47 @@ public class SwerveDrive extends SubsystemBase {
     }
   }*/
 
+    /**
+     * Sets the swerve ModuleStates.
+     *
+     * @param desiredStates The desired SwerveModule states.
+     */
+    
+
+    public void setHeadingToTargetHeading(Rotation2d targetHeading) {
+        headingTarget = targetHeading;
+    }
+
+    public void setHeadingToTargetPosition(Pose2d targetPosition) {
+        headingTargetPosition = targetPosition;
+    }
+
+    public Rotation2d getHeadingToTarget() {
+        return headingTarget;
+    }
+    public Pose2d getTargetPose() {
+        return headingTargetPosition;
+    }
   /**
    * Updates the field relative position of the robot.
    */
   public void updateOdometry() {
     m_odometry.update(
-            getRotation(),
-            mSwerveModules[0].getState(),
-            mSwerveModules[1].getState(),
-            mSwerveModules[2].getState(),
-            mSwerveModules[3].getState()
+      getRotation(),
+      mSwerveModules[0].getState(),
+      mSwerveModules[1].getState(),
+      mSwerveModules[2].getState(),
+      mSwerveModules[3].getState()
     );
+    // Update module positions based on the chassis' position, but keep the module heading
+    for (int i = 0; i < mSwerveModules.length; i++) {
+      var modulePositionFromChassis = modulePositions[i].rotateBy(getRotation()).plus(getPose().getTranslation());
+      mSwerveModules[i].setPose(new Pose2d(modulePositionFromChassis, mSwerveModules[i].getHeading().plus(getRotation())));
+    }
   }
 
   private void updateSmartDashboard() { //updates smart dashboard
-    SmartDashboardTab.putNumber("SwerveDrive","Angle",getRawGyroAngle());
+    SmartDashboardTab.putNumber("SwerveDrive","Angle",getHeading());
     SmartDashboardTab.putNumber("SwerveDrive","Front Left Angle",mSwerveModules[0].getTurnAngle());
     SmartDashboardTab.putNumber("SwerveDrive","Back Left Angle",mSwerveModules[1].getTurnAngle());
     SmartDashboardTab.putNumber("SwerveDrive","Front Right Angle",mSwerveModules[2].getTurnAngle());
@@ -276,17 +374,101 @@ public class SwerveDrive extends SubsystemBase {
     SmartDashboardTab.putNumber("SwerveDrive", "X", Units.metersToInches(getPose().getX()));
     SmartDashboardTab.putNumber("SwerveDrive", "Y", Units.metersToInches(getPose().getY()));
 
-    //    SmartDashboardTab.putNumber("SwerveDrive","Front Right Speed",mSwerveModules[0].getState().speedMetersPerSecond);
+    SmartDashboardTab.putNumber("SwerveDrive", "FL-Velocity", mSwerveModules[0].getVelocity());
+
+    SmartDashboardTab.putNumber("SwerveDrive", "Rotation Setpoint",thetaSetPoint);
+    SmartDashboardTab.putNumber("SwerveDrive", "Change in heading", getHeading() - pTheta);
+    SmartDashboardTab.putBoolean("SwerveDrive", "setpointPending", setpointPending);
+
+    SmartDashboardTab.putBoolean("SwerveDrive", "Signum", getHeading() - ppTheta >= 0);
+    SmartDashboardTab.putBoolean("SwerveDrive", "Clockwise", turnClockwise);
+
+    SmartDashboardTab.putNumber("SwerveDrive", "Diff", thetaSetPoint - getHeading());
+
+    SmartDashboardTab.putBoolean("SwerveDrive", "Joystick Dead", rot == 0);
+ 
+    SmartDashboardTab.putNumber("SwerveDrive", "pTheta", pTheta);
+    SmartDashboardTab.putNumber("SwerveDrive", "ppTheta", ppTheta);
+
 //    SmartDashboardTab.putNumber("SwerveDrive","Front Left Speed",mSwerveModules[1].getState().speedMetersPerSecond);
 //    SmartDashboardTab.putNumber("SwerveDrive","Back Left Speed",mSwerveModules[2].getState().speedMetersPerSecond);
 //    SmartDashboardTab.putNumber("SwerveDrive","Back Right Speed",mSwerveModules[3].getState().speedMetersPerSecond);
-  }
+    }
 
-  @Override
-  public void periodic() {
-    updateOdometry();
-    updateSmartDashboard();
+    @Override
+    public void periodic() {
+        sampleTrajectory();
+        updateOdometry();
+        updateSmartDashboard();
 
-    // This method will be called once per scheduler run
-  }
+        setHeadingToTargetPosition(new Pose2d(4.5, 4, new Rotation2d()));
+        if(headingTargetPosition.getX() != -1 && headingTargetPosition.getY() != -1) {
+            double yDelta = headingTargetPosition.getY() - getPose().getY();
+            double xDelta = headingTargetPosition.getX() - getPose().getX();
+            var target = new Rotation2d(Math.atan2(yDelta, xDelta));
+
+//            if(inputTurnInversion == -1)
+//                target = target.unaryMinus();
+
+            setHeadingToTargetHeading(target);
+//            System.out.println("Target Heading: " + getHeadingToTarget());
+        }
+
+        // This method will be called once per scheduler run
+    }
+
+    public Pose2d[] getModulePoses() {
+        Pose2d[] modulePoses = {
+            mSwerveModules[0].getPose(),
+            mSwerveModules[1].getPose(),
+            mSwerveModules[2].getPose(),
+            mSwerveModules[3].getPose()
+        };
+        return modulePoses;
+    }
+
+    double yaw = 0;
+    @Override
+    public void simulationPeriodic() {
+        SwerveModuleState[] moduleStates = {
+            mSwerveModules[0].getState(),
+            mSwerveModules[1].getState(),
+            mSwerveModules[2].getState(),
+            mSwerveModules[3].getState()
+        };
+
+        var chassisSpeed = kDriveKinematics.toChassisSpeeds(moduleStates);
+        double chassisRotationSpeed = chassisSpeed.omegaRadiansPerSecond;
+
+        yaw += chassisRotationSpeed * 0.02;
+        SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(navXSim, "Yaw"));
+//        angle.set(Math.IEEEremainder(-swerveChassisSim.getHeading().getDegrees(), 360));
+        angle.set(Units.radiansToDegrees(yaw));
+    }
+
+    private void sampleTrajectory() {
+        if(DriverStation.getInstance().isAutonomous()) {
+            try {
+                var currentTrajectoryState = currentTrajectory.sample(Timer.getFPGATimestamp() - startTime);
+
+                System.out.println("Trajectory Time: " + (Timer.getFPGATimestamp() - startTime));
+                System.out.println("Trajectory Pose: " + currentTrajectoryState.poseMeters);
+                System.out.println("Trajectory Speed: " + currentTrajectoryState.velocityMetersPerSecond);
+                System.out.println("Trajectory angular speed: " + currentTrajectoryState.curvatureRadPerMeter);
+            } catch (Exception e) {
+
+            }
+        }
+
+    }
+
+    public void setTrajectoryTime(double trajectoryTime) {
+        m_trajectoryTime = trajectoryTime;
+    }
+
+    double startTime;
+    public void setCurrentTrajectory(Trajectory trajectory) {
+        currentTrajectory = trajectory;
+        startTime = Timer.getFPGATimestamp();
+    }
 }
