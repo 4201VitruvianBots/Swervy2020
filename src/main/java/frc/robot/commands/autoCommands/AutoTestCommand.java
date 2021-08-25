@@ -56,6 +56,6 @@ public class AutoTestCommand extends SequentialCommandGroup {
 
         );
         addCommands(new ResetOdometry(swerveDrive).andThen(() -> swerveDrive.zeroHeading()),
-                driveStraight.andThen(() -> swerveDrive.drive(0, 0, 0, false)));// Run path following command, then stop at the end.
+                driveStraight.andThen(() -> swerveDrive.drive(0, 0, 0, false, false)));// Run path following command, then stop at the end.
     }
 }

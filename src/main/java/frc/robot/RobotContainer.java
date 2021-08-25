@@ -103,7 +103,7 @@ public class RobotContainer {
              () -> leftJoystick.getRawAxis(0), //left x
              () -> leftJoystick.getRawAxis(1), //left y
              () -> rightJoystick.getRawAxis(0))); //right x
-   SmartDashboardTab.putData("SwerveDrive","manualTurnCommand", new RunCommand(() -> m_swerveDrive.testTurningMotor(rightJoystick.getRawAxis(0)))); //right x
+//   SmartDashboardTab.putData("SwerveDrive","manualTurnCommand", new RunCommand(() -> m_swerveDrive.testTurningMotor(rightJoystick.getRawAxis(0)))); //right x
 
 
     if(RobotBase.isReal()) {

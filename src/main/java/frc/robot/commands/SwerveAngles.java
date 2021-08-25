@@ -71,9 +71,9 @@ public class SwerveAngles extends CommandBase {
       else
         m_swerveDrive.drive(-m_leftY.getAsDouble(), m_leftX.getAsDouble(), Units.degreesToRadians(0),false);
     }*/
-    if (m_ang >= 0) {
-      m_swerveDrive.setSetpointRelative(m_ang);
-    }
+//    if (m_ang >= 0) {
+//      m_swerveDrive.setSetpointRelative(m_ang);
+//    }
   }
 
   // Called once the command ends or is interrupted.

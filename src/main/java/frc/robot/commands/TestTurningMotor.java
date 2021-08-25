@@ -43,13 +43,13 @@ public class TestTurningMotor extends CommandBase {
   @Override
   public void execute() {
     // Forward/Back Trottle, Left/Right Strafe, Left/Right Turn
-    m_swerveDrive.testTurningMotor(m_leftX.getAsDouble());
+//    m_swerveDrive.testTurningMotor(m_leftX.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_swerveDrive.testTurningMotor(0);
+//    m_swerveDrive.testTurningMotor(0);
   }
 
   // Returns true when the command should end.
