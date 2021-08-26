@@ -33,10 +33,10 @@ public final class Constants {
     public static final int xBoxController = 2;
 
     // CAN ADDRESSES
-    public static final int frontRightDriveMotor = 20;
-    public static final int frontRightTurningMotor = 21;
-    public static final int frontLeftDriveMotor = 22;
-    public static final int frontLeftTurningMotor = 23;
+    public static final int frontLeftDriveMotor = 20;
+    public static final int frontLeftTurningMotor = 21;
+    public static final int frontRightDriveMotor = 22;
+    public static final int frontRightTurningMotor = 23;
     public static final int backLeftDriveMotor = 24;
     public static final int backLeftTurningMotor = 25;
     public static final int backRightDriveMotor = 26;
