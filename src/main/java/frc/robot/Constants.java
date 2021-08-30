@@ -145,7 +145,7 @@ public final class Constants {
         TalonFXConfiguration motorConfig = new TalonFXConfiguration();
 
         motorConfig.slot0.kF = 0.0;
-        motorConfig.slot0.kP = 0.001;
+        motorConfig.slot0.kP = 0.002;
         motorConfig.slot0.kI = 0.0;
         motorConfig.slot0.kD = 0.0;
         motorConfig.motionCruiseVelocity = ModuleConstants.kTurningEncoderDistancePerPulse * 11.5;
