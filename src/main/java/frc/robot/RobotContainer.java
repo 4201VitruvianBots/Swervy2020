@@ -175,6 +175,18 @@ public class RobotContainer {
 //    m_controls.initLogging();
   }
 
+  public void teleopInit() {
+    m_swerveDrive.setSwerveDriveNeutralMode(true); // Brake
+  }
+
+  public void autonomousInit() {
+    m_swerveDrive.setSwerveDriveNeutralMode(true); // Brake
+  }
+
+  public void disabledInit() {
+    m_swerveDrive.setSwerveDriveNeutralMode(false); // Coast
+  }
+
   public void initSim() {
     m_fieldSim.initSim();
   }
