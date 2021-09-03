@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.util.Units;
@@ -82,7 +83,7 @@ public class SwerveModule extends SubsystemBase {
     m_turnMotor.configFactoryDefault();
     m_turnMotor.configAllSettings(TurnMotorConfig);
     m_turnMotor.configRemoteFeedbackFilter(m_angleEncoder, 0, 20);
-    m_turnMotor.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
+    m_turnMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_turnMotor.setSelectedSensorPosition((getHeadingDegrees() - zeroOffset) / kTurningEncoderDistancePerPulse);
 //    m_turnMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
@@ -119,8 +120,8 @@ public class SwerveModule extends SubsystemBase {
 
   public double getHeadingDegrees() {
     if(RobotBase.isReal())
-//      return m_turnMotor.getSelectedSensorPosition() * Constants.ModuleConstants.kTurningEncoderDistancePerPulse;
-      return m_angleEncoder.getAbsolutePosition();
+      return m_turnMotor.getSelectedSensorPosition() * Constants.ModuleConstants.kTurningEncoderDistancePerPulse;
+      // return m_angleEncoder.getAbsolutePosition();
     else
 	  try {
 		return m_turnMotorSim.getSelectedSensorPosition() * Constants.ModuleConstants.kTurningSimEncoderDistancePerPulse;
@@ -215,9 +216,8 @@ public class SwerveModule extends SubsystemBase {
     swerveModulePose = pose;
   }
 
-
   private void updateSmartDashboard() {
-    
+
   }
 
   @Override
@@ -248,5 +248,13 @@ public class SwerveModule extends SubsystemBase {
     m_driveMotorSim.getSimCollection().setQuadratureVelocity((int) (moduleThrottleSimModel.getAngularVelocityRadPerSec() / kDriveSimEncoderDistancePerPulse / 10));
 
 //    System.out.println("Module " + mModuleNumber + " State: " + getState());
+  }
+
+  public TalonFX getTurnMotor() {
+    return m_turnMotor;
+  }
+
+  public TalonFX getDriveMotor() {
+    return m_driveMotor;
   }
 }

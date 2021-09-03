@@ -268,6 +268,7 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboardTab.putNumber("SwerveDrive","Chassis Angle", getHeadingDegrees());
         for(int i = 0; i < mSwerveModules.length; i++) {
             SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Angle", mSwerveModules[i].getState().angle.getDegrees());
+            SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Angle LoopError", mSwerveModules[i].getTurnMotor().getClosedLoopError());
             SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Speed", mSwerveModules[i].getState().speedMetersPerSecond);
         }
 
@@ -304,7 +305,7 @@ public class SwerveDrive extends SubsystemBase {
 //                target = target.unaryMinus();
 
             setHeadingToTargetHeading(target);
-            System.out.println("Target Heading: " + getHeadingToTarget());
+            // System.out.println("Target Heading: " + getHeadingToTarget());
         }
 
         // This method will be called once per scheduler run
