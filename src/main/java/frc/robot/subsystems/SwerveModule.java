@@ -75,6 +75,7 @@ public class SwerveModule extends SubsystemBase {
     m_angleEncoder.configFactoryDefault();
     m_angleEncoder.configAllSettings(AngleEncoderConfig);
     m_angleEncoder.configMagnetOffset(m_zeroOffset);
+    m_angleEncoder.configSensorDirection(true);
 
     m_driveMotor.configFactoryDefault();
     m_driveMotor.configAllSettings(DriveMotorConfig);
@@ -83,7 +84,8 @@ public class SwerveModule extends SubsystemBase {
     m_turnMotor.configFactoryDefault();
     m_turnMotor.configAllSettings(TurnMotorConfig);
     m_turnMotor.configRemoteFeedbackFilter(m_angleEncoder, 0, 20);
-    m_turnMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    // m_turnMotor.configRemoteFeedbackFilter(m_angleEncoder, 0);
+    m_turnMotor.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
     m_turnMotor.setSelectedSensorPosition((getHeadingDegrees() - zeroOffset) / kTurningEncoderDistancePerPulse);
 //    m_turnMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
@@ -120,7 +122,7 @@ public class SwerveModule extends SubsystemBase {
 
   public double getHeadingDegrees() {
     if(RobotBase.isReal())
-      return m_turnMotor.getSelectedSensorPosition() * Constants.ModuleConstants.kTurningEncoderDistancePerPulse;
+      return m_angleEncoder.getAbsolutePosition();
       // return m_angleEncoder.getAbsolutePosition();
     else
 	  try {
