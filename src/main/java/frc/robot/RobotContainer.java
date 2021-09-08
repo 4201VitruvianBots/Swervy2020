@@ -109,8 +109,8 @@ public class RobotContainer {
     if(RobotBase.isReal()) {
 
       m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
-              () -> -leftJoystick.getRawAxis(1), //left x
-              () -> leftJoystick.getRawAxis(0), //left y
+              () -> -leftJoystick.getRawAxis(0), //left x
+              () -> leftJoystick.getRawAxis(1), //left y
               () -> -rightJoystick.getRawAxis(0))); //right x
     } else {
       m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
@@ -127,7 +127,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    leftJoystick.invertRawAxis(1, true);
+    leftJoystick.invertRawAxis(0, true);
     rightJoystick.invertRawAxis(0, true);
     leftJoystick.setAxisDeadband(0, 0.01);
     leftJoystick.setAxisDeadband(1, 0.01);
