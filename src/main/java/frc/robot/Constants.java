@@ -54,10 +54,10 @@ public final class Constants {
         //Distance between front and back wheels on robot. Meters?
 
         public static Translation2d[] modulePositions = {
-            new Translation2d(kWheelBase / 2, kTrackWidth / 2),
             new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)
+            new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
+            new Translation2d(-kWheelBase / 2, kTrackWidth / 2)
         };
 
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
