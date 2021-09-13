@@ -48,6 +48,8 @@ public class SwerveDrive extends SubsystemBase {
             new SwerveModule(3, new TalonFX(Constants.backRightTurningMotor), new TalonFX(Constants.backRightDriveMotor), new CANCoder(Constants.backRightCANCoder), -70, true, false)//true
     };
 
+    SwerveModuleState[] swerveModuleStates = kDriveKinematics.toSwerveModuleStates(new ChassisSpeeds(0, 0, 0));
+
     PowerDistributionPanel m_pdp;
 
     private AHRS mNavX = new AHRS(SerialPort.Port.kMXP);
@@ -177,17 +179,18 @@ public class SwerveDrive extends SubsystemBase {
             rot = turnPidController.calculate(getHeadingDegrees());
         }
 
-        var swerveModuleStates = kDriveKinematics.toSwerveModuleStates(
+        swerveModuleStates = kDriveKinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                         xSpeed, ySpeed, rot, getRotation())
                         : new ChassisSpeeds(xSpeed, ySpeed, rot)
         ); //from 2910's code
-        SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
+        //SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
 
-        mSwerveModules[0].setDesiredState(swerveModuleStates[0], isOpenLoop);
-        mSwerveModules[1].setDesiredState(swerveModuleStates[1], isOpenLoop);
-        mSwerveModules[2].setDesiredState(swerveModuleStates[2], isOpenLoop);
-        mSwerveModules[3].setDesiredState(swerveModuleStates[3], isOpenLoop);
+        for (int i = 0; i < swerveModuleStates.length; i++) {
+            mSwerveModules[i].setDesiredState(swerveModuleStates[i], isOpenLoop);
+        }
+
+
     }
 
     public void setAngleSetpoint(double angleSetpoint, boolean enabled) {
@@ -267,9 +270,11 @@ public class SwerveDrive extends SubsystemBase {
     private void updateSmartDashboard() {
         SmartDashboardTab.putNumber("SwerveDrive","Chassis Angle", getHeadingDegrees());
         for(int i = 0; i < mSwerveModules.length; i++) {
-            SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Angle", mSwerveModules[i].getState().angle.getDegrees());
-            SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Angle LoopError", mSwerveModules[i].getTurnMotor().getClosedLoopError());
-            SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Speed", mSwerveModules[i].getState().speedMetersPerSecond);
+            SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Angle", mSwerveModules[i].getState().angle.getDegrees());
+            SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Setpoint", swerveModuleStates[i].angle.getDegrees());
+
+            // SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Setpoint", mSwerveModules[i].getState()
+            // SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Speed", mSwerveModules[i].getState().speedMetersPerSecond);
         }
 
 

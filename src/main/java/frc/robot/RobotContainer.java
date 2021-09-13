@@ -109,14 +109,14 @@ public class RobotContainer {
     if(RobotBase.isReal()) {
 
       m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
-              () -> -leftJoystick.getRawAxis(0), //left x
-              () -> leftJoystick.getRawAxis(1), //left y
-              () -> -rightJoystick.getRawAxis(0))); //right x
+              () -> -Math.pow(leftJoystick.getRawAxis(0),3), //left x
+              () -> Math.pow(leftJoystick.getRawAxis(1),3), //left y
+              () -> -Math.pow(rightJoystick.getRawAxis(0),3))); //right x
     } else {
       m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
-              () -> leftJoystick.getRawAxis(0), //left x
-              () -> leftJoystick.getRawAxis(1), //left y
-              () -> rightJoystick.getRawAxis(0))); //right x
+              () -> Math.pow(leftJoystick.getRawAxis(0),3), //left x
+              () -> Math.pow(leftJoystick.getRawAxis(1),3), //left y
+              () -> Math.pow(rightJoystick.getRawAxis(0),3))); //right x
     }
   }
 
@@ -128,7 +128,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // leftJoystick.invertRawAxis(0, true);
-    rightJoystick.invertRawAxis(0, true);
+    // rightJoystick.invertRawAxis(0, true);
     leftJoystick.setAxisDeadband(0, 0.01);
     leftJoystick.setAxisDeadband(1, 0.01);
     rightJoystick.setAxisDeadband(0, 0.01);
@@ -176,11 +176,11 @@ public class RobotContainer {
   }
 
   public void teleopInit() {
-    m_swerveDrive.setSwerveDriveNeutralMode(true); // Brake
+    m_swerveDrive.setSwerveDriveNeutralMode(false); // Brake
   }
 
   public void autonomousInit() {
-    m_swerveDrive.setSwerveDriveNeutralMode(true); // Brake
+    m_swerveDrive.setSwerveDriveNeutralMode(false); // Brake
   }
 
   public void disabledInit() {

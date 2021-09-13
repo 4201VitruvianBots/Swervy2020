@@ -54,10 +54,10 @@ public final class Constants {
         //Distance between front and back wheels on robot. Meters?
 
         public static Translation2d[] modulePositions = {
-            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, kTrackWidth / 2)
+            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+            new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)
         };
 
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
@@ -87,6 +87,7 @@ public final class Constants {
         public static final double kDriveMotorGearRatio = 6.89; //6.89 to 1
         public static final double kTurningMotorGearRatio = 12; //12 to 1
         public static final int kEncoderCPR = 4096;
+        public static final int kFalconEncoderCPR = 2048;
         public static final double kWheelDiameterMeters = 0.1016; //10.16 cm
 
         //Increase max speed and decrease acceleration? 2/7/21
@@ -94,7 +95,7 @@ public final class Constants {
         public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 24*2 * Math.PI/kTurningMotorGearRatio;
 
         public static final double kDriveEncoderDistancePerPulse =
-                (kWheelDiameterMeters * Math.PI) / ((double) kEncoderCPR * kDriveMotorGearRatio);
+                (kWheelDiameterMeters * Math.PI) / ((double) kFalconEncoderCPR * kDriveMotorGearRatio);
 
         public static final double kDriveSimEncoderDistancePerPulse = kDriveEncoderDistancePerPulse / 2;
 
@@ -145,9 +146,9 @@ public final class Constants {
         TalonFXConfiguration motorConfig = new TalonFXConfiguration();
 
         motorConfig.slot0.kF = 0.0;
-        motorConfig.slot0.kP = 0.5;
+        motorConfig.slot0.kP = 0.75;
         motorConfig.slot0.kI = 0.0;
-        motorConfig.slot0.kD = 0.0;
+        motorConfig.slot0.kD = 12.0;
         motorConfig.motionCruiseVelocity = ModuleConstants.kTurningEncoderDistancePerPulse * 11.5;
         motorConfig.motionAcceleration = ModuleConstants.kTurningEncoderDistancePerPulse * 11.5;
 
