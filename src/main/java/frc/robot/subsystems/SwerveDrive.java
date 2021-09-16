@@ -78,7 +78,7 @@ public class SwerveDrive extends SubsystemBase {
     public SwerveDrive(PowerDistributionPanel pdp) {
         m_pdp = pdp;
 
-        turnPidController.setTolerance(0.2);
+        turnPidController.setTolerance(1);
         turnPidController.enableContinuousInput(-180, 180);
 
         SmartDashboardTab.putData("SwerveDrive","swerveDriveSubsystem", this);
@@ -187,6 +187,9 @@ public class SwerveDrive extends SubsystemBase {
         //SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
 
         for (int i = 0; i < swerveModuleStates.length; i++) {
+            if (i == 2) {
+                swerveModuleStates[i].angle = new Rotation2d();
+            }
             mSwerveModules[i].setDesiredState(swerveModuleStates[i], isOpenLoop);
         }
 
@@ -270,8 +273,10 @@ public class SwerveDrive extends SubsystemBase {
     private void updateSmartDashboard() {
         SmartDashboardTab.putNumber("SwerveDrive","Chassis Angle", getHeadingDegrees());
         for(int i = 0; i < mSwerveModules.length; i++) {
-            SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Angle", mSwerveModules[i].getState().angle.getDegrees());
-            SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Setpoint", swerveModuleStates[i].angle.getDegrees());
+            //SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Angle", mSwerveModules[i].getState().angle.getDegrees());
+            //SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Setpoint", swerveModuleStates[i].angle.getDegrees());
+            SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Velocity", mSwerveModules[i].getState().speedMetersPerSecond);
+            SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " V. Setpoint", swerveModuleStates[i].speedMetersPerSecond);
 
             // SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Setpoint", mSwerveModules[i].getState()
             // SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Speed", mSwerveModules[i].getState().speedMetersPerSecond);

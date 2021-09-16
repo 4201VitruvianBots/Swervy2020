@@ -46,10 +46,11 @@ public class SetSwerveDrive extends CommandBase {
   @Override
   public void execute() {
     // Forward/Back Trottle, Left/Right Strafe, Left/Right Turn
-    if(RobotBase.isReal())
+    m_swerveDrive.drive(0.3, 0, 0, false, false);
+    /*if(RobotBase.isReal())
       m_swerveDrive.drive(m_leftY.getAsDouble(), m_leftX.getAsDouble(),m_rightX.getAsDouble(),false, false);
     else
-      m_swerveDrive.drive(-m_leftY.getAsDouble(), m_leftX.getAsDouble(),m_rightX.getAsDouble(),false, false);
+      m_swerveDrive.drive(-m_leftY.getAsDouble(), m_leftX.getAsDouble(),m_rightX.getAsDouble(),false, false);*/
   }
 
   // Called once the command ends or is interrupted.

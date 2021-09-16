@@ -81,7 +81,7 @@ public class RobotContainer {
         m_autoChooser.addOption(commandEnum.toString(), commandEnum.ordinal());
 
     SmartDashboard.putData(m_autoChooser);
-
+    
     m_autoCommand = new SelectCommand(
             Map.ofEntries(
 //                    entry(CommandSelector.SHOOT_AND_DRIVE_BACK, new ShootAndDriveBack(m_driveTrain,m_intake,m_indexer,m_turret,m_shooter,m_vision)),
@@ -144,10 +144,11 @@ public class RobotContainer {
     for (int i = 0; i < xBoxPOVButtons.length; i++)
       xBoxPOVButtons[i] = new POVButton(xBoxController, (i * 45));
     xBoxLeftTrigger = new XBoxTrigger(xBoxController, 2);
-    xBoxRightTrigger = new XBoxTrigger(xBoxController, 3);
+    xBoxRightTrigger = new XBoxTrigger(xBoxController, 3); 
 
     xBoxButtons[0].whileHeld(new SwerveAngles(
       m_swerveDrive,
+      
       () -> leftJoystick.getRawAxis(0),
       () -> leftJoystick.getRawAxis(1),
       () -> xBoxController.getPOV())
@@ -193,5 +194,11 @@ public class RobotContainer {
 
   public void simulationPeriodic() {
     m_fieldSim.simulationPeriodic();
+  }
+
+  public void teleopPeriodic() {
+    SmartDashboardTab.putNumber("SwerveDrive", "LeftJoystick0", leftJoystick.getRawAxis(0));
+    SmartDashboardTab.putNumber("SwerveDrive", "LeftJoystick1", leftJoystick.getRawAxis(1));
+    SmartDashboardTab.putNumber("SwerveDrive", "RightJoystick0", rightJoystick.getRawAxis(0));
   }
 }
