@@ -90,6 +90,10 @@ public class SwerveModule extends SubsystemBase {
     m_turnMotor.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
     m_turnMotor.setSelectedSensorPosition((getHeadingDegrees() - zeroOffset) / kTurningEncoderDistancePerPulse);
 //    m_turnMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    
+    // TODO: Remove this when the wheels work properly
+    m_turnMotor.configPeakOutputForward(0.3);
+    m_turnMotor.configPeakOutputReverse(-0.3);
 
 
     if(RobotBase.isSimulation()) {

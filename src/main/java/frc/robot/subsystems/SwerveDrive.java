@@ -184,12 +184,12 @@ public class SwerveDrive extends SubsystemBase {
                         xSpeed, ySpeed, rot, getRotation())
                         : new ChassisSpeeds(xSpeed, ySpeed, rot)
         ); //from 2910's code
-        //SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
+        // SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
 
         for (int i = 0; i < swerveModuleStates.length; i++) {
-            if (i == 2) {
-                swerveModuleStates[i].angle = new Rotation2d();
-            }
+            // if (i == 2) {
+            //     swerveModuleStates[i].angle = new Rotation2d();
+            // }
             mSwerveModules[i].setDesiredState(swerveModuleStates[i], isOpenLoop);
         }
 
