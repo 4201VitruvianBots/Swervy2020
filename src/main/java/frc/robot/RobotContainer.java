@@ -24,6 +24,7 @@ import frc.robot.commands.SetSwerveDrive;
 import frc.robot.commands.TestTurningMotor;
 import frc.robot.commands.autoCommands.AutoTestCommand;
 import frc.robot.commands.autoCommands.Bounce;
+import frc.robot.commands.autoCommands.Barrel; 
 import frc.robot.commands.autoCommands.DriveStraight;
 import frc.robot.simulation.FieldSim;
 import frc.robot.commands.SwerveAngles;
@@ -53,7 +54,8 @@ public class RobotContainer {
 
 
   private enum CommandSelector {
-    DRIVE_STRAIGHT
+    DRIVE_STRAIGHT,
+    BARREL
   }
 
   SendableChooser<Integer> m_autoChooser = new SendableChooser();
@@ -85,11 +87,14 @@ public class RobotContainer {
     m_autoCommand = new SelectCommand(
             Map.ofEntries(
 //                    entry(CommandSelector.SHOOT_AND_DRIVE_BACK, new ShootAndDriveBack(m_driveTrain,m_intake,m_indexer,m_turret,m_shooter,m_vision)),
-                    entry(CommandSelector.DRIVE_STRAIGHT, new DriveStraight(m_swerveDrive))
+                //  entry(CommandSelector.DRIVE_STRAIGHT, new DriveStraight(m_swerveDrive))
+                 entry(CommandSelector.BARREL, new Barrel(m_swerveDrive))
 //                        entry(CommandSelector.TEST_SEQUENTIAL_REVERSE_AUTO, new TestSequentialSwitching(m_driveTrain))
             ),
             this::selectCommand
     );
+
+    // m_autoCommand = new Barrel(m_swerveDrive);
 
     initializeSubsystems();
     // Configure the button bindings
@@ -166,9 +171,9 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-//    return m_autoCommand;
+   return m_autoCommand;
     // return new DriveStraight(m_swerveDrive);
-    return new SwerveAngles(m_swerveDrive, () -> 1, () -> 1, () -> 30);
+    // return new SwerveAngles(m_swerveDrive, () -> 1, () -> 1, () -> 30);
        // return new WaitCommand(0);
   }
 
