@@ -174,6 +174,7 @@ public class SwerveModule extends SubsystemBase {
    * @param state Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState state, boolean isOpenLoop) {
+    // SwerveModuleState outputState = state;
     SwerveModuleState outputState = CTREModuleState.optimize(state, getState().angle);
     double angle = 0.0;
 
