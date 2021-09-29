@@ -92,8 +92,8 @@ public class SwerveModule extends SubsystemBase {
 //    m_turnMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     
     // TODO: Remove this when the wheels work properly
-    m_turnMotor.configPeakOutputForward(0.3);
-    m_turnMotor.configPeakOutputReverse(-0.3);
+    // m_turnMotor.configPeakOutputForward(0.3);
+    // m_turnMotor.configPeakOutputReverse(-0.3);
 
 
     if(RobotBase.isSimulation()) {
@@ -175,7 +175,7 @@ public class SwerveModule extends SubsystemBase {
    */
   public void setDesiredState(SwerveModuleState state, boolean isOpenLoop) {
     SwerveModuleState outputState = state;  // Why does this work???
-    SwerveModuleState outputState = CTREModuleState.optimize(state, getState().angle);
+    // /*SwerveModuleState*/ outputState = CTREModuleState.optimize(state, getState().angle);
     double angle = 0.0;
 
     if(RobotBase.isReal()) {

@@ -59,6 +59,8 @@ public class RobotContainer {
   SendableChooser<Integer> m_autoChooser = new SendableChooser();
 
   private SelectCommand m_autoCommand;
+  
+  private boolean batteryFront = true; // Set this to false to drive with the battery at the back
 
   static JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
   static JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
@@ -133,6 +135,9 @@ public class RobotContainer {
     leftJoystick.setAxisDeadband(1, 0.01);
     rightJoystick.setAxisDeadband(0, 0.01);
     rightJoystick.setAxisDeadband(1, 0.01);
+    leftJoystick.invertRawAxis(0, !batteryFront);
+    leftJoystick.invertRawAxis(1, batteryFront);
+    rightJoystick.invertRawAxis(0, true);
     xBoxController.invertRawAxis(1, true);
     xBoxController.invertRawAxis(5, true);
     for (int i = 0; i < leftButtons.length; i++)
@@ -167,8 +172,8 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
 //    return m_autoCommand;
-    // return new DriveStraight(m_swerveDrive);
-    return new SwerveAngles(m_swerveDrive, () -> 1, () -> 1, () -> 30);
+    return new DriveStraight(m_swerveDrive);
+    // return new SwerveAngles(m_swerveDrive, () -> 1, () -> 1, () -> 30);
        // return new WaitCommand(0);
   }
 
