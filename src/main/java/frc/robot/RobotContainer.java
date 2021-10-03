@@ -28,6 +28,7 @@ import frc.robot.commands.autoCommands.DriveStraight;
 import frc.robot.simulation.FieldSim;
 import frc.robot.commands.SwerveAngles;
 import frc.robot.commands.autoCommands.Slalom;
+import frc.robot.commands.autoCommands.TestAuto;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.vitruvianlib.utils.JoystickWrapper;
@@ -172,7 +173,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
 //    return m_autoCommand;
-    return new DriveStraight(m_swerveDrive);
+    return new TestAuto(m_swerveDrive);
     // return new SwerveAngles(m_swerveDrive, () -> 1, () -> 1, () -> 30);
        // return new WaitCommand(0);
   }
@@ -182,7 +183,7 @@ public class RobotContainer {
   }
 
   public void teleopInit() {
-    m_swerveDrive.setSwerveDriveNeutralMode(false); // Brake
+    m_swerveDrive.setSwerveDriveNeutralMode(true); // Brake
   }
 
   public void autonomousInit() {
