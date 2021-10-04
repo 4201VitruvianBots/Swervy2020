@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
+import frc.robot.commands.SetSwerveModules;
 import frc.robot.subsystems.SwerveDrive;
 //import frc.vitruvianlib.utils.TrajectoryUtils;
 
@@ -41,7 +43,8 @@ public class DriveStraight extends SequentialCommandGroup {
                 ),
                 // End 3 meters straight ahead of where we started, facing forward
                 // Excuse me? Can you count?
-                new Pose2d(2, 0, new Rotation2d(0)),
+                // No
+                new Pose2d(Units.feetToMeters(10), 0, new Rotation2d(0)),
                 config
         );
 
@@ -74,6 +77,11 @@ public class DriveStraight extends SequentialCommandGroup {
 //                swerveDrive
 //        );
         addCommands(new ResetOdometry(swerveDrive).andThen(() -> swerveDrive.zeroHeading()),
+                new SetSwerveModules(swerveDrive, new SwerveModuleState[] {
+                        new SwerveModuleState(),
+                        new SwerveModuleState(),
+                        new SwerveModuleState(),
+                        new SwerveModuleState()}),
                 driveStraight.andThen(() -> swerveDrive.drive(0, 0, 0, false, false)));// Run path following command, then stop at the end.
     }
 }

@@ -17,6 +17,7 @@ import com.ctre.phoenix.sensors.SensorTimeBase;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -48,9 +49,9 @@ public final class Constants {
     public static final int backRightCANCoder = 14;
 
     public static final class DriveConstants {
-        public static final double kTrackWidth = 0.5;
+        public static final double kTrackWidth = Units.inchesToMeters(26);
         //Distance between centers of right and left wheels on robot. Meters?
-        public static final double kWheelBase = 0.5;
+        public static final double kWheelBase = Units.inchesToMeters(26);
         //Distance between front and back wheels on robot. Meters?
 
         public static Translation2d[] modulePositions = {
@@ -126,12 +127,12 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = 0.5; //4.383024
-        public static final double kMaxAccelerationMetersPerSecondSquared = 0.1;
+        public static final double kMaxSpeedMetersPerSecond = 3; //4.383024
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = 6 * Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = 6 * Math.PI;
 
-        public static final double kPXController = 0.5;
+        public static final double kPXController = 10.0;
         public static final double kPYController = 0.5;
         public static final double kPThetaController = 0.5;
 

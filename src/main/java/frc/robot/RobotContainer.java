@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
@@ -172,8 +173,9 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-//    return m_autoCommand;
-    return new TestAuto(m_swerveDrive);
+   return m_autoCommand;
+    // return new TestAuto(m_swerveDrive);
+    // return new DriveStraight(m_swerveDrive);
     // return new SwerveAngles(m_swerveDrive, () -> 1, () -> 1, () -> 30);
        // return new WaitCommand(0);
   }
@@ -187,7 +189,13 @@ public class RobotContainer {
   }
 
   public void autonomousInit() {
-    m_swerveDrive.setSwerveDriveNeutralMode(false); // Brake
+    m_swerveDrive.setSwerveDriveNeutralMode(true); // Brake
+    m_swerveDrive.setModuleStates(new SwerveModuleState[]{
+      new SwerveModuleState(),
+      new SwerveModuleState(),
+      new SwerveModuleState(),
+      new SwerveModuleState()
+    });
   }
 
   public void disabledInit() {
