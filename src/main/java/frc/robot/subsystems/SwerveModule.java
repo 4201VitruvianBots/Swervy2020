@@ -80,11 +80,12 @@ public class SwerveModule extends SubsystemBase {
     m_driveMotor.configFactoryDefault();
     m_driveMotor.configAllSettings(DriveMotorConfig);
     m_driveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_driveMotor.setInverted(invertThrottle);
 
     m_turnMotor.configFactoryDefault();
     m_turnMotor.configAllSettings(TurnMotorConfig);
     m_turnMotor.setInverted(invertTurn);
-    // m_turnMotor.configFeedbackNotContinuous(true, 0);
+    m_turnMotor.configFeedbackNotContinuous(true, 0);
     m_turnMotor.configRemoteFeedbackFilter(m_angleEncoder, 0, 20);
     // m_turnMotor.configRemoteFeedbackFilter(m_angleEncoder, 0);
     m_turnMotor.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
