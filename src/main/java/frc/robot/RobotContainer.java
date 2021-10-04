@@ -29,7 +29,7 @@ import frc.robot.commands.autoCommands.DriveStraight;
 import frc.robot.simulation.FieldSim;
 import frc.robot.commands.SwerveAngles;
 import frc.robot.commands.autoCommands.Slalom;
-import frc.robot.commands.autoCommands.TestAuto;
+import frc.robot.commands.autoCommands.AutoTest;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.vitruvianlib.utils.JoystickWrapper;
@@ -56,7 +56,7 @@ public class RobotContainer {
 
   private enum CommandSelector {
     DRIVE_STRAIGHT,
-    TEST_AUTO
+    AUTO_TEST
   }
 
   SendableChooser<Integer> m_autoChooser = new SendableChooser();
@@ -80,9 +80,9 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    m_autoChooser.addDefault("Drive Straight", CommandSelector.DRIVE_STRAIGHT.ordinal());
-    for (Enum commandEnum : CommandSelector.values())
-      if (commandEnum != CommandSelector.DRIVE_STRAIGHT)
+    m_autoChooser.setDefaultOption("Drive Straight", CommandSelector.DRIVE_STRAIGHT.ordinal());
+    for (CommandSelector commandEnum : CommandSelector.values())
+      // if (commandEnum != CommandSelector.DRIVE_STRAIGHT)
         m_autoChooser.addOption(commandEnum.toString(), commandEnum.ordinal());
 
     SmartDashboard.putData(m_autoChooser);
@@ -91,7 +91,7 @@ public class RobotContainer {
             Map.ofEntries(
 //                    entry(CommandSelector.SHOOT_AND_DRIVE_BACK, new ShootAndDriveBack(m_driveTrain,m_intake,m_indexer,m_turret,m_shooter,m_vision)),
                     entry(CommandSelector.DRIVE_STRAIGHT, new DriveStraight(m_swerveDrive)),
-                    entry(CommandSelector.TEST_AUTO, new TestAuto(m_swerveDrive))
+                    entry(CommandSelector.AUTO_TEST, new AutoTest(m_swerveDrive))
 //                        entry(CommandSelector.TEST_SEQUENTIAL_REVERSE_AUTO, new TestSequentialSwitching(m_driveTrain))
             ),
             this::selectCommand
