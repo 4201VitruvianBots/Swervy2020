@@ -55,14 +55,15 @@ public class RobotContainer {
 
 
   private enum CommandSelector {
-    DRIVE_STRAIGHT
+    DRIVE_STRAIGHT,
+    TEST_AUTO
   }
 
   SendableChooser<Integer> m_autoChooser = new SendableChooser();
 
   private SelectCommand m_autoCommand;
   
-  private boolean batteryFront = true; // Set this to false to drive with the battery at the back
+  private boolean batteryFront = false; // Set this to false to drive with the battery at the back
 
   static JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
   static JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
@@ -89,7 +90,8 @@ public class RobotContainer {
     m_autoCommand = new SelectCommand(
             Map.ofEntries(
 //                    entry(CommandSelector.SHOOT_AND_DRIVE_BACK, new ShootAndDriveBack(m_driveTrain,m_intake,m_indexer,m_turret,m_shooter,m_vision)),
-                    entry(CommandSelector.DRIVE_STRAIGHT, new DriveStraight(m_swerveDrive))
+                    entry(CommandSelector.DRIVE_STRAIGHT, new DriveStraight(m_swerveDrive)),
+                    entry(CommandSelector.TEST_AUTO, new TestAuto(m_swerveDrive))
 //                        entry(CommandSelector.TEST_SEQUENTIAL_REVERSE_AUTO, new TestSequentialSwitching(m_driveTrain))
             ),
             this::selectCommand

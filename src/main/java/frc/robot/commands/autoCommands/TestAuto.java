@@ -28,10 +28,8 @@ public class TestAuto extends SequentialCommandGroup {
 
         int[][] waypointsRaw = {
                 {0,0,0},
-                {12,0,0},
-                {12,-12,0},
-                {0,-12,0},
-                {0,0,0}
+                {120,0,0},
+                {120,60,0}
         };
 
         Pose2d prevPose = null;
