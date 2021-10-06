@@ -14,6 +14,7 @@ import frc.robot.subsystems.SwerveModule;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.DoubleSupplier;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * Command to set the swerve modules to a desired state.
@@ -23,22 +24,26 @@ public class SetSwerveModules extends CommandBase {
   private final SwerveDrive m_swerveDrive;
   private final SwerveModuleState[] m_desiredStates;
 
+  double startTime;
+
   /**
    * Creates a new SetSwerveModules.
    *
-   * @param swerveDriveSubsystem The subsystem used by this command.
+   * @param swerveDrive   The subsystem used by this command.
+   * @param desiredStates The states to set the module to.
    */
-  public SetSwerveModules(SwerveDrive swerveDriveSubsystem, SwerveModuleState[] desiredStates) {
-    m_swerveDrive = swerveDriveSubsystem;
+  public SetSwerveModules(SwerveDrive swerveDrive, SwerveModuleState[] desiredStates) {
+    m_swerveDrive = swerveDrive;
     m_desiredStates = desiredStates;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(swerveDriveSubsystem);
+    addRequirements(m_swerveDrive);
   }
 
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    startTime = Timer.getFPGATimestamp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -55,6 +60,6 @@ public class SetSwerveModules extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return /*m_swerveDrive.ModulesAtThreshhold(m_desiredStates) ||*/ Timer.getFPGATimestamp() - startTime > 1;
   }
 }

@@ -380,4 +380,14 @@ public class SwerveDrive extends SubsystemBase {
         currentTrajectory = trajectory;
         startTime = Timer.getFPGATimestamp();
     }
+
+    public boolean ModulesAtThreshhold(SwerveModuleState[] states) {
+        boolean atThreshhold = true;
+        for (int i = 0; i < states.length; i++) {
+            if (!mSwerveModules[i].atThreshHold(states[i])) {
+                atThreshhold = false;
+            }
+        }
+        return atThreshhold;
+    }
 }

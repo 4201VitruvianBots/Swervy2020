@@ -266,4 +266,9 @@ public class SwerveModule extends SubsystemBase {
   public TalonFX getDriveMotor() {
     return m_driveMotor;
   }
+
+  public boolean atThreshHold(SwerveModuleState desiredState) {
+    // Calculates the difference of the module's angle and the desireed state's angle, and returns true if the difference is less than 1 degrees
+    return Math.abs(Math.IEEEremainder(getState().angle.getDegrees() - desiredState.angle.getDegrees() + 180, 360) - 180) <= 1;
+  }
 }

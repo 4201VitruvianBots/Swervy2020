@@ -42,7 +42,7 @@ public class AutoTest extends SequentialCommandGroup {
                         // new Translation2d(Units.feetToMeters(10), 0)
                         // new Translation2d(Units.feetToMeters(10), Units.feetToMeters(5))
                 ),
-                new Pose2d(Units.feetToMeters(0), Units.feetToMeters(10), new Rotation2d(0)),
+                new Pose2d(Units.feetToMeters(0), Units.feetToMeters(5), new Rotation2d(0)),
                 config
         );
 
@@ -76,10 +76,10 @@ public class AutoTest extends SequentialCommandGroup {
 //        );
         addCommands(new ResetOdometry(swerveDrive).andThen(() -> swerveDrive.zeroHeading()),
                 new SetSwerveModules(swerveDrive, new SwerveModuleState[] {
-                        new SwerveModuleState(),
-                        new SwerveModuleState(),
-                        new SwerveModuleState(),
-                        new SwerveModuleState()}),
+                        new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(180))),
+                        new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(180))),
+                        new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(180))),
+                        new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(180)))}),
                 autoTest.andThen(() -> swerveDrive.drive(0, 0, 0, false, false)));// Run path following command, then stop at the end.
     }
 }
