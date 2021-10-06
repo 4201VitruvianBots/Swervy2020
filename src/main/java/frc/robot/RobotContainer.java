@@ -115,9 +115,9 @@ public class RobotContainer {
     if(RobotBase.isReal()) {
 
       m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
-              () -> -Math.pow(leftJoystick.getRawAxis(0),3), //left x
+              () -> Math.pow(leftJoystick.getRawAxis(0),3), //left x
               () -> Math.pow(leftJoystick.getRawAxis(1),3), //left y
-              () -> -Math.pow(rightJoystick.getRawAxis(0),3))); //right x
+              () -> Math.pow(rightJoystick.getRawAxis(0),3))); //right x
     } else {
       m_swerveDrive.setDefaultCommand(new SetSwerveDrive(m_swerveDrive,
               () -> Math.pow(leftJoystick.getRawAxis(0),3), //left x
@@ -139,9 +139,9 @@ public class RobotContainer {
     leftJoystick.setAxisDeadband(1, 0.01);
     rightJoystick.setAxisDeadband(0, 0.01);
     rightJoystick.setAxisDeadband(1, 0.01);
-    leftJoystick.invertRawAxis(0, !batteryFront);
+    leftJoystick.invertRawAxis(0, batteryFront);
     leftJoystick.invertRawAxis(1, batteryFront);
-    rightJoystick.invertRawAxis(0, true);
+    // rightJoystick.invertRawAxis(0, true);
     xBoxController.invertRawAxis(1, true);
     xBoxController.invertRawAxis(5, true);
     for (int i = 0; i < leftButtons.length; i++)

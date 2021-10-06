@@ -85,8 +85,7 @@ public class SwerveModule extends SubsystemBase {
     m_turnMotor.configFactoryDefault();
     m_turnMotor.configAllSettings(TurnMotorConfig);
     m_turnMotor.setInverted(invertTurn);
-    m_turnMotor.configFeedbackNotContinuous(true, 0);
-    m_turnMotor.configRemoteFeedbackFilter(m_angleEncoder, 0, 20);
+    m_turnMotor.configRemoteFeedbackFilter(m_angleEncoder.getDeviceID(), RemoteSensorSource.CANCoder, 0, 20);
     // m_turnMotor.configRemoteFeedbackFilter(m_angleEncoder, 0);
     m_turnMotor.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
     m_turnMotor.setSelectedSensorPosition((getHeadingDegrees() - zeroOffset) / kTurningEncoderDistancePerPulse);
@@ -176,7 +175,7 @@ public class SwerveModule extends SubsystemBase {
    */
   public void setDesiredState(SwerveModuleState state, boolean isOpenLoop) {
     SwerveModuleState outputState = state;  // Why does this work???
-    // /*SwerveModuleState*/ outputState = CTREModuleState.optimize(state, getState().angle);
+    // SwerveModuleState outputState = CTREModuleState.optimize(state, getState().angle);
     double angle = 0.0;
 
     if(RobotBase.isReal()) {

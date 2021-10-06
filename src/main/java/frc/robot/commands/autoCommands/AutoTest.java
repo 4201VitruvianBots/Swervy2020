@@ -39,10 +39,10 @@ public class AutoTest extends SequentialCommandGroup {
                 new Pose2d(0, 0, new Rotation2d(0)),
                 List.of(
                         // new Translation2d(0, 0),
-                        new Translation2d(Units.feetToMeters(10), 0)
+                        // new Translation2d(Units.feetToMeters(10), 0)
                         // new Translation2d(Units.feetToMeters(10), Units.feetToMeters(5))
                 ),
-                new Pose2d(Units.feetToMeters(10), Units.feetToMeters(5), new Rotation2d(0)),
+                new Pose2d(Units.feetToMeters(0), Units.feetToMeters(10), new Rotation2d(0)),
                 config
         );
 
