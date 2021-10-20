@@ -39,7 +39,7 @@ public class DriveStraightTank extends SequentialCommandGroup {
 
         RamseteCommand driveStraight = new RamseteCommand(
             exampleTrajectory,
-            swerveDrive::getPose,
+            swerveDrive::getTankPose,
             new RamseteController(),
             Constants.DriveConstants.kTankKinematics,
             swerveDrive::setTankSpeeds,

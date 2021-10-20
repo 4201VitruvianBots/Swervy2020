@@ -56,7 +56,8 @@ public class SwerveDrive extends SubsystemBase {
     int navXSim = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(kDriveKinematics, getRotation());
-//    private final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(
+    private final SwerveDriveOdometry m_tankOdometry = new SwerveDriveOdometry(kDriveKinematics, getAverageModuleRotation());
+    //    private final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(
 //        getRotation(),
 //        new Pose2d(),
 //        kDriveKinematics,
@@ -112,6 +113,21 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     /**
+     * Returns the average angle of all the modules as a Rotation2d.
+     * 
+     * @return The average angle of all the modules.
+     */
+    public Rotation2d getAverageModuleRotation() {
+        double averageHeading = 0;
+        for (SwerveModule i : mSwerveModules) {
+            averageHeading += i.getPose().getRotation().getRadians();
+        }
+        averageHeading /= mSwerveModules.length;
+
+        return new Rotation2d(averageHeading);
+    }
+
+    /**
      * Returns the turn rate of the robot.
      *
      * @return The turn rate of the robot, in degrees per second
@@ -160,6 +176,16 @@ public class SwerveDrive extends SubsystemBase {
      */
     public Pose2d getPose() {
         return m_odometry.getPoseMeters();
+    }
+
+    /**
+     * Returns a pose with the position of the robot and the heading set to the average of all the poses.
+     * Used to run RamseteCommands.
+     * 
+     * @return The pose.
+     */
+    public Pose2d getTankPose() {
+        return m_tankOdometry.getPoseMeters();
     }
 
     /**
@@ -276,6 +302,16 @@ public class SwerveDrive extends SubsystemBase {
             mSwerveModules[2].getState(),
             mSwerveModules[3].getState()
         );
+        
+        
+        m_tankOdometry.update(
+            getAverageModuleRotation(),
+            mSwerveModules[0].getState(),
+            mSwerveModules[1].getState(),
+            mSwerveModules[2].getState(),
+            mSwerveModules[3].getState()
+        );
+
         // Update module positions based on the chassis' position, but keep the module heading
         for (int i = 0; i < mSwerveModules.length; i++) {
             var modulePositionFromChassis = modulePositions[i].rotateBy(getRotation()).plus(getPose().getTranslation());
@@ -290,6 +326,7 @@ public class SwerveDrive extends SubsystemBase {
 
     public void resetOdometry(Pose2d pose, Rotation2d rotation) {
         m_odometry.resetPosition(pose, rotation);
+        m_tankOdometry.resetPosition(pose, getAverageModuleRotation());
 
         for(int i = 0; i < mSwerveModules.length; i++) {
             mSwerveModules[i].setPose(pose);
