@@ -196,6 +196,15 @@ public class SwerveDrive extends SubsystemBase {
 
     }
 
+    public void setDirectDriveOutput(double leftPercentOutput, double rightPercentOutput) {
+        setModuleStates(new SwerveModuleState[] {
+            new SwerveModuleState(leftPercentOutput * Constants.AutoConstants.kMaxSpeedMetersPerSecond, new Rotation2d(0)),
+            new SwerveModuleState(leftPercentOutput * Constants.AutoConstants.kMaxSpeedMetersPerSecond, new Rotation2d(0)),
+            new SwerveModuleState(rightPercentOutput * Constants.AutoConstants.kMaxSpeedMetersPerSecond, new Rotation2d(0)),
+            new SwerveModuleState(rightPercentOutput * Constants.AutoConstants.kMaxSpeedMetersPerSecond, new Rotation2d(0))
+        });
+    }
+
     public void setAngleSetpoint(double angleSetpoint, boolean enabled) {
         enablePidTurn = enabled;
 //        double differance = angle - RobotContainer.swerve.getDegrees();
