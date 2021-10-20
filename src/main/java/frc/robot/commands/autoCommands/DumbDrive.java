@@ -17,12 +17,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
- * Uses timing to move the robot a certain distance
+ * Makes the robot move at a specific voltage for a set amount of time
  */
 public class DumbDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveDrive m_swerveDrive;
-  private final double m_heading, m_timeSeconds;
+  private final double m_timeSeconds;
 
   private SwerveModuleState stateStationary;
   private SwerveModuleState stateMoving;
@@ -35,21 +35,22 @@ public class DumbDrive extends CommandBase {
    * @param swerveDrive The subsystem used by this command.
    * @param heading The direction for the robot to move in degrees
    * @param timeSeconds The amount of time for the command to run 
+   * @param percentOutput The output of the motors
    */
-  public DumbDrive(SwerveDrive swerveDrive, double heading, double timeSeconds) {
+  public DumbDrive(SwerveDrive swerveDrive, double heading, double timeSeconds, double percentOutput) {
     m_swerveDrive = swerveDrive;
-    m_heading = heading;
-    m_timeSeconds = timeSeconds; 
+    m_timeSeconds = timeSeconds;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_swerveDrive);
 
     stateStationary = new SwerveModuleState(0,
-      new Rotation2d(Units.degreesToRadians(m_heading))
+      new Rotation2d(Units.degreesToRadians(heading))
     );
 
     stateMoving = new SwerveModuleState(
-      Constants.AutoConstants.kMaxSpeedMetersPerSecond,
-      new Rotation2d(Units.degreesToRadians(m_heading))
+      Constants.AutoConstants.kMaxSpeedMetersPerSecond * percentOutput,
+      new Rotation2d(Units.degreesToRadians(heading))
     );
   }
 

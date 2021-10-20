@@ -26,6 +26,7 @@ import frc.robot.commands.TestTurningMotor;
 import frc.robot.commands.autoCommands.AutoTestCommand;
 import frc.robot.commands.autoCommands.Bounce;
 import frc.robot.commands.autoCommands.DriveStraight;
+import frc.robot.commands.autoCommands.DumbDrive;
 import frc.robot.simulation.FieldSim;
 import frc.robot.commands.SwerveAngles;
 import frc.robot.commands.autoCommands.Slalom;
@@ -56,7 +57,8 @@ public class RobotContainer {
 
   private enum CommandSelector {
     DRIVE_STRAIGHT,
-    AUTO_TEST
+    AUTO_TEST,
+    DUMB_DRIVE
   }
 
   SendableChooser<Integer> m_autoChooser = new SendableChooser();
@@ -91,7 +93,8 @@ public class RobotContainer {
             Map.ofEntries(
 //                    entry(CommandSelector.SHOOT_AND_DRIVE_BACK, new ShootAndDriveBack(m_driveTrain,m_intake,m_indexer,m_turret,m_shooter,m_vision)),
                     entry(CommandSelector.DRIVE_STRAIGHT, new DriveStraight(m_swerveDrive)),
-                    entry(CommandSelector.AUTO_TEST, new AutoTest(m_swerveDrive))
+                    entry(CommandSelector.AUTO_TEST, new AutoTest(m_swerveDrive)),
+                    entry(CommandSelector.DUMB_DRIVE, new DumbDrive(m_swerveDrive, 0, 2, 0.2))
 //                        entry(CommandSelector.TEST_SEQUENTIAL_REVERSE_AUTO, new TestSequentialSwitching(m_driveTrain))
             ),
             this::selectCommand
