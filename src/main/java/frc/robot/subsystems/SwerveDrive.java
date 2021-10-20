@@ -75,6 +75,8 @@ public class SwerveDrive extends SubsystemBase {
     private double m_trajectoryTime;
     private Trajectory currentTrajectory;
 
+    private Rotation2d m_moduleHeadingTarget;
+
     public SwerveDrive(PowerDistributionPanel pdp) {
         m_pdp = pdp;
 
@@ -230,6 +232,22 @@ public class SwerveDrive extends SubsystemBase {
         mSwerveModules[1].setDesiredState(desiredStates[1], false);
         mSwerveModules[2].setDesiredState(desiredStates[2], false);
         mSwerveModules[3].setDesiredState(desiredStates[3], false);
+    }
+
+    public void setTankDirection(Rotation2d targetHeading) {
+        m_moduleHeadingTarget = targetHeading;
+    }
+
+    public void setTankSpeeds(double leftSpeed, double rightSpeed) {
+        SwerveModuleState leftState = new SwerveModuleState(leftSpeed, m_moduleHeadingTarget);
+        SwerveModuleState rightState = new SwerveModuleState(rightSpeed, m_moduleHeadingTarget);
+
+        setModuleStates(new SwerveModuleState[]{
+                leftState,
+                rightState,
+                leftState,
+                rightState
+        });
     }
 
     public void setHeadingToTargetHeading(Rotation2d targetHeading) {
