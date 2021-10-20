@@ -15,7 +15,7 @@ import frc.robot.subsystems.SwerveDrive;
  * 
  * @deprecated Timing should not be relied on because it requires a full battery, use {@link ManualDrive} instead
  */
-public class TimedDistanceDrive extends DumbDrive {
+public class TimedDistanceDrive extends TimedDrive {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   /**

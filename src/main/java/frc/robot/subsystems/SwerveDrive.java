@@ -311,8 +311,8 @@ public class SwerveDrive extends SubsystemBase {
             // SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Setpoint", mSwerveModules[i].getState()
             // SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Speed", mSwerveModules[i].getState().speedMetersPerSecond);
         }
-        SmartDashboardTab.putNumber("SwerveDrive", "PoseX", Units.metersToFeet(getPose().getX()));
-        SmartDashboardTab.putNumber("SwerveDrive", "PoseY", Units.metersToFeet(getPose().getY()));
+        SmartDashboardTab.putNumber("SwerveDrive", "PoseX Feet", Units.metersToFeet(getPose().getX()));
+        SmartDashboardTab.putNumber("SwerveDrive", "PoseY Feet", Units.metersToFeet(getPose().getY()));
 
 
 //        SmartDashboardTab.putNumber("SwerveDrive","Front Left Angle",mSwerveModules[0].getTurnAngle());
@@ -323,8 +323,8 @@ public class SwerveDrive extends SubsystemBase {
 //        SmartDashboardTab.putNumber("SwerveDrive","navXDebug",navXDebug);
 //        SmartDashboardTab.putNumber("SwerveDrive","State",mSwerveModules[0].getState().angle.getDegrees());
 
-        SmartDashboardTab.putNumber("SwerveDrive", "X coordinate", getPose().getX());
-        SmartDashboardTab.putNumber("SwerveDrive", "Y coordinate", getPose().getY());
+        SmartDashboardTab.putNumber("SwerveDrive", "PoseX", getPose().getX());
+        SmartDashboardTab.putNumber("SwerveDrive", "PoseY", getPose().getY());
 //    SmartDashboardTab.putNumber("SwerveDrive","Front Right Speed",mSwerveModules[0].getState().speedMetersPerSecond);
 //    SmartDashboardTab.putNumber("SwerveDrive","Front Left Speed",mSwerveModules[1].getState().speedMetersPerSecond);
 //    SmartDashboardTab.putNumber("SwerveDrive","Back Left Speed",mSwerveModules[2].getState().speedMetersPerSecond);

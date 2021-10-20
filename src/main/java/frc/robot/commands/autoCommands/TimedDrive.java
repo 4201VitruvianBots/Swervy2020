@@ -18,10 +18,8 @@ import edu.wpi.first.wpilibj.Timer;
 
 /**
  * Makes the robot move at a specific voltage for a set amount of time
- * 
- * @deprecated This command is very messy. Use {@link TimedDrive} instead.
  */
-public class DumbDrive extends CommandBase {
+public class TimedDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveDrive m_swerveDrive;
   private final double m_timeSeconds;
@@ -32,16 +30,14 @@ public class DumbDrive extends CommandBase {
   
 
   /**
-   * Creates a new DumbDrive.
+   * Creates a new TimedDrive.
    *
-   * @deprecated This command is very messy. Use {@link TimedDrive} instead.
-   * 
    * @param swerveDrive The subsystem used by this command.
    * @param heading The direction for the robot to move in degrees
    * @param timeSeconds The amount of time for the command to run 
    * @param percentOutput The output of the motors
    */
-  public DumbDrive(SwerveDrive swerveDrive, double heading, double timeSeconds, double percentOutput) {
+  public TimedDrive(SwerveDrive swerveDrive, double heading, double timeSeconds, double percentOutput) {
     m_swerveDrive = swerveDrive;
     m_timeSeconds = timeSeconds;
 
@@ -86,7 +82,12 @@ public class DumbDrive extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    initialize(); // dUMB SJORTCUT
+    m_swerveDrive.setModuleStates(new SwerveModuleState[] {
+      stateStationary,
+      stateStationary,
+      stateStationary,
+      stateStationary
+    });
   }
 
   // Returns true when the command should end.
