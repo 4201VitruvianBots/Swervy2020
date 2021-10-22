@@ -44,8 +44,8 @@ public class DriveAngleTank extends SequentialCommandGroup {
                         // new Translation2d(2, 0)
                 ),
                 new Pose2d(
-                    distanceMeters * Math.cos(Units.degreesToRadians(headingDegrees)),
-                    distanceMeters * Math.sin(Units.degreesToRadians(headingDegrees)),
+                    distanceMeters * Math.cos(Units.degreesToRadians(360-headingDegrees)),
+                    distanceMeters * Math.sin(Units.degreesToRadians(360-headingDegrees)),
                     new Rotation2d(Units.degreesToRadians(headingDegrees))
                 ),
                 config
@@ -60,7 +60,8 @@ public class DriveAngleTank extends SequentialCommandGroup {
             swerveDrive
         );
 
-        addCommands(new ResetOdometry(swerveDrive).andThen(()-> swerveDrive.setTankDirection(new Rotation2d(Units.degreesToRadians(headingDegrees)))),
+        addCommands(new ResetOdometry(swerveDrive)
+                .andThen(()-> swerveDrive.setTankDirection(new Rotation2d(Units.degreesToRadians(headingDegrees)))),   
                 driveStraight.andThen(() -> swerveDrive.drive(0, 0, 0, false, false)));// Run path following command, then stop at the end.
     }
 }

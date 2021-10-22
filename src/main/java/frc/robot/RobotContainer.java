@@ -25,6 +25,7 @@ import frc.robot.commands.SetSwerveDrive;
 import frc.robot.commands.TestTurningMotor;
 import frc.robot.commands.autoCommands.AutoTestCommand;
 import frc.robot.commands.autoCommands.Bounce;
+import frc.robot.commands.autoCommands.DriveAngleTank;
 import frc.robot.commands.autoCommands.DriveStraight;
 import frc.robot.commands.autoCommands.DriveStraightTank;
 import frc.robot.commands.autoCommands.TimedDrive;
@@ -60,7 +61,8 @@ public class RobotContainer {
     DRIVE_STRAIGHT,
     AUTO_TEST,
     TIMED_DRIVE,
-    DRIVE_STRAIGHT_TANK
+    DRIVE_STRAIGHT_TANK,
+    DRIVE_ANGLE_TANK
   }
 
   SendableChooser<Integer> m_autoChooser = new SendableChooser<Integer>();
@@ -93,12 +95,13 @@ public class RobotContainer {
     
     m_autoCommand = new SelectCommand(
             Map.ofEntries(
-//                    entry(CommandSelector.SHOOT_AND_DRIVE_BACK, new ShootAndDriveBack(m_driveTrain,m_intake,m_indexer,m_turret,m_shooter,m_vision)),
-                    entry(CommandSelector.DRIVE_STRAIGHT, new DriveStraight(m_swerveDrive)),
-                    entry(CommandSelector.AUTO_TEST, new AutoTest(m_swerveDrive)),
-                    entry(CommandSelector.TIMED_DRIVE, new TimedDrive(m_swerveDrive, 0, 2, 0.2)),
-                    entry(CommandSelector.DRIVE_STRAIGHT_TANK, new DriveStraightTank(m_swerveDrive))
-//                        entry(CommandSelector.TEST_SEQUENTIAL_REVERSE_AUTO, new TestSequentialSwitching(m_driveTrain))
+              // entry(CommandSelector.SHOOT_AND_DRIVE_BACK, new ShootAndDriveBack(m_driveTrain,m_intake,m_indexer,m_turret,m_shooter,m_vision)),
+              entry(CommandSelector.DRIVE_STRAIGHT, new DriveStraight(m_swerveDrive)),
+              entry(CommandSelector.AUTO_TEST, new AutoTest(m_swerveDrive)),
+              entry(CommandSelector.TIMED_DRIVE, new TimedDrive(m_swerveDrive, 0, 2, 0.2)),
+              entry(CommandSelector.DRIVE_STRAIGHT_TANK, new DriveStraightTank(m_swerveDrive)),
+              entry(CommandSelector.DRIVE_ANGLE_TANK, new DriveAngleTank(m_swerveDrive, 90, 1))
+              // entry(CommandSelector.TEST_SEQUENTIAL_REVERSE_AUTO, new TestSequentialSwitching(m_driveTrain))
             ),
             this::selectCommand
     );

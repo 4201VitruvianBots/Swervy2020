@@ -336,6 +336,7 @@ public class SwerveDrive extends SubsystemBase {
 
     private void updateSmartDashboard() {
         SmartDashboardTab.putNumber("SwerveDrive","Chassis Angle", getHeadingDegrees());
+        SmartDashboardTab.putNumber("SwerveDrive", "Average Module Angle", getAverageModuleRotation().getDegrees());
         for(int i = 0; i < mSwerveModules.length; i++) {
             SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Angle", mSwerveModules[i].getState().angle.getDegrees());
             //SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Setpoint", swerveModuleStates[i].angle.getDegrees());

@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.Timer;
  * 
  * @deprecated This command is very messy. Use {@link TimedDrive} instead.
  */
+@Deprecated
 public class DumbDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveDrive m_swerveDrive;
@@ -41,6 +42,7 @@ public class DumbDrive extends CommandBase {
    * @param timeSeconds The amount of time for the command to run 
    * @param percentOutput The output of the motors
    */
+  @Deprecated
   public DumbDrive(SwerveDrive swerveDrive, double heading, double timeSeconds, double percentOutput) {
     m_swerveDrive = swerveDrive;
     m_timeSeconds = timeSeconds;

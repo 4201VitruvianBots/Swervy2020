@@ -15,6 +15,7 @@ import frc.robot.subsystems.SwerveDrive;
  * 
  * @deprecated Timing should not be relied on because it requires a full battery, use {@link ManualDrive} instead
  */
+@Deprecated
 public class TimedDistanceDrive extends TimedDrive {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
@@ -28,6 +29,7 @@ public class TimedDistanceDrive extends TimedDrive {
    * @param distanceMeters The distance for the robot to travel 
    * @param percentOutput The output of the motors
    */
+  @Deprecated
   public TimedDistanceDrive(SwerveDrive swerveDrive, double heading, double distanceMeters, double percentOutput) {
     super(swerveDrive, heading, percentOutput * distanceMeters / Constants.AutoConstants.kMaxSpeedMetersPerSecond, percentOutput);
   }
