@@ -3,6 +3,7 @@ package frc.robot.commands.autoCommands;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -44,12 +45,13 @@ public class DriveAngleTank extends SequentialCommandGroup {
                         // new Translation2d(2, 0)
                 ),
                 new Pose2d(
-                    distanceMeters * Math.cos(Units.degreesToRadians(360-headingDegrees)),
-                    distanceMeters * Math.sin(Units.degreesToRadians(360-headingDegrees)),
+                    distanceMeters * Math.cos(Units.degreesToRadians(headingDegrees)),
+                    distanceMeters * Math.sin(Units.degreesToRadians(headingDegrees)),
                     new Rotation2d(Units.degreesToRadians(headingDegrees))
                 ),
                 config
         );
+
 
         RamseteCommand driveStraight = new RamseteCommand(
             exampleTrajectory,
@@ -59,6 +61,9 @@ public class DriveAngleTank extends SequentialCommandGroup {
             swerveDrive::setTankSpeeds,
             swerveDrive
         );
+
+        SmartDashboardTab.putNumber("SwerveDrive", "target poseX", distanceMeters * Math.cos(Units.degreesToRadians(headingDegrees)));
+        SmartDashboardTab.putNumber("SwerveDrive", "target poseY", distanceMeters * Math.sin(Units.degreesToRadians(headingDegrees)));
 
         addCommands(new ResetOdometry(swerveDrive)
                 .andThen(()-> swerveDrive.setTankDirection(new Rotation2d(Units.degreesToRadians(headingDegrees)))),   

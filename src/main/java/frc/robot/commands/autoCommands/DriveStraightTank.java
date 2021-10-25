@@ -3,6 +3,7 @@ package frc.robot.commands.autoCommands;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -45,6 +46,8 @@ public class DriveStraightTank extends SequentialCommandGroup {
             swerveDrive::setTankSpeeds,
             swerveDrive
         );
+
+        SmartDashboardTab.putNumber("SwerveDrive", "target heading", new Rotation2d().getDegrees());
 
         addCommands(new ResetOdometry(swerveDrive).andThen(()-> swerveDrive.setTankDirection(new Rotation2d())),
                 driveStraight.andThen(() -> swerveDrive.drive(0, 0, 0, false, false)));// Run path following command, then stop at the end.
