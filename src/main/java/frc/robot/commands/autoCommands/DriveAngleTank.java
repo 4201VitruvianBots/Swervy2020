@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.commands.SetTankDirection;
 import frc.robot.subsystems.SwerveDrive;
 
 import java.util.List;
@@ -65,8 +67,9 @@ public class DriveAngleTank extends SequentialCommandGroup {
         SmartDashboardTab.putNumber("SwerveDrive", "target poseX", distanceMeters * Math.cos(Units.degreesToRadians(headingDegrees)));
         SmartDashboardTab.putNumber("SwerveDrive", "target poseY", distanceMeters * Math.sin(Units.degreesToRadians(headingDegrees)));
 
-        addCommands(new ResetOdometry(swerveDrive)
-                .andThen(()-> swerveDrive.setTankDirection(new Rotation2d(Units.degreesToRadians(headingDegrees)))),   
-                driveStraight.andThen(() -> swerveDrive.drive(0, 0, 0, false, false)));// Run path following command, then stop at the end.
+        addCommands(new ResetOdometry(swerveDrive),
+                new SetTankDirection(swerveDrive, headingDegrees).withTimeout(1),
+                driveStraight.andThen(() -> swerveDrive.drive(0, 0, 0, false, false))
+            );// Run path following command, then stop at the end.
     }
 }

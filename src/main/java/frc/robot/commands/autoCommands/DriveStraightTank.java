@@ -49,7 +49,8 @@ public class DriveStraightTank extends SequentialCommandGroup {
 
         SmartDashboardTab.putNumber("SwerveDrive", "target heading", new Rotation2d().getDegrees());
 
-        addCommands(new ResetOdometry(swerveDrive).andThen(()-> swerveDrive.setTankDirection(new Rotation2d())),
+        addCommands(new ResetOdometry(swerveDrive)
+                .andThen(()-> swerveDrive.setTankDirection(new Rotation2d(0))),
                 driveStraight.andThen(() -> swerveDrive.drive(0, 0, 0, false, false)));// Run path following command, then stop at the end.
     }
 }

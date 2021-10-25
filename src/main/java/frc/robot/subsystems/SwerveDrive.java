@@ -56,7 +56,7 @@ public class SwerveDrive extends SubsystemBase {
     int navXSim = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(kDriveKinematics, getRotation());
-    private final SwerveDriveOdometry m_tankOdometry = new SwerveDriveOdometry(kDriveKinematics, getAverageModuleRotation());
+    private final SwerveDriveOdometry m_tankOdometry = new SwerveDriveOdometry(kDriveKinematics, getTankRotation());
     //    private final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(
 //        getRotation(),
 //        new Pose2d(),
@@ -117,14 +117,8 @@ public class SwerveDrive extends SubsystemBase {
      * 
      * @return The average angle of all the modules.
      */
-    public Rotation2d getAverageModuleRotation() {
-        double averageHeading = 0;
-        for (SwerveModule i : mSwerveModules) {
-            averageHeading += i.getPose().getRotation().getRadians();
-        }
-        averageHeading /= mSwerveModules.length;
-
-        return new Rotation2d(averageHeading);
+    public Rotation2d getTankRotation() {
+        return new Rotation2d(Units.degreesToRadians(getTankHeadingDegrees()));
     }
 
     /**
@@ -148,6 +142,16 @@ public class SwerveDrive extends SubsystemBase {
             System.out.println("Cannot Get NavX Heading");
             return 0;
         }
+    }
+
+    public double getTankHeadingDegrees() {
+        double averageHeading = 0;
+        for (SwerveModule i : mSwerveModules) {
+            averageHeading += i.getPose().getRotation().getRadians();
+        }
+        averageHeading /= mSwerveModules.length;
+
+        return Units.radiansToDegrees(averageHeading);
     }
 
     /**
@@ -305,7 +309,7 @@ public class SwerveDrive extends SubsystemBase {
         
         
         m_tankOdometry.update(
-            getAverageModuleRotation(),
+            getTankRotation(),
             mSwerveModules[0].getState(),
             mSwerveModules[1].getState(),
             mSwerveModules[2].getState(),
@@ -326,7 +330,7 @@ public class SwerveDrive extends SubsystemBase {
 
     public void resetOdometry(Pose2d pose, Rotation2d rotation) {
         m_odometry.resetPosition(pose, rotation);
-        m_tankOdometry.resetPosition(pose, getAverageModuleRotation());
+        m_tankOdometry.resetPosition(pose, getTankRotation());
 
         for(int i = 0; i < mSwerveModules.length; i++) {
             mSwerveModules[i].setPose(pose);
@@ -336,7 +340,7 @@ public class SwerveDrive extends SubsystemBase {
 
     private void updateSmartDashboard() {
         SmartDashboardTab.putNumber("SwerveDrive","Chassis Angle", getHeadingDegrees());
-        SmartDashboardTab.putNumber("SwerveDrive", "Average Module Angle", getAverageModuleRotation().getDegrees());
+        SmartDashboardTab.putNumber("SwerveDrive", "Average Module Angle", getTankRotation().getDegrees());
         for(int i = 0; i < mSwerveModules.length; i++) {
             SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Angle", mSwerveModules[i].getState().angle.getDegrees());
             //SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Setpoint", swerveModuleStates[i].angle.getDegrees());

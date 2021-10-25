@@ -28,6 +28,7 @@ import frc.robot.commands.autoCommands.Bounce;
 import frc.robot.commands.autoCommands.DriveAngleTank;
 import frc.robot.commands.autoCommands.DriveStraight;
 import frc.robot.commands.autoCommands.DriveStraightTank;
+import frc.robot.commands.autoCommands.ManualDrive;
 import frc.robot.commands.autoCommands.TimedDrive;
 import frc.robot.simulation.FieldSim;
 import frc.robot.commands.SwerveAngles;
@@ -62,7 +63,8 @@ public class RobotContainer {
     AUTO_TEST,
     TIMED_DRIVE,
     DRIVE_STRAIGHT_TANK,
-    DRIVE_ANGLE_TANK
+    DRIVE_ANGLE_TANK,
+    MANUAL_DRIVE
   }
 
   SendableChooser<Integer> m_autoChooser = new SendableChooser<Integer>();
@@ -100,7 +102,8 @@ public class RobotContainer {
               entry(CommandSelector.AUTO_TEST, new AutoTest(m_swerveDrive)),
               entry(CommandSelector.TIMED_DRIVE, new TimedDrive(m_swerveDrive, 0, 2, 0.2)),
               entry(CommandSelector.DRIVE_STRAIGHT_TANK, new DriveStraightTank(m_swerveDrive)),
-              entry(CommandSelector.DRIVE_ANGLE_TANK, new DriveAngleTank(m_swerveDrive, 0, 3))
+              entry(CommandSelector.DRIVE_ANGLE_TANK, new DriveAngleTank(m_swerveDrive, 0, 3)),
+              entry(CommandSelector.MANUAL_DRIVE, new ManualDrive(m_swerveDrive, 45, 3, 0.5))
               // entry(CommandSelector.TEST_SEQUENTIAL_REVERSE_AUTO, new TestSequentialSwitching(m_driveTrain))
             ),
             this::selectCommand

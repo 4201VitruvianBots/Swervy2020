@@ -9,6 +9,7 @@ package frc.robot.commands.autoCommands;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.Constants;
@@ -60,6 +61,8 @@ public class ManualDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_swerveDrive.resetOdometry(new Pose2d(new Translation2d(), new Rotation2d()), new Rotation2d());
+    m_swerveDrive.resetEncoders();
     m_swerveDrive.setModuleStates(new SwerveModuleState[] {
       stateStationary,
       stateStationary,
@@ -95,13 +98,14 @@ public class ManualDrive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double averageDistance = (
-      m_swerveDrive.getSwerveModule(0).getDriveMotor().getSelectedSensorPosition() * Constants.ModuleConstants.kDriveEncoderDistancePerPulse + 
-      m_swerveDrive.getSwerveModule(1).getDriveMotor().getSelectedSensorPosition() * Constants.ModuleConstants.kDriveEncoderDistancePerPulse + 
-      m_swerveDrive.getSwerveModule(2).getDriveMotor().getSelectedSensorPosition() * Constants.ModuleConstants.kDriveEncoderDistancePerPulse + 
-      m_swerveDrive.getSwerveModule(3).getDriveMotor().getSelectedSensorPosition() * Constants.ModuleConstants.kDriveEncoderDistancePerPulse
-    ) / 2;
+    // double averageDistance = (
+    //   m_swerveDrive.getSwerveModule(0).getDriveMotor().getSelectedSensorPosition() * Constants.ModuleConstants.kDriveEncoderDistancePerPulse + 
+    //   m_swerveDrive.getSwerveModule(1).getDriveMotor().getSelectedSensorPosition() * Constants.ModuleConstants.kDriveEncoderDistancePerPulse + 
+    //   m_swerveDrive.getSwerveModule(2).getDriveMotor().getSelectedSensorPosition() * Constants.ModuleConstants.kDriveEncoderDistancePerPulse + 
+    //   m_swerveDrive.getSwerveModule(3).getDriveMotor().getSelectedSensorPosition() * Constants.ModuleConstants.kDriveEncoderDistancePerPulse
+    // ) / 4;
     
-    return averageDistance > m_distanceMeters;
+    // return averageDistance > m_distanceMeters;
+    return Math.pow(m_swerveDrive.getPose().getX(), 2) + Math.pow(m_swerveDrive.getPose().getX(), 2) > Math.pow(m_distanceMeters, 2);
   }
 }
