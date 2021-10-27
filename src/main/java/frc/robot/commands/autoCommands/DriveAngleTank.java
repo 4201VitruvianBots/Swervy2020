@@ -69,6 +69,7 @@ public class DriveAngleTank extends SequentialCommandGroup {
 
         addCommands(new ResetOdometry(swerveDrive),
                 new SetTankDirection(swerveDrive, headingDegrees).withTimeout(1),
+                new ManualDrive(swerveDrive, 0, 1, 0.5).withTimeout(0.3),
                 driveStraight.andThen(() -> swerveDrive.drive(0, 0, 0, false, false))
             );// Run path following command, then stop at the end.
     }
