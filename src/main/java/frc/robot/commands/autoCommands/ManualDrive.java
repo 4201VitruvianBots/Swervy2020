@@ -106,6 +106,6 @@ public class ManualDrive extends CommandBase {
     // ) / 4;
     
     // return averageDistance > m_distanceMeters;
-    return Math.pow(m_swerveDrive.getPose().getX(), 2) + Math.pow(m_swerveDrive.getPose().getX(), 2) > Math.pow(m_distanceMeters, 2);
+    return Math.pow(m_swerveDrive.getPose().getX(), 2) + Math.pow(m_swerveDrive.getPose().getY(), 2) > Math.pow(m_distanceMeters, 2);
   }
 }
