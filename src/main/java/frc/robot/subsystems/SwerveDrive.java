@@ -269,6 +269,8 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setTankSpeeds(double leftSpeed, double rightSpeed) {
+        SmartDashboardTab.putNumber("SwerveDrive", "left speed'", leftSpeed);
+        SmartDashboardTab.putNumber("SwerveDrive", "right speed'", rightSpeed);
         SwerveModuleState leftState = new SwerveModuleState(leftSpeed, m_moduleHeadingTarget);
         SwerveModuleState rightState = new SwerveModuleState(rightSpeed, m_moduleHeadingTarget);
 
@@ -340,14 +342,14 @@ public class SwerveDrive extends SubsystemBase {
 
     private void updateSmartDashboard() {
         SmartDashboardTab.putNumber("SwerveDrive","Chassis Angle", getHeadingDegrees());
-        SmartDashboardTab.putNumber("SwerveDrive", "Average Module Angle", getTankRotation().getDegrees());
+        SmartDashboardTab.putNumber("SwerveDrive", "Average Module Angle", getTankPose().getRotation().getDegrees());
         for(int i = 0; i < mSwerveModules.length; i++) {
-            SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Angle", mSwerveModules[i].getState().angle.getDegrees());
-            //SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Setpoint", swerveModuleStates[i].angle.getDegrees());
-            SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " Velocity", mSwerveModules[i].getState().speedMetersPerSecond);
-            SmartDashboardTab.putNumber("SwerveDrive", "Module " + i + " V. Setpoint", swerveModuleStates[i].speedMetersPerSecond);
+            SmartDashboardTab.putNumber("SwerveModules", "Module " + i + " Angle", mSwerveModules[i].getState().angle.getDegrees());
+            //SmartDashboardTab.putNumber("SwerveModules", "Module " + i + " Setpoint", swerveModuleStates[i].angle.getDegrees());
+            SmartDashboardTab.putNumber("SwerveModules", "Module " + i + " Velocity", mSwerveModules[i].getState().speedMetersPerSecond);
+            SmartDashboardTab.putNumber("SwerveModules", "Module " + i + " V. Setpoint", swerveModuleStates[i].speedMetersPerSecond);
 
-            SmartDashboardTab.putNumber("SwerveDrive", "Module" + i + " Distance", Units.metersToFeet(mSwerveModules[i].getDriveMotor().getSelectedSensorPosition() * Constants.ModuleConstants.kDriveEncoderDistancePerPulse));
+            SmartDashboardTab.putNumber("SwerveModules", "Module" + i + " Distance", Units.metersToFeet(mSwerveModules[i].getDriveMotor().getSelectedSensorPosition() * Constants.ModuleConstants.kDriveEncoderDistancePerPulse));
             
 
             // SmartDashboardTab.putNumber("SwerveDrive", "Swerve Module " + i + " Setpoint", mSwerveModules[i].getState()
