@@ -84,7 +84,7 @@ public class DriveAngleTank extends SequentialCommandGroup {
             //         stateStationary
             //     }
             // ),
-            new SetTankDirection(swerveDrive, headingDegrees).withTimeout(1),
+            new SetTankDirection(swerveDrive, 360-headingDegrees).withTimeout(1), // Inverted because swerve modules are clockwise positive
             new WaitCommand(1),
             new ResetOdometry(swerveDrive).andThen(() -> swerveDrive.zeroHeading()),
             // .andThen(() -> swerveDrive.setTankDirection(headingRotation)),
