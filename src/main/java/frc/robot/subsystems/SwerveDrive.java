@@ -272,8 +272,9 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setTankSpeeds(double leftSpeed, double rightSpeed) {
-        SmartDashboardTab.putNumber("SwerveDrive", "left speed'", leftSpeed);
-        SmartDashboardTab.putNumber("SwerveDrive", "right speed'", rightSpeed);
+        double speed = (leftSpeed + rightSpeed) / 2;
+        SmartDashboardTab.putNumber("SwerveDrive", "left speed'", speed);
+        SmartDashboardTab.putNumber("SwerveDrive", "right speed'", speed);
         SwerveModuleState leftState = new SwerveModuleState(leftSpeed, m_moduleHeadingTarget);
         SwerveModuleState rightState = new SwerveModuleState(rightSpeed, m_moduleHeadingTarget);
 

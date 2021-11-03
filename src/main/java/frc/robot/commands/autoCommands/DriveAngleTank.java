@@ -37,7 +37,7 @@ public class DriveAngleTank extends SequentialCommandGroup {
      */
     public DriveAngleTank(SwerveDrive swerveDrive, double headingDegrees, double distanceMeters) {
         Rotation2d headingRotation = new Rotation2d(Units.degreesToRadians(headingDegrees));
-        SwerveModuleState stateStationary = new SwerveModuleState(0, headingRotation);
+        // SwerveModuleState stateStationary = new SwerveModuleState(0, headingRotation);
 
         // Create config for trajectory
         TrajectoryConfig config =
