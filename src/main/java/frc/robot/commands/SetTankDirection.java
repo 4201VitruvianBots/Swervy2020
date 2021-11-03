@@ -51,12 +51,7 @@ public class SetTankDirection extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_swerveDrive.setModuleStates(new SwerveModuleState[] {
-      stateStationary,
-      stateStationary,
-      stateStationary,
-      stateStationary
-    });
+   
   }
 
   // Called once the command ends or is interrupted.

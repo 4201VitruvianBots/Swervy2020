@@ -266,6 +266,9 @@ public class SwerveDrive extends SubsystemBase {
 
     public void setTankDirection(Rotation2d targetHeading) {
         m_moduleHeadingTarget = targetHeading;
+        for (SwerveModule i : mSwerveModules) {
+            i.setAngleSetpoint(targetHeading.getDegrees());
+        }
     }
 
     public void setTankSpeeds(double leftSpeed, double rightSpeed) {

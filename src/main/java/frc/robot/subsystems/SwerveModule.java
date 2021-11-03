@@ -94,6 +94,8 @@ public class SwerveModule extends SubsystemBase {
     // TODO: Remove this when the wheels work properly
     // m_turnMotor.configPeakOutputForward(0.3);
     // m_turnMotor.configPeakOutputReverse(-0.3);
+    m_driveMotor.configPeakOutputForward(0.3);
+    m_driveMotor.configPeakOutputReverse(-0.3);
 
 
     if(RobotBase.isSimulation()) {
@@ -215,12 +217,14 @@ public class SwerveModule extends SubsystemBase {
 
   public void setAngleSetpoint(double angleDegrees) {
     double angle = angleDegrees;
-    if (RobotBase.isReal()) {
-      //Prevent rotating module if speed is less then 1%. Prevents Jittering.
+
+    if(RobotBase.isReal()) {
       m_turnMotor.set(ControlMode.Position, angle / kTurningEncoderDistancePerPulse);
     } else {
       m_turnMotorSim.set(ControlMode.Position, angle / kTurningSimEncoderDistancePerPulse);
+
     }
+    m_lastAngle = angle;  
   }
 
   public void setBrakeMode(boolean mode) { // True is brake, false is coast

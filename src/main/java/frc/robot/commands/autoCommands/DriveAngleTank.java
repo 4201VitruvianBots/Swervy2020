@@ -76,7 +76,6 @@ public class DriveAngleTank extends SequentialCommandGroup {
         SmartDashboardTab.putNumber("SwerveDrive", "target poseY", distanceMeters * Math.sin(Units.degreesToRadians(headingDegrees)));
 
         addCommands(
-            new ResetOdometry(swerveDrive).andThen(() -> swerveDrive.zeroHeading()),
             // new SetSwerveModules(swerveDrive,
             //     new SwerveModuleState[] {
             //         stateStationary,
@@ -87,6 +86,7 @@ public class DriveAngleTank extends SequentialCommandGroup {
             // ),
             new SetTankDirection(swerveDrive, headingDegrees).withTimeout(1),
             new WaitCommand(1),
+            new ResetOdometry(swerveDrive).andThen(() -> swerveDrive.zeroHeading()),
             // .andThen(() -> swerveDrive.setTankDirection(headingRotation)),
             // new SetTankDirection(swerveDrive, headingDegrees).withTimeout(1),
             // new ManualDrive(swerveDrive, 0, 1, 0.1).withTimeout(0.3),

@@ -104,7 +104,7 @@ public class RobotContainer {
               entry(CommandSelector.AUTO_TEST, new AutoTest(m_swerveDrive)),
               entry(CommandSelector.TIMED_DRIVE, new TimedDrive(m_swerveDrive, 0, 2, 0.2)),
               entry(CommandSelector.DRIVE_STRAIGHT_TANK, new DriveStraightTank(m_swerveDrive)),
-              entry(CommandSelector.DRIVE_ANGLE_TANK, new DriveAngleTank(m_swerveDrive, 0, 3)),
+              entry(CommandSelector.DRIVE_ANGLE_TANK, new DriveAngleTank(m_swerveDrive, 45, 3)),
               entry(CommandSelector.MANUAL_DRIVE, new ManualDrive(m_swerveDrive, 0, 3, 0.2)),
               entry(CommandSelector.MANUAL_SQUARE, new ManualSquare(m_swerveDrive))
               // entry(CommandSelector.TEST_SEQUENTIAL_REVERSE_AUTO, new TestSequentialSwitching(m_driveTrain))
