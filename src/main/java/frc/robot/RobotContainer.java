@@ -15,16 +15,11 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.SetSwerveDrive;
-import frc.robot.commands.TestTurningMotor;
-import frc.robot.commands.autoCommands.AutoTestCommand;
-import frc.robot.commands.autoCommands.Bounce;
 import frc.robot.commands.autoCommands.DriveAngleTank;
 import frc.robot.commands.autoCommands.DriveStraight;
 import frc.robot.commands.autoCommands.DriveStraightTank;
@@ -33,7 +28,6 @@ import frc.robot.commands.autoCommands.ManualSquare;
 import frc.robot.commands.autoCommands.TimedDrive;
 import frc.robot.simulation.FieldSim;
 import frc.robot.commands.SwerveAngles;
-import frc.robot.commands.autoCommands.Slalom;
 import frc.robot.commands.autoCommands.AutoTest;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -69,20 +63,18 @@ public class RobotContainer {
     MANUAL_SQUARE
   }
 
-  SendableChooser<Integer> m_autoChooser = new SendableChooser<Integer>();
+  final SendableChooser<Integer> m_autoChooser = new SendableChooser<>();
 
-  private SelectCommand m_autoCommand;
-  
-  private boolean batteryFront = false; // Set this to false to drive with the battery at the back
+  private final SelectCommand m_autoCommand;
 
-  static JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
-  static JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
-  static JoystickWrapper xBoxController = new JoystickWrapper(Constants.xBoxController);
+  static final JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
+  static final JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
+  static final JoystickWrapper xBoxController = new JoystickWrapper(Constants.xBoxController);
   static JoystickWrapper testController = new JoystickWrapper(3);
-  public Button[] leftButtons = new Button[2];
-  public Button[] rightButtons = new Button[2];
-  public Button[] xBoxButtons = new Button[10];
-  public Button[] xBoxPOVButtons = new Button[8];
+  public final Button[] leftButtons = new Button[2];
+  public final Button[] rightButtons = new Button[2];
+  public final Button[] xBoxButtons = new Button[10];
+  public final Button[] xBoxPOVButtons = new Button[8];
   public Button xBoxLeftTrigger, xBoxRightTrigger;
 
 
@@ -154,8 +146,10 @@ public class RobotContainer {
     leftJoystick.setAxisDeadband(1, 0.01);
     rightJoystick.setAxisDeadband(0, 0.01);
     rightJoystick.setAxisDeadband(1, 0.01);
-    leftJoystick.invertRawAxis(0, batteryFront);
-    leftJoystick.invertRawAxis(1, batteryFront);
+    // Set this to false to drive with the battery at the back
+    boolean batteryFront = false;
+    leftJoystick.invertRawAxis(0, false);
+    leftJoystick.invertRawAxis(1, false);
     // rightJoystick.invertRawAxis(0, true);
     xBoxController.invertRawAxis(1, true);
     xBoxController.invertRawAxis(5, true);
@@ -175,7 +169,7 @@ public class RobotContainer {
       
       () -> leftJoystick.getRawAxis(0),
       () -> leftJoystick.getRawAxis(1),
-      () -> xBoxController.getPOV())
+            xBoxController::getPOV)
     );
   }
 

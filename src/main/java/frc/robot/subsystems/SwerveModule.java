@@ -19,19 +19,17 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.vitruvianlib.utils.CTREModuleState;
 
 import static frc.robot.Constants.ModuleConstants.*;
 
 public class SwerveModule extends SubsystemBase {
-  int m_moduleNumber;
-  double m_zeroOffset;
+  final int m_moduleNumber;
+  final double m_zeroOffset;
   boolean m_inverted;
 
   private final TalonFX m_turnMotor;
@@ -176,36 +174,35 @@ public class SwerveModule extends SubsystemBase {
    * @param state Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState state, boolean isOpenLoop) {
-    SwerveModuleState outputState = state;  // Why does this work???
     // SwerveModuleState outputState = CTREModuleState.optimize(state, getState().angle);
-    double angle = 0.0;
+    double angle;
 
     if(RobotBase.isReal()) {
       if (isOpenLoop) {
-        double percentOutput = outputState.speedMetersPerSecond / Constants.DriveConstants.kMaxSpeedMetersPerSecond;
+        double percentOutput = state.speedMetersPerSecond / Constants.DriveConstants.kMaxSpeedMetersPerSecond;
         m_driveMotor.set(ControlMode.PercentOutput, percentOutput);
       } else {
-        double velocityOutput = outputState.speedMetersPerSecond / (kDriveEncoderDistancePerPulse * 10.0);
-        m_driveMotor.set(ControlMode.Velocity, velocityOutput, DemandType.ArbitraryFeedForward, m_driveFeedforward.calculate(outputState.speedMetersPerSecond));
+        double velocityOutput = state.speedMetersPerSecond / (kDriveEncoderDistancePerPulse * 10.0);
+        m_driveMotor.set(ControlMode.Velocity, velocityOutput, DemandType.ArbitraryFeedForward, m_driveFeedforward.calculate(state.speedMetersPerSecond));
       }
 
       //Prevent rotating module if speed is less then 1%. Prevents Jittering.
-      angle = (Math.abs(outputState.speedMetersPerSecond) <= (Constants.DriveConstants.kMaxSpeedMetersPerSecond * 0.01)) ?
-              m_lastAngle : outputState.angle.getDegrees();
+      angle = (Math.abs(state.speedMetersPerSecond) <= (Constants.DriveConstants.kMaxSpeedMetersPerSecond * 0.01)) ?
+              m_lastAngle : state.angle.getDegrees();
       m_turnMotor.set(ControlMode.Position, angle / kTurningEncoderDistancePerPulse);
 
     } else {
       if(isOpenLoop) {
-        double percentOutput = outputState.speedMetersPerSecond / Constants.DriveConstants.kMaxSpeedMetersPerSecond;
+        double percentOutput = state.speedMetersPerSecond / Constants.DriveConstants.kMaxSpeedMetersPerSecond;
         m_driveMotorSim.set(ControlMode.PercentOutput, percentOutput);
       } else {
-        double velocityOutput = outputState.speedMetersPerSecond / (kDriveSimEncoderDistancePerPulse * 10.0);
-        m_driveMotorSim.set(ControlMode.Velocity, velocityOutput, DemandType.ArbitraryFeedForward, m_driveFeedforward.calculate(outputState.speedMetersPerSecond));
+        double velocityOutput = state.speedMetersPerSecond / (kDriveSimEncoderDistancePerPulse * 10.0);
+        m_driveMotorSim.set(ControlMode.Velocity, velocityOutput, DemandType.ArbitraryFeedForward, m_driveFeedforward.calculate(state.speedMetersPerSecond));
       }
 
       //Prevent rotating module if speed is less then 1%. Prevents Jittering.
-      angle = (Math.abs(outputState.speedMetersPerSecond) <= (Constants.DriveConstants.kMaxSpeedMetersPerSecond * 0.01)) ?
-              m_lastAngle : outputState.angle.getDegrees();
+      angle = (Math.abs(state.speedMetersPerSecond) <= (Constants.DriveConstants.kMaxSpeedMetersPerSecond * 0.01)) ?
+              m_lastAngle : state.angle.getDegrees();
 
       m_turnMotorSim.set(ControlMode.Position, angle / kTurningSimEncoderDistancePerPulse);
 
@@ -216,15 +213,14 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public void setAngleSetpoint(double angleDegrees) {
-    double angle = angleDegrees;
 
     if(RobotBase.isReal()) {
-      m_turnMotor.set(ControlMode.Position, angle / kTurningEncoderDistancePerPulse);
+      m_turnMotor.set(ControlMode.Position, angleDegrees / kTurningEncoderDistancePerPulse);
     } else {
-      m_turnMotorSim.set(ControlMode.Position, angle / kTurningSimEncoderDistancePerPulse);
+      m_turnMotorSim.set(ControlMode.Position, angleDegrees / kTurningSimEncoderDistancePerPulse);
 
     }
-    m_lastAngle = angle;  
+    m_lastAngle = angleDegrees;
   }
 
   public void setBrakeMode(boolean mode) { // True is brake, false is coast

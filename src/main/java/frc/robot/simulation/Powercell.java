@@ -1,11 +1,6 @@
 package frc.robot.simulation;
 
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.SwerveDrive;
 
 public class Powercell {
     boolean wasShot;
@@ -14,7 +9,7 @@ public class Powercell {
     private int ballState = 0;
 
 
-    String m_name;
+    final String m_name;
 
     public Powercell(String name) {
         m_name = name;

@@ -7,13 +7,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import frc.robot.subsystems.SwerveDrive;
-import frc.robot.subsystems.SwerveModule;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.Timer;
 
 /**

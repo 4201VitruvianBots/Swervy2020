@@ -1,27 +1,18 @@
 package frc.robot.simulation;
 
-import edu.wpi.first.hal.SimDouble;
-import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.subsystems.SwerveDrive;
-import frc.robot.subsystems.SwerveModule;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static frc.robot.Constants.DriveConstants.kTrackWidth;
-import static frc.robot.Constants.DriveConstants.kWheelBase;
-
 public class FieldSim {
-    private Field2d m_field2d;
+    private final Field2d m_field2d;
     private final SwerveDrive m_swerveDrive;
     private final Powercell[] m_powercells = new Powercell[17];
 
@@ -33,7 +24,7 @@ public class FieldSim {
         m_swerveDrive = swerveDrive;
 
         for(int i = 0; i < m_powercells.length; i++)
-            m_powercells[i] = new Powercell(String.format("PowerCell_" + String.format("%02d", i) ));
+            m_powercells[i] = new Powercell("PowerCell_" + String.format("%02d", i));
 
         m_field2d = new Field2d();
     }

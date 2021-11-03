@@ -3,7 +3,7 @@ package frc.vitruvianlib.utils;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class MultiButton extends Button {
-    private Button[] m_buttons;
+    private final Button[] m_buttons;
 
     public MultiButton(Button... buttons) {
         m_buttons = buttons;

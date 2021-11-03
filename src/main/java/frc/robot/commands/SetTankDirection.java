@@ -7,15 +7,11 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.subsystems.SwerveDrive;
-import frc.robot.subsystems.SwerveModule;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
-import java.util.function.DoubleSupplier;
 
 /**
  * Sets all the swerve modules to a certain direction to run a tank auto.
@@ -24,8 +20,7 @@ public class SetTankDirection extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveDrive m_swerveDrive;
   private final double m_headingDegrees;
-  private SwerveModuleState stateStationary;
-  private Rotation2d headingRotation;
+    private final Rotation2d headingRotation;
 
   /**
    * Creates a new SetTankDirection.
@@ -38,7 +33,7 @@ public class SetTankDirection extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveDriveSubsystem);
     headingRotation = new Rotation2d(Units.degreesToRadians(headingDegrees));
-    stateStationary = new SwerveModuleState(0, headingRotation);
+      SwerveModuleState stateStationary = new SwerveModuleState(0, headingRotation);
   }
 
 

@@ -30,9 +30,9 @@ import frc.robot.Constants;
 import static frc.robot.Constants.DriveConstants.*;
 
 public class SwerveDrive extends SubsystemBase {
-    static double kP = 0.005;
-    static double kI = 0;
-    static double kD = 0.00025;
+    static final double kP = 0.005;
+    static final double kI = 0;
+    static final double kD = 0.00025;
 
     /**
      * Just like a graph's quadrants
@@ -41,7 +41,7 @@ public class SwerveDrive extends SubsystemBase {
      * 2 is Front Right
      * 3 is Back Right
      */
-    private SwerveModule[] mSwerveModules = new SwerveModule[] {
+    private final SwerveModule[] mSwerveModules = new SwerveModule[] {
             new SwerveModule(0, new TalonFX(Constants.frontLeftTurningMotor), new TalonFX(Constants.frontLeftDriveMotor), new CANCoder(Constants.frontLeftCANCoder), 252.598, true, false),
             new SwerveModule(1, new TalonFX(Constants.frontRightTurningMotor), new TalonFX(Constants.frontRightDriveMotor), new CANCoder(Constants.frontRightCANCoder), 145.723, true, false), //true
             new SwerveModule(2, new TalonFX(Constants.backLeftTurningMotor), new TalonFX(Constants.backLeftDriveMotor), new CANCoder(Constants.backLeftCANCoder), 264.814, true, false),
@@ -50,10 +50,10 @@ public class SwerveDrive extends SubsystemBase {
 
     SwerveModuleState[] swerveModuleStates = kDriveKinematics.toSwerveModuleStates(new ChassisSpeeds(0, 0, 0));
 
-    PowerDistributionPanel m_pdp;
+    final PowerDistributionPanel m_pdp;
 
-    private AHRS mNavX = new AHRS(SerialPort.Port.kMXP);
-    int navXSim = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+    private final AHRS mNavX = new AHRS(SerialPort.Port.kMXP);
+    final int navXSim = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(kDriveKinematics, getRotation());
     private final SwerveDriveOdometry m_tankOdometry = new SwerveDriveOdometry(kDriveKinematics, getTankRotation());
@@ -65,7 +65,7 @@ public class SwerveDrive extends SubsystemBase {
 //        VecBuilder.fill(0.05),
 //        VecBuilder.fill(0.1, 0.1, 0.1));
 
-    private ProfiledPIDController turnPidController = new ProfiledPIDController(kP, kI, kD, new TrapezoidProfile.Constraints(360, 360));
+    private final ProfiledPIDController turnPidController = new ProfiledPIDController(kP, kI, kD, new TrapezoidProfile.Constraints(360, 360));
 
     private boolean enablePidTurn = false;
     private double pidTurnOutput;
@@ -73,7 +73,6 @@ public class SwerveDrive extends SubsystemBase {
     private Rotation2d headingTarget;
     private Pose2d headingTargetPosition = new Pose2d(-1, -1, new Rotation2d());
 
-    private double m_trajectoryTime;
     private Trajectory currentTrajectory;
 
     private Rotation2d m_moduleHeadingTarget;
@@ -85,9 +84,7 @@ public class SwerveDrive extends SubsystemBase {
         turnPidController.enableContinuousInput(-180, 180);
 
         SmartDashboardTab.putData("SwerveDrive","swerveDriveSubsystem", this);
-        if (RobotBase.isSimulation()) {
-
-        }
+        RobotBase.isSimulation();
     }
 
     public double getGyroRate() {
@@ -247,8 +244,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setSwerveDriveNeutralMode(boolean mode) {
-        for(int i = 0; i < mSwerveModules.length; i++)
-            mSwerveModules[i].setBrakeMode(mode);
+        for (SwerveModule mSwerveModule : mSwerveModules) mSwerveModule.setBrakeMode(mode);
     }
 
     /**
@@ -338,9 +334,9 @@ public class SwerveDrive extends SubsystemBase {
         m_odometry.resetPosition(pose, rotation);
         m_tankOdometry.resetPosition(pose, getTankRotation());
 
-        for(int i = 0; i < mSwerveModules.length; i++) {
-            mSwerveModules[i].setPose(pose);
-            mSwerveModules[i].resetEncoders();
+        for (SwerveModule mSwerveModule : mSwerveModules) {
+            mSwerveModule.setPose(pose);
+            mSwerveModule.resetEncoders();
         }
     }
 
@@ -402,13 +398,12 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public Pose2d[] getModulePoses() {
-        Pose2d[] modulePoses = {
+        return new Pose2d[]{
             mSwerveModules[0].getPose(),
             mSwerveModules[1].getPose(),
             mSwerveModules[2].getPose(),
             mSwerveModules[3].getPose()
         };
-        return modulePoses;
     }
 
     double yaw = 0;
@@ -439,7 +434,7 @@ public class SwerveDrive extends SubsystemBase {
                 System.out.println("Trajectory Pose: " + currentTrajectoryState.poseMeters);
                 System.out.println("Trajectory Speed: " + currentTrajectoryState.velocityMetersPerSecond);
                 System.out.println("Trajectory angular speed: " + currentTrajectoryState.curvatureRadPerMeter);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
 
             }
         }
@@ -447,7 +442,6 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setTrajectoryTime(double trajectoryTime) {
-        m_trajectoryTime = trajectoryTime;
     }
 
     double startTime;

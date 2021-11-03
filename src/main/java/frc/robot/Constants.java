@@ -55,7 +55,7 @@ public final class Constants {
         public static final double kWheelBase = Units.inchesToMeters(26);
         //Distance between front and back wheels on robot. Meters?
 
-        public static Translation2d[] modulePositions = {
+        public static final Translation2d[] modulePositions = {
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
             new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
             new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
@@ -116,12 +116,12 @@ public final class Constants {
         public static final double kvTurnVoltSecondsPerRadian = 1.47; // originally 1.5
         public static final double kaTurnVoltSecondsSquaredPerRadian = 0.348; // originally 0.3
 
-        public static TalonFXConfiguration TurnMotorConfig = generateTurnMotorConfig();
-        public static TalonFXConfiguration DriveMotorConfig = generateDriveMotorConfig();
-        public static CANCoderConfiguration AngleEncoderConfig = generateCanCoderConfig();
+        public static final TalonFXConfiguration TurnMotorConfig = generateTurnMotorConfig();
+        public static final TalonFXConfiguration DriveMotorConfig = generateDriveMotorConfig();
+        public static final CANCoderConfiguration AngleEncoderConfig = generateCanCoderConfig();
 
-        public static TalonSRXConfiguration TurnSimMotorConfig = generateTurnSimMotorConfig();
-        public static TalonSRXConfiguration DriveSimMotorConfig = generateDriveSimMotorConfig();
+        public static final TalonSRXConfiguration TurnSimMotorConfig = generateTurnSimMotorConfig();
+        public static final TalonSRXConfiguration DriveSimMotorConfig = generateDriveSimMotorConfig();
     }
 
     public static final class OIConstants {
@@ -156,8 +156,7 @@ public final class Constants {
         motorConfig.motionCruiseVelocity = ModuleConstants.kTurningEncoderDistancePerPulse * 11.5;
         motorConfig.motionAcceleration = ModuleConstants.kTurningEncoderDistancePerPulse * 11.5;
 
-        SupplyCurrentLimitConfiguration supplyCurrentLimit = new SupplyCurrentLimitConfiguration(true,25, 40, 0.1);
-        motorConfig.supplyCurrLimit = supplyCurrentLimit;
+        motorConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(true,25, 40, 0.1);
 
         motorConfig.initializationStrategy = SensorInitializationStrategy.BootToZero;
 
@@ -189,8 +188,7 @@ public final class Constants {
         motorConfig.slot0.kI = 0.0;
         motorConfig.slot0.kD = 0.0;
 
-        SupplyCurrentLimitConfiguration supplyCurrentLimit = new SupplyCurrentLimitConfiguration(true,35, 60, 0.1);
-        motorConfig.supplyCurrLimit = supplyCurrentLimit;
+        motorConfig.supplyCurrLimit = new SupplyCurrentLimitConfiguration(true,35, 60, 0.1);
 
         motorConfig.openloopRamp = 0.25;
         motorConfig.closedloopRamp = 0;

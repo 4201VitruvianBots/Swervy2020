@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class JoystickWrapper extends Joystick {
 
-    private boolean[] invertedAxis;
-    private double[] deadbands;
+    private final boolean[] invertedAxis;
+    private final double[] deadbands;
     public JoystickWrapper(int port) {
         super(port);
         // TODO: Fix this to use a variable based on number of raw axis. this.getAxisCount() crashes the code

@@ -3,6 +3,7 @@ package frc.vitruvianlib.I2C;
 import edu.wpi.first.wpilibj.I2C;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 /**
  * Implementation of an I2C library to utilize an Adafruit .56" 4-digit 7-segment display with HT16K33 I2C Backpack on
@@ -12,15 +13,15 @@ import java.nio.ByteBuffer;
  */
 public class LEDBackpack extends I2C {
 
-    public int[] displaybuffer = new int[10];
+    public final int[] displaybuffer = new int[10];
 
-    byte[] OSCILLATOR_ON = {0x21};
-    byte BRIGHTNESS = (byte) 0xE0;
+    final byte[] OSCILLATOR_ON = {0x21};
+    final byte BRIGHTNESS = (byte) 0xE0;
 
-    static byte HT16K33_BLINK_CMD = (byte) 0x80;
-    static byte HT16K33_BLINK_DISPLAYON = (byte) 0x01;
+    static final byte HT16K33_BLINK_CMD = (byte) 0x80;
+    static final byte HT16K33_BLINK_DISPLAYON = (byte) 0x01;
 
-    static byte HT16K33_BLINK_OFF = (byte) 0;
+    static final byte HT16K33_BLINK_OFF = (byte) 0;
     static byte HT16K33_BLINK_2HZ = (byte) 1;
     static byte HT16K33_BLINK_1HZ = (byte) 2;
     static byte HT16K33_BLINK_HALFHZ = (byte) 3;
@@ -29,7 +30,7 @@ public class LEDBackpack extends I2C {
     static byte LETTER_A = 0x77;
     static byte LETTER_V = 0x3E;
 
-    public static final byte numbertable[] = {
+    public static final byte[] numbertable = {
             0x3F, /* 0 */
             0x06, /* 1 */
             0x5B, /* 2 */
@@ -90,9 +91,7 @@ public class LEDBackpack extends I2C {
     }
 
     public void clear() {
-        for (int i = 0; i < displaybuffer.length; i++) {
-            displaybuffer[i] = 0;
-        }
+        Arrays.fill(displaybuffer, 0);
     }
 
 }

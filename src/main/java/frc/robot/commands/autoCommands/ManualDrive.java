@@ -7,14 +7,12 @@
 
 package frc.robot.commands.autoCommands;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveDrive;
-import frc.robot.subsystems.SwerveModule;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Timer;
@@ -27,12 +25,11 @@ public class ManualDrive extends CommandBase {
   private final SwerveDrive m_swerveDrive;
   private final double m_distanceMeters;
 
-  private SwerveModuleState stateStationary;
-  private SwerveModuleState stateMoving;
-  private double startTime;
-  
+  private final SwerveModuleState stateStationary;
+  private final SwerveModuleState stateMoving;
 
-  /**
+
+    /**
    * Creates a new ManualDrive.
    *
    * @param swerveDrive The subsystem used by this command.
@@ -70,7 +67,7 @@ public class ManualDrive extends CommandBase {
       stateStationary
     });
 
-    startTime = Timer.getFPGATimestamp();
+      double startTime = Timer.getFPGATimestamp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

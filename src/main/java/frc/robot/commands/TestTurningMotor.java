@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveDrive;
 
@@ -17,19 +16,14 @@ import java.util.function.DoubleSupplier;
  * An example command that uses an example subsystem.
  */
 public class TestTurningMotor extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final SwerveDrive m_swerveDrive;
-  private final DoubleSupplier m_leftX;
 
-  /**
+    /**
    * Creates a new ExampleCommand.
    *
    * @param swerveDriveSubsystem The subsystem used by this command.
    */
   public TestTurningMotor(SwerveDrive swerveDriveSubsystem, DoubleSupplier leftX) {
-    m_swerveDrive = swerveDriveSubsystem;
-    m_leftX = leftX;
-    // Use addRequirements() here to declare subsystem dependencies.
+      // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveDriveSubsystem);
   }
 

@@ -1,3 +1,5 @@
+import edu.wpi.first.gradlerio.GradleRIOPlugin
+
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2021.2.2"
@@ -55,7 +57,7 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
 
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging
@@ -67,5 +69,9 @@ dependencies {
 // knows where to look for our Robot Class.
 jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+    manifest GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+}
+
+repositories {
+    mavenCentral()
 }

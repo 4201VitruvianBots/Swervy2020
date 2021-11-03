@@ -8,14 +8,12 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveDrive;
 //import frc.vitruvianlib.utils.TrajectoryUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AutoTestCommand extends SequentialCommandGroup {
@@ -55,7 +53,7 @@ public class AutoTestCommand extends SequentialCommandGroup {
                 swerveDrive
 
         );
-        addCommands(new ResetOdometry(swerveDrive).andThen(() -> swerveDrive.zeroHeading()),
+        addCommands(new ResetOdometry(swerveDrive).andThen(swerveDrive::zeroHeading),
                 driveStraight.andThen(() -> swerveDrive.drive(0, 0, 0, false, false)));// Run path following command, then stop at the end.
     }
 }

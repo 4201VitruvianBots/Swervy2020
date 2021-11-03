@@ -8,13 +8,9 @@ import edu.wpi.first.wpilibj.I2C;
  * Code based off of a Java implementation found here: https://github.com/Poduzov/PI4J-I2C-LCD
  */
 public class I2CLCD extends I2C {
-    private Port port;
-    private int address;
 
     public I2CLCD(Port port, int address) {
         super(port, address);
-        this.port = port;
-        this.address = address;
     }
 
     // Write a single command
@@ -28,22 +24,15 @@ public class I2CLCD extends I2C {
     }
 
     private final byte LCD_CLEARDISPLAY = (byte) 0x01;
-    private final byte LCD_RETURNHOME = (byte) 0x02;
-    private final byte LCD_ENTRYMODESET = (byte) 0x04;
-    private final byte LCD_DISPLAYCONTROL = (byte) 0x08;
     private final byte LCD_CURSORSHIFT = (byte) 0x10;
-    private final byte LCD_FUNCTIONSET = (byte) 0x20;
     private final byte LCD_SETCGRAMADDR = (byte) 0x40;
     private final byte LCD_SETDDRAMADDR = (byte) 0x80;
 
     // flags for display entry mode
     private final byte LCD_ENTRYRIGHT = (byte) 0x00;
-    private final byte LCD_ENTRYLEFT = (byte) 0x02;
     private final byte LCD_ENTRYSHIFTINCREMENT = (byte) 0x01;
     private final byte LCD_ENTRYSHIFTDECREMENT = (byte) 0x00;
 
-    // flags for display on/off control
-    private final byte LCD_DISPLAYON = (byte) 0x04;
     private final byte LCD_DISPLAYOFF = (byte) 0x00;
     private final byte LCD_CURSORON = (byte) 0x02;
     private final byte LCD_CURSOROFF = (byte) 0x00;
@@ -58,17 +47,12 @@ public class I2CLCD extends I2C {
 
     // flags for function set
     private final byte LCD_8BITMODE = (byte) 0x10;
-    private final byte LCD_4BITMODE = (byte) 0x00;
-    private final byte LCD_2LINE = (byte) 0x08;
     private final byte LCD_1LINE = (byte) 0x00;
     private final byte LCD_5x10DOTS = (byte) 0x04;
-    private final byte LCD_5x8DOTS = (byte) 0x00;
 
     // flags for backlight control
     private final byte LCD_BACKLIGHT = (byte) 0x08;
-    private final byte LCD_NOBACKLIGHT = (byte) 0x00;
 
-    private final byte En = (byte) 0b00000100; // Enable bit
     private final byte Rw = (byte) 0b00000010; // Read/Write bit
     private final byte Rs = (byte) 0b00000001; // Register select bit
 
@@ -80,9 +64,18 @@ public class I2CLCD extends I2C {
             lcd_write((byte) 0x03);
             lcd_write((byte) 0x02);
 
+            byte LCD_5x8DOTS = (byte) 0x00;
+            byte LCD_2LINE = (byte) 0x08;
+            byte LCD_4BITMODE = (byte) 0x00;
+            byte LCD_FUNCTIONSET = (byte) 0x20;
             lcd_write((byte) (LCD_FUNCTIONSET | LCD_2LINE | LCD_5x8DOTS | LCD_4BITMODE));
+            // flags for display on/off control
+            byte LCD_DISPLAYON = (byte) 0x04;
+            byte LCD_DISPLAYCONTROL = (byte) 0x08;
             lcd_write((byte) (LCD_DISPLAYCONTROL | LCD_DISPLAYON));
-            lcd_write((byte) (LCD_CLEARDISPLAY));
+            lcd_write(LCD_CLEARDISPLAY);
+            byte LCD_ENTRYLEFT = (byte) 0x02;
+            byte LCD_ENTRYMODESET = (byte) 0x04;
             lcd_write((byte) (LCD_ENTRYMODESET | LCD_ENTRYLEFT));
             Thread.sleep(0, 200000);
         } catch (Exception ex) {
@@ -93,9 +86,11 @@ public class I2CLCD extends I2C {
     // clocks EN to latch command
     private void lcd_strobe(byte data) {
         try {
-            write(0, (byte) (data | En | LCD_BACKLIGHT));
+            // Enable bit
+            byte en = (byte) 0b00000100;
+            write(0, (byte) (data | en | LCD_BACKLIGHT));
             Thread.sleep(0, 500000);
-            write(0, (byte) ((data & ~En) | LCD_BACKLIGHT));
+            write(0, (byte) ((data & ~en) | LCD_BACKLIGHT));
             Thread.sleep(0, 100000);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -152,8 +147,9 @@ public class I2CLCD extends I2C {
 
     // clear lcd and set to home
     public void clear() {
-        lcd_write((byte) LCD_CLEARDISPLAY);
-        lcd_write((byte) LCD_RETURNHOME);
+        lcd_write(LCD_CLEARDISPLAY);
+        byte LCD_RETURNHOME = (byte) 0x02;
+        lcd_write(LCD_RETURNHOME);
 
     }
 
@@ -164,6 +160,7 @@ public class I2CLCD extends I2C {
             write_cmd(LCD_BACKLIGHT);
 
         } else {
+            byte LCD_NOBACKLIGHT = (byte) 0x00;
             write_cmd(LCD_NOBACKLIGHT);
         }
     }

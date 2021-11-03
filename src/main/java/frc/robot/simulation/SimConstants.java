@@ -3,10 +3,7 @@ package frc.robot.simulation;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.trajectory.constraint.EllipticalRegionConstraint;
-import edu.wpi.first.wpilibj.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.util.Units;
-import frc.robot.Constants;
 
 public class SimConstants {
     public static final double fieldWidth = 15.980;

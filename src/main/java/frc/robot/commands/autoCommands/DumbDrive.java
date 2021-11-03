@@ -7,7 +7,6 @@
 
 package frc.robot.commands.autoCommands;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.util.Units;
@@ -27,8 +26,8 @@ public class DumbDrive extends CommandBase {
   private final SwerveDrive m_swerveDrive;
   private final double m_timeSeconds;
 
-  private SwerveModuleState stateStationary;
-  private SwerveModuleState stateMoving;
+  private final SwerveModuleState stateStationary;
+  private final SwerveModuleState stateMoving;
   private double startTime;
   
 

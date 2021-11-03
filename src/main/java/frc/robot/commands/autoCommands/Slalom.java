@@ -15,9 +15,6 @@ import frc.robot.Constants;
 import frc.robot.subsystems.SwerveDrive;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Slalom extends SequentialCommandGroup {
     public Slalom(SwerveDrive swerveDrive) {
@@ -57,7 +54,7 @@ public class Slalom extends SequentialCommandGroup {
                 new Rotation2d(Units.degreesToRadians(waypointsRaw[waypointsRaw.length - 1][2]))
         );
 
-        ArrayList<Translation2d> interiorWaypoints = new ArrayList<Translation2d>();
+        ArrayList<Translation2d> interiorWaypoints = new ArrayList<>();
 
         for(int i = 1; i < waypointsRaw.length - 1; i++) {
             interiorWaypoints.add(new Translation2d(

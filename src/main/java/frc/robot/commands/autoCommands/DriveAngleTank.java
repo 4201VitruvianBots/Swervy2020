@@ -3,18 +3,15 @@ package frc.robot.commands.autoCommands;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.util.Units;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.commands.SetSwerveModules;
 import frc.robot.commands.SetTankDirection;
 import frc.robot.subsystems.SwerveDrive;
 
@@ -86,7 +83,7 @@ public class DriveAngleTank extends SequentialCommandGroup {
             // ),
             new SetTankDirection(swerveDrive, headingDegrees).withTimeout(1),
             new WaitCommand(1),
-            new ResetOdometry(swerveDrive).andThen(() -> swerveDrive.zeroHeading()),
+            new ResetOdometry(swerveDrive).andThen(swerveDrive::zeroHeading),
             // .andThen(() -> swerveDrive.setTankDirection(headingRotation)),
             // new SetTankDirection(swerveDrive, headingDegrees).withTimeout(1),
             // new ManualDrive(swerveDrive, 0, 1, 0.1).withTimeout(0.3),
