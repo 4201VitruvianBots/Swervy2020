@@ -28,6 +28,8 @@ import frc.robot.commands.autoCommands.ManualSquare;
 import frc.robot.commands.autoCommands.TimedDrive;
 import frc.robot.simulation.FieldSim;
 import frc.robot.commands.SwerveAngles;
+import frc.robot.commands.autoCommands.Slalom;
+import frc.robot.commands.autoCommands.TankSquare;
 import frc.robot.commands.autoCommands.AutoTest;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -59,6 +61,7 @@ public class RobotContainer {
     TIMED_DRIVE,
     DRIVE_STRAIGHT_TANK,
     DRIVE_ANGLE_TANK,
+    TANK_SQUARE,
     MANUAL_DRIVE,
     MANUAL_SQUARE
   }
@@ -96,7 +99,8 @@ public class RobotContainer {
               entry(CommandSelector.AUTO_TEST, new AutoTest(m_swerveDrive)),
               entry(CommandSelector.TIMED_DRIVE, new TimedDrive(m_swerveDrive, 0, 2, 0.2)),
               entry(CommandSelector.DRIVE_STRAIGHT_TANK, new DriveStraightTank(m_swerveDrive)),
-              entry(CommandSelector.DRIVE_ANGLE_TANK, new DriveAngleTank(m_swerveDrive, 0, 3)),
+              entry(CommandSelector.DRIVE_ANGLE_TANK, new DriveAngleTank(m_swerveDrive, 90, 3)),
+              entry(CommandSelector.TANK_SQUARE, new TankSquare(m_swerveDrive)),
               entry(CommandSelector.MANUAL_DRIVE, new ManualDrive(m_swerveDrive, 0, 3, 0.2)),
               entry(CommandSelector.MANUAL_SQUARE, new ManualSquare(m_swerveDrive))
               // entry(CommandSelector.TEST_SEQUENTIAL_REVERSE_AUTO, new TestSequentialSwitching(m_driveTrain))
